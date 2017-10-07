@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to="gallery">
+  <!-- Inherit our applications main module.                      -->
+  <inherits name='de.mbs.gallery.gallery' />
+
+  <!-- Specify the path to any remote services.                   -->
+  <servlet path="/gallery/greet" class="de.mbs.gallery.server.GreetingServiceImpl" />
+
+</module>

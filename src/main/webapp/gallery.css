@@ -1,0 +1,26 @@
+/** Add css rules here for your application. */
+
+.redStar {
+	color : red;
+}
+
+.blackStar {
+	color : black;
+}
+
+.galleryImage {
+	display: block;
+	margin: 0 auto;
+	padding-top: 1em;
+	max-width: 100%;
+}
+
+.starVoter {
+	margin-top: -2em;
+	text-align: center;
+	height: 2em;
+	background-color: white;
+	display: none;
+	position: relative;
+	opacity: 0.5;
+}

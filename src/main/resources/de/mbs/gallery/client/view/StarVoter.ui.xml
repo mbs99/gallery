@@ -1,0 +1,11 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+
+	<g:HTMLPanel styleName="starVoter">
+		<span class="material-icons" style="width:1em">star_rate</span>
+		<span class="material-icons" style="width:1em">star_rate</span>
+		<span class="material-icons" style="width:1em">star_rate</span>
+	</g:HTMLPanel>
+
+</ui:UiBinder>
