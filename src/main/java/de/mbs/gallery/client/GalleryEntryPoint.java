@@ -13,6 +13,7 @@ import com.google.web.bindery.event.shared.EventBus;
 import de.mbs.gallery.client.activity.GalleryActivityMapper;
 import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.place.GalleryPlaceHistoryMapper;
+import de.mbs.gallery.client.presenter.AppPanelPresenter;
 import de.mbs.gallery.client.view.AppPanel;
 
 /**
@@ -32,7 +33,8 @@ public class GalleryEntryPoint implements EntryPoint {
 		ClientFactory clientFactory = GWT.create(ClientFactory.class);
 		EventBus eventBus = clientFactory.eventBus();
 		PlaceController placeController = clientFactory.placeController();
-		AppPanel view = clientFactory.appPanel();
+		AppPanelPresenter appPanelPresenter = new AppPanelPresenter(clientFactory);
+		AppPanel view = clientFactory.appPanel(appPanelPresenter);
 
 		// Start ActivityManager for the main widget with our ActivityMapper
 		ActivityMapper activityMapper = new GalleryActivityMapper(clientFactory);

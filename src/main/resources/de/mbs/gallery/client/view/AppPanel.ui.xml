@@ -7,9 +7,10 @@
 			<div class="row">
 				<div class="one-third column">
 					<select id="filter">
-						<option value="Option 1">1 Stern</option>
-						<option value="Option 2">2 Sterne</option>
-						<option value="Option 3">3 Sterne</option>
+						<option value="off">alle</option>
+						<option value="1Star">1 Stern</option>
+						<option value="2Stars">2 Sterne</option>
+						<option value="3Stars">3 Sterne</option>
 					</select>
 				</div>
 				<div class="one-third column">

@@ -6,23 +6,35 @@ import com.google.gwt.place.shared.PlaceTokenizer;
 public class GalleryPlace extends Place {
 	
 	private String id;
+	private String filter;
 
     public GalleryPlace(String id) {
-       this.id = id;
+       this(id,"");
     }
     
-    public String getId() {
+    public GalleryPlace(String id, String filter) {
+    	this.id = id;
+    	this.filter = filter;
+	}
+
+	public String getId() {
     	return id;
+    }
+	
+	public String getFilter() {
+    	return filter;
     }
 
     public static class Tokenizer implements PlaceTokenizer<GalleryPlace> {
         @Override
         public String getToken(GalleryPlace place) {
-            return place.id;
+            return place.id + "::" + place.filter;
         }
 
         @Override
         public GalleryPlace getPlace(String token) {
+        	String[] tokens = token.split("::");
+        	
         	return new GalleryPlace(token);
         }
     }
