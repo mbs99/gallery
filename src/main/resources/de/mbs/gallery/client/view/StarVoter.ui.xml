@@ -3,9 +3,9 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 
 	<g:HTMLPanel styleName="starVoter">
-		<span class="material-icons" style="width:1em">star_rate</span>
-		<span class="material-icons" style="width:1em">star_rate</span>
-		<span class="material-icons" style="width:1em">star_rate</span>
+		<span class="material-icons" style="width:1em" data-stars="1">star_rate</span>
+		<span class="material-icons" style="width:1em" data-stars="2">star_rate</span>
+		<span class="material-icons" style="width:1em" data-stars="3">star_rate</span>
 	</g:HTMLPanel>
 
 </ui:UiBinder>

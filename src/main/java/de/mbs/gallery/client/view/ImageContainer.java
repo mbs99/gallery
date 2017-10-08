@@ -2,8 +2,6 @@ package de.mbs.gallery.client.view;
 
 import static com.google.gwt.query.client.GQuery.$;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
@@ -47,27 +45,24 @@ public class ImageContainer extends Composite {
 	
 	@UiField
 	HTMLPanel imgContainer;
-	
-	private Map<String,String> imagesById = new LinkedHashMap<>();
 
 	public ImageContainer() {
 		
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
-	private void addImage(String id, String fileName, String url) {
-		imagesById.put(id, url);
+	private void addImage(GalleryImage image, String url) {
 		
 		Image img = new Image();
 		img.setUrl(url);
-		img.setAltText(fileName);
+		img.setAltText(image.getFilename());
 		img.setStyleName("galleryImage");
-		$(img).attr("id", id);
+		img.getElement().setId(image.getId());
 		
 		imgContainer.add(img);
 		
-		StarVoter voter = new StarVoter();
-		$(voter).attr("id", "starVoter"+id);
+		StarVoter voter = new StarVoter(image);
+		//$(voter).attr("id", "starVoter"+image.getId());
 		
 		imgContainer.add(voter);
 		
@@ -109,8 +104,7 @@ public class ImageContainer extends Composite {
 
 	public void addImage(String galleryName, GalleryImage image) {
 		
-		addImage(image.getId(),
-				image.getFilename(),
+		addImage(image,
 				GWT.getHostPageBaseURL() + "api/gallery/" + galleryName + "/" + image.getId());
 		
 	}
