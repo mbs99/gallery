@@ -23,10 +23,11 @@
 	<inherits name='com.google.gwt.query.Query' />
 
 	<!-- Specify the app entry point class. -->
-	<entry-point class='de.mbs.gallery.client.Gallery' />
+	<entry-point class='de.mbs.gallery.client.GalleryEntryPoint' />
 
 	<!-- Specify the paths for translatable code -->
 	<source path='client' />
+	<source path='client/model' />
 	<source path='shared' />
 
 </module>

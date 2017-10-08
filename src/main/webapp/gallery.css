@@ -1,5 +1,14 @@
 /** Add css rules here for your application. */
 
+.navigation {
+	overflow: hidden;
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%; /* Full width */
+    height: 50px;
+    max-height:50px;
+}
+
 .redStar {
 	color : red;
 }
@@ -23,4 +32,8 @@
 	display: none;
 	position: relative;
 	opacity: 0.5;
+}
+
+.paddingTop {
+	padding-top: 50px;
 }

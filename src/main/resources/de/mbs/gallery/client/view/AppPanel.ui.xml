@@ -1,11 +1,28 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	
+
 	<g:HTMLPanel>
 		<g:HTMLPanel styleName="container">
-			<g:SimplePanel ui:field="contentPanel"/>
+			<div class="row">
+				<div class="one-third column">
+					<select id="filter">
+						<option value="Option 1">1 Stern</option>
+						<option value="Option 2">2 Sterne</option>
+						<option value="Option 3">3 Sterne</option>
+					</select>
+				</div>
+				<div class="one-third column">
+					<button class="button-primary">Auswahl speichern</button>
+				</div>
+				<div class="one-third column">
+					<button class="button-primary">Bestellung abschicken</button>
+				</div>
+			</div>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="container paddingTop">
+			<g:SimplePanel ui:field="contentPanel" />
 		</g:HTMLPanel>
 	</g:HTMLPanel>
-	
+
 </ui:UiBinder>

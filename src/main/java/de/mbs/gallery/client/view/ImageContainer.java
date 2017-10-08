@@ -19,6 +19,8 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.mbs.gallery.client.model.GalleryImage;
+
 public class ImageContainer extends Composite {
 	
 	private static final Logger logger = Logger.getLogger("ImageContainer");
@@ -53,12 +55,12 @@ public class ImageContainer extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
-	public void addImage(String id, String url) {
+	private void addImage(String id, String fileName, String url) {
 		imagesById.put(id, url);
 		
 		Image img = new Image();
 		img.setUrl(url);
-		img.setAltText(id);
+		img.setAltText(fileName);
 		img.setStyleName("galleryImage");
 		$(img).attr("id", id);
 		
@@ -104,21 +106,12 @@ public class ImageContainer extends Composite {
 		$(voter).mouseenter(mouseEnter);	
 		$(voter).mouseleave(mouseLeave);
 	}
-	
-	
-	/*@Override
-	protected void onLoad() {
-		super.onLoad();
+
+	public void addImage(String galleryName, GalleryImage image) {
 		
-		for(Map.Entry<String, String> iter : imagesById.entrySet()) {
-			
+		addImage(image.getId(),
+				image.getFilename(),
+				GWT.getHostPageBaseURL() + "api/gallery/" + galleryName + "/" + image.getId());
 		
-			$(imgContainer).append(imageTemplate.image(iter.getKey(), iter.getValue()));
-			StarVoter voter = new StarVoter();
-			$(voter).attr("id", "starVoter"+iter.getKey());
-			//$(imgContainer).append(voterTemplate.voter(iter.getKey()));
-			$(imgContainer).append($(voter));
-		}
 	}
-	*/
 }

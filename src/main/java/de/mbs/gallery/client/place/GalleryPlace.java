@@ -10,6 +10,10 @@ public class GalleryPlace extends Place {
     public GalleryPlace(String id) {
        this.id = id;
     }
+    
+    public String getId() {
+    	return id;
+    }
 
     public static class Tokenizer implements PlaceTokenizer<GalleryPlace> {
         @Override
