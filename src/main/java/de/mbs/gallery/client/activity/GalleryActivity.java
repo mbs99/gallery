@@ -1,6 +1,7 @@
 package de.mbs.gallery.client.activity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.gwt.activity.shared.AbstractActivity;
@@ -100,9 +101,36 @@ public class GalleryActivity extends AbstractActivity {
 	public void onStop() {
 		
 		if(null != gallery) {
+		
+			String cachedGalleryJson = JsUtils.jsni("sessionStorage.getItem", place.getId());
+			
+			Gallery cachedGallery = GQ.create(Gallery.class, cachedGalleryJson);
+			
+			List<GalleryImage> syncedImgages = new ArrayList<>();
+			syncedImgages.addAll(Arrays.asList(cachedGallery.getImages()));
+			
+			for(GalleryImage img : gallery.getImages()) {
+				boolean addImage = true;
+				for(GalleryImage cachedImg : syncedImgages) {
+					if(cachedImg.getId().equals(img.getId())) {
+						cachedImg.setVote(img.getVote());
+						addImage = false;
+						
+						break;
+					}
+				}
+				
+				if(addImage) {
+					syncedImgages.add(img);
+				}
+			}
+		
+			//update cache
+			cachedGallery.setImages(syncedImgages.toArray(cachedGallery.getImages()));
+			
 			JsUtils.jsni("sessionStorage.setItem",
-					gallery.getName(),
-					gallery.toJson());
+					cachedGallery.getName(),
+					cachedGallery.toJson());
 		}
 	}
 	
@@ -121,5 +149,23 @@ public class GalleryActivity extends AbstractActivity {
 		filteredGallery.setImages(filteredImages.toArray(filteredGallery.getImages()));
 		
 		return filteredGallery;
+	}
+	
+	public void saveGallery() {
+		GalleryResources res = clientFactory.galleryResources();
+		res.saveGallery(null, gallery, new Callback<Void, String>() {
+
+			@Override
+			public void onFailure(String reason) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				view.onSaveGallery();
+				
+			}
+		});
 	}
 }

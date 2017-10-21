@@ -263,4 +263,9 @@ public class GalleryView extends Composite {
 		gallery = result;
 		
 	}
+
+	public void onSaveGallery() {
+		// TODO Auto-generated method stub
+		
+	}
 }

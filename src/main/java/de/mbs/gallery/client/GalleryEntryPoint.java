@@ -11,8 +11,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.web.bindery.event.shared.EventBus;
 
 import de.mbs.gallery.client.activity.GalleryActivityMapper;
-import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.place.GalleryPlaceHistoryMapper;
+import de.mbs.gallery.client.place.LoginPlace;
 import de.mbs.gallery.client.presenter.AppPanelPresenter;
 import de.mbs.gallery.client.view.AppPanel;
 
@@ -44,7 +44,7 @@ public class GalleryEntryPoint implements EntryPoint {
 		// Start PlaceHistoryHandler with our PlaceHistoryMapper
 		GalleryPlaceHistoryMapper historyMapper = GWT.create(GalleryPlaceHistoryMapper.class);
 		PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
-		historyHandler.register(placeController, eventBus, new GalleryPlace(galleryId));
+		historyHandler.register(placeController, eventBus, new LoginPlace(""));
 
 		RootPanel.get().add(view);
 		// Goes to the place represented on URL else default place

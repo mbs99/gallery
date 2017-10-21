@@ -1,0 +1,25 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:view="urn:import:de.mbs.gallery.client.view">
+
+	<g:FormPanel ui:field="loginViewPanel">
+		<g:HTMLPanel>
+			<div class="row">
+				<div class="one-half column">
+					<label for="username">Benutzer</label>
+					<input id="username" type="text" class="u-full-width"></input>
+				</div>
+				<div class="one-half column">
+					<label for="password">Passwort</label>
+					<input id="password" type="password" class="u-full-width"></input>
+				</div>
+			</div>
+			<div class="row">
+				<div class="one-half column">
+					<button id="submit">Anmelden</button>
+				</div>
+			</div>
+		</g:HTMLPanel>
+	</g:FormPanel>
+
+</ui:UiBinder>
