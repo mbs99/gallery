@@ -13,14 +13,17 @@ import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.GalleryResources;
 import de.mbs.gallery.client.model.Gallery;
 import de.mbs.gallery.client.model.GalleryImage;
+import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.place.ImagePlace;
 import de.mbs.gallery.client.view.ImageView;
+import net.sourceforge.htmlunit.corejs.javascript.ast.Yield;
 
 public class ImageActivity extends AbstractActivity {
 
 	ImagePlace place;
 	ClientFactory clientFactory;
 	ImageView view;
+	Gallery gallery;
 
 	public ImageActivity(ImagePlace place, ClientFactory clientFactory) {
 		super();
@@ -36,17 +39,20 @@ public class ImageActivity extends AbstractActivity {
 		
 		GalleryResources res = clientFactory.galleryResources();
 		
-		Gallery gallery = GQ.create(Gallery.class);
 		String cachedGallery = JsUtils.jsni("sessionStorage.getItem", place.getGalleryName());
 		if(null != cachedGallery && ! cachedGallery.isEmpty()) {
-			gallery = gallery.parse(cachedGallery);
+			gallery = GQ.create(Gallery.class, cachedGallery);
 			
+			clientFactory.getViewModel().setGallery(gallery);
+			
+			int pos = 0;
 			for(GalleryImage iter : gallery.getImages()) {
 				if(iter.getId().equals(place.getImageId())) {
 					String url = getImageUrl(gallery, iter);
-					view.setImage(iter, url);
+					view.setImage(iter, url, pos);
 					break;
 				}
+				pos++;
 			}
 			
 			parent.setWidget(view.asWidget());
@@ -58,11 +64,16 @@ public class ImageActivity extends AbstractActivity {
 				@Override
 				public void onSuccess(Gallery result) {
 					
+					gallery = result;
+					
+					clientFactory.getViewModel().setGallery(gallery);
+					int pos =0;
 					for(GalleryImage iter : result.getImages()) {
 						if(iter.getId().equals(place.getImageId())) {
 							String url = getImageUrl(result, iter);
-							view.setImage(iter, url);
+							view.setImage(iter, url, pos);
 						}
+						pos++;
 					}
 					parent.setWidget(view.asWidget());
 				}
@@ -85,5 +96,23 @@ public class ImageActivity extends AbstractActivity {
 				+ "api/gallery/"
 				+ gallery.getName()
 				+ "/" + image.getId();
+	}
+	
+	public void nextImage(int currentIndex) {
+		if(currentIndex < gallery.getImages().length -1) {
+			String nextImageId = gallery.getImages()[currentIndex + 1].getId();
+			clientFactory.placeController().goTo(new ImagePlace(gallery.getName(), nextImageId));
+		}
+	}
+	
+	public void previousImage(int currentIndex) {
+		if(currentIndex > 0) {
+			String previousImageId = gallery.getImages()[currentIndex - 1].getId();
+			clientFactory.placeController().goTo(new ImagePlace(gallery.getName(), previousImageId));
+		}
+	}
+	
+	public void showGallery() {
+		clientFactory.placeController().goTo(new GalleryPlace(gallery.getName()));
 	}
 }

@@ -10,6 +10,7 @@ import de.mbs.gallery.client.activity.GalleryActivity;
 import de.mbs.gallery.client.activity.ImageActivity;
 import de.mbs.gallery.client.activity.LoginActivity;
 import de.mbs.gallery.client.model.Authorization;
+import de.mbs.gallery.client.model.ViewModel;
 import de.mbs.gallery.client.presenter.AppPanelPresenter;
 import de.mbs.gallery.client.view.AdminView;
 import de.mbs.gallery.client.view.AppPanel;
@@ -22,6 +23,7 @@ public class ClientFactory {
 	private final SimpleEventBus eventBus = new SimpleEventBus();
 	private final PlaceController placeController = new PlaceController(eventBus);
 	private final Authorization authorization = GQ.create(Authorization.class);
+	private final ViewModel viewModel = new ViewModel();
 	
 	public GalleryResources galleryResources() {
 		return new GalleryResources();
@@ -61,5 +63,9 @@ public class ClientFactory {
 	public ImageView getImageView(ImageActivity imageActivity) {
 		
 		return new ImageView(imageActivity);
+	}
+	
+	public ViewModel getViewModel() {
+		return viewModel;
 	}
 }

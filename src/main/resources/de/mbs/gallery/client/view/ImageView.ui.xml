@@ -4,20 +4,25 @@
 	xmlns:view="urn:import:de.mbs.gallery.client.view">
 
 	<g:HTMLPanel ui:field="imageViewPanel">
-		<div class="row">
-			<div class="twelve columns" id="imageContainer">
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="twelve columns" ui:field="imageContainer">
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="twelve columns" ui:field="voterContainer">
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row" ui:field="buttonPanel">
+			<div class="four columns">
+				<button class="button" id="previousImageButton">Zurück</button>
 			</div>
-		</div>
-		<div class="row">
-			<div class="three columns">
-				<button class="button u-pull-left">Zurück</button>
+			<div class="four columns">
+				<button class="button" id="nextImageButton">Vor</button>
 			</div>
-			<div class="six columns" id="imageVoterContainer">
+			<div class="four columns">
+				<button class="button" id="galleryButton">Zur Übersicht</button>
 			</div>
-			<div class="three columns">
-				<button class="button u-pull-right">Vor</button>
-			</div>
-		</div>
+		</g:HTMLPanel>
 	</g:HTMLPanel>
 
 </ui:UiBinder>

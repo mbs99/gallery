@@ -37,3 +37,16 @@
 .paddingTop {
 	padding-top: 50px;
 }
+
+.galleryImageFs {
+	display: block;
+	padding-bottom: 2em;
+	max-height: 80vh;
+	max-width: 100%;
+	margin: 0 auto;
+}
+
+.starVoterFs {
+	text-align: center;
+	height: 2em;
+}
