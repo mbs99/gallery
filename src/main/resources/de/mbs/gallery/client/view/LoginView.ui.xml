@@ -16,7 +16,7 @@
 			</div>
 			<div class="row">
 				<div class="one-half column">
-					<button id="submit">Anmelden</button>
+					<button id="loginButton">Anmelden</button>
 				</div>
 			</div>
 		</g:HTMLPanel>

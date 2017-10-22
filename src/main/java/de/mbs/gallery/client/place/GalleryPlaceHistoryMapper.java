@@ -5,7 +5,8 @@ import com.google.gwt.place.shared.WithTokenizers;
 
 @WithTokenizers({GalleryPlace.Tokenizer.class,
 	LoginPlace.Tokenizer.class,
-	AdminPlace.Tokenizer.class})
+	AdminPlace.Tokenizer.class,
+	ImagePlace.Tokenizer.class})
 public interface GalleryPlaceHistoryMapper extends PlaceHistoryMapper
 {
 }

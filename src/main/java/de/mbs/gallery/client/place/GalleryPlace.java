@@ -34,8 +34,15 @@ public class GalleryPlace extends Place {
         @Override
         public GalleryPlace getPlace(String token) {
         	String[] tokens = token.split("::");
-        	
-        	return new GalleryPlace(token);
+        	if(0 == tokens.length) {
+        		return new GalleryPlace("");
+        	}
+        	else if(1 == tokens.length) {
+        		return new GalleryPlace(tokens[0]);
+        	}
+        	else {
+        		return new GalleryPlace(tokens[0]);
+        	}
         }
     }
 }

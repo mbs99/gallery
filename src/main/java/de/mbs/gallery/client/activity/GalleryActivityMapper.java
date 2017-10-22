@@ -8,6 +8,7 @@ import com.google.gwt.user.client.Window;
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.place.AdminPlace;
 import de.mbs.gallery.client.place.GalleryPlace;
+import de.mbs.gallery.client.place.ImagePlace;
 import de.mbs.gallery.client.place.LoginPlace;
 
 public class GalleryActivityMapper implements ActivityMapper {
@@ -28,6 +29,9 @@ public class GalleryActivityMapper implements ActivityMapper {
 		}
 		else if(place instanceof AdminPlace) {
 			return new AdminActivity((AdminPlace)place, clientFactory);
+		}
+		else if(place instanceof ImagePlace) {
+			return new ImageActivity((ImagePlace)place, clientFactory);
 		}
 		else {
 			Window.alert("Unknown place: " + place);

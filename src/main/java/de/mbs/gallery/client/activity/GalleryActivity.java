@@ -17,6 +17,7 @@ import de.mbs.gallery.client.GalleryResources;
 import de.mbs.gallery.client.model.Gallery;
 import de.mbs.gallery.client.model.GalleryImage;
 import de.mbs.gallery.client.place.GalleryPlace;
+import de.mbs.gallery.client.place.ImagePlace;
 import de.mbs.gallery.client.view.GalleryView;
 
 public class GalleryActivity extends AbstractActivity {
@@ -105,6 +106,7 @@ public class GalleryActivity extends AbstractActivity {
 			String cachedGalleryJson = JsUtils.jsni("sessionStorage.getItem", place.getId());
 			
 			Gallery cachedGallery = GQ.create(Gallery.class, cachedGalleryJson);
+			cachedGallery.setName(gallery.getName());
 			
 			List<GalleryImage> syncedImgages = new ArrayList<>();
 			syncedImgages.addAll(Arrays.asList(cachedGallery.getImages()));
@@ -167,5 +169,18 @@ public class GalleryActivity extends AbstractActivity {
 				
 			}
 		});
+	}
+
+	public void clickImage(String id) {
+		GalleryImage selectedImage = null;
+		for(GalleryImage iter : gallery.getImages()) {
+			if(iter.getId().equals(id)) {
+				selectedImage = iter;
+				break;
+			}
+		}
+		if(null != selectedImage) {
+			clientFactory.placeController().goTo(new ImagePlace(gallery.getName(), id));
+		}
 	}
 }

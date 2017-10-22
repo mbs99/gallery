@@ -10,6 +10,9 @@ public interface Authorization extends JsonBuilder{
 	String getPassword();
 	void setPassword(String pwd);
 	
+	String getGallery();
+	void setGallery(String gallery);
+	
 	String[] getRoles();
 	void setRoles(String[] roles);
 	

@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.GalleryResources;
 import de.mbs.gallery.client.model.Authorization;
+import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.place.LoginPlace;
 import de.mbs.gallery.client.view.LoginView;
 
@@ -50,7 +51,7 @@ public class LoginActivity extends AbstractActivity {
 			
 			@Override
 			public void onSuccess(Authorization result) {
-				Window.alert(result.toJson());
+				clientFactory.placeController().goTo(new GalleryPlace("dummy"));
 				
 			}
 			

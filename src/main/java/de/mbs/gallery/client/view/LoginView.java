@@ -43,7 +43,7 @@ public class LoginView extends Composite {
 		
 		super.onLoad();
 		
-		$(loginViewPanel).submit(new Function() {
+		$("#loginButton").click(new Function() {
 			@Override
 			public boolean f(Event e) {
 				

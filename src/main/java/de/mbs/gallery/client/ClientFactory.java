@@ -7,12 +7,14 @@ import com.google.web.bindery.event.shared.SimpleEventBus;
 
 import de.mbs.gallery.client.activity.AdminActivity;
 import de.mbs.gallery.client.activity.GalleryActivity;
+import de.mbs.gallery.client.activity.ImageActivity;
 import de.mbs.gallery.client.activity.LoginActivity;
 import de.mbs.gallery.client.model.Authorization;
 import de.mbs.gallery.client.presenter.AppPanelPresenter;
 import de.mbs.gallery.client.view.AdminView;
 import de.mbs.gallery.client.view.AppPanel;
 import de.mbs.gallery.client.view.GalleryView;
+import de.mbs.gallery.client.view.ImageView;
 import de.mbs.gallery.client.view.LoginView;
 
 public class ClientFactory {
@@ -54,5 +56,10 @@ public class ClientFactory {
 	
 	public Authorization getAuthorization() {
 		return authorization;
+	}
+
+	public ImageView getImageView(ImageActivity imageActivity) {
+		
+		return new ImageView(imageActivity);
 	}
 }

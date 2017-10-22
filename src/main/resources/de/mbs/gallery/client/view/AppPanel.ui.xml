@@ -14,10 +14,10 @@
 					</select>
 				</div>
 				<div class="one-third column">
-					<button class="button-primary">Auswahl speichern</button>
+					<button class="button">Auswahl speichern</button>
 				</div>
 				<div class="one-third column">
-					<button class="button-primary">Bestellung abschicken</button>
+					<button class="button">Bestellung abschicken</button>
 				</div>
 			</div>
 		</g:HTMLPanel>

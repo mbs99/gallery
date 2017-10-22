@@ -5,10 +5,13 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.mbs.gallery.client.activity.GalleryActivity;
@@ -52,8 +55,20 @@ public class GalleryView extends Composite {
 		row.setStyleName("row");
 		galleryViewPanel.add(row);
 		
+		ClickHandler clickHandler = new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				Image targetImage = (Image)event.getSource();
+				if(null !=targetImage) {
+					presenter.clickImage(targetImage.getElement().getId());
+				}
+				
+			}
+		};
+		
 		for(int i=0;i<colNum;i++) {
-			cols.add(new ImageContainer());
+			cols.add(new ImageContainer(clickHandler));
 		}
 		
 		GalleryImage[] images = gallery.getImages();
@@ -70,193 +85,6 @@ public class GalleryView extends Composite {
 		for(int i=0;i<colNum;i++) {
 			row.add(cols.get(i));
 		}
-		
-		
-		/*$(".galleryImage").mouseenter(new Function() {
-			
-			@Override
-			public boolean f(Event e) {
-				
-				if (!e.getType().equals("mouseenter") || JsEventHelper.eventTriggeredByChilds(e)) {
-                    return false;
-                }
-				
-				e.preventDefault();
-				e.stopPropagation();
-				
-				
-				String id = $(e.getEventTarget()).prop("id");
-				
-				$("#starVoter"+id).css("display", "block");
-				
-				return false;
-			};
-		}
-		);
-		
-		$(".galleryImage").mouseleave(new Function() {
-			
-			@Override
-			public boolean f(Event e) {
-				
-				if (!e.getType().equals("mouseleave") || JsEventHelper.eventTriggeredByChilds(e)) {
-                    return false;
-                }
-				
-				e.preventDefault();
-				e.stopPropagation();
-				
-				String id = $(e.getEventTarget()).prop("id");
-				
-				$("#starVoter"+id).css("display", "none");
-				
-				return false;
-			};
-		}
-		);*/
-		
-		/*
-		$(".galleryImage").hover(new Function() {
-			@Override
-			public boolean f(Event e, Object... arg) {
-				
-				e.preventDefault();
-				e.stopPropagation();
-				
-				String id = $(e.getEventTarget()).prop("id");
-				
-				$("#starVoter"+id).css("display", "block");
-				
-				return false;
-			}
-		}, new Function() {
-			@Override
-			public boolean f(Event e, Object... arg) {
-				
-				e.preventDefault();
-				e.stopPropagation();
-				
-				String id = $(e.getEventTarget()).prop("id");
-				
-				$("#starVoter"+id).css("display", "none");
-				
-				return false;
-			}
-		});*/
-		
-		//$(templates.thumbnailContainer("thumbnailRow0")).insertBefore($("#thumbnailsContainer"));
-		
-		//$("#thumbnailRow0").append(thumbnailTemplate.thumbnail("thumbnail0", "/8301.jpg"));
-		//$("#thumbnailRow0").append(thumbnailTemplate.thumbnail("thumbnail1", "/8303.jpg"));
-		//$("#thumbnailRow0").append(thumbnailTemplate.thumbnail("thumbnail2", "/8304.jpg"));
-		//$("#thumbnailRow0").append(thumbnailTemplate.thumbnail("thumbnail3", "/8307.jpg"));
-		
-		/*$(voterTemplate.voter("voter0", starTemplate.star("one star"),
-				starTemplate.star("two stars"),
-				starTemplate.star("three stars"),
-				starTemplate.star("four stars"),
-				starTemplate.star("five stars"))
-		).appendTo($("#thumbnail0"));*/
-		
-		//$(templates.thumbnailContainer("thumbnailRow1")).insertBefore($("#thumbnailsContainer"));
-		
-		//$("#thumbnailRow1").append(thumbnailTemplate.thumbnail("thumbnail4", "/8308.jpg"));
-		//$("#thumbnailRow1").append(thumbnailTemplate.thumbnail("thumbnail5", "/8310.jpg"));
-		//$("#thumbnailRow1").append(thumbnailTemplate.thumbnail("thumbnail6", "/8311.jpg"));
-		
-		
-		/*
-		$("#five_stars").click(new Function() {
-			@Override
-			public void f() {
-				if(! $("#five_stars").hasClass("redStar")) {
-					
-					$("#one_star").addClass("redStar");
-					$("#two_stars").addClass("redStar");
-					$("#three_stars").addClass("redStar");
-					$("#four_stars").addClass("redStar");
-					$("#five_stars").addClass("redStar");
-					
-				}
-				else {
-					$("#one_star").removeClass("redStar");
-					$("#two_stars").removeClass("redStar");
-					$("#three_stars").removeClass("redStar");
-					$("#four_stars").removeClass("redStar");
-					$("#five_stars").removeClass("redStar");
-				}
-			}
-		});
-		
-		$("#four_stars").click(new Function() {
-			@Override
-			public void f() {
-				if(! $("#four_stars").hasClass("redStar")) {
-					
-					$("#one_star").addClass("redStar");
-					$("#two_stars").addClass("redStar");
-					$("#three_stars").addClass("redStar");
-					$("#four_stars").addClass("redStar");
-					
-				}
-				else {
-					$("#five_stars").removeClass("redStar");
-				}
-			}
-		});
-		
-		$("#three_stars").click(new Function() {
-			@Override
-			public void f() {
-				if(! $("#three_stars").hasClass("redStar")) {
-					
-					$("#one_star").addClass("redStar");
-					$("#two_stars").addClass("redStar");
-					$("#three_stars").addClass("redStar");
-					
-				}
-				else {
-					
-					$("#four_stars").removeClass("redStar");
-					$("#five_stars").removeClass("redStar");
-				}
-			}
-		});
-		
-		$("#two_stars").click(new Function() {
-			@Override
-			public void f() {
-				if(! $("#two_stars").hasClass("redStar")) {
-					
-					$("#one_star").addClass("redStar");
-					$("#two_stars").addClass("redStar");
-					
-				}
-				else {
-					$("#three_stars").removeClass("redStar");
-					$("#four_stars").removeClass("redStar");
-					$("#five_stars").removeClass("redStar");
-				}
-			}
-		});
-		
-		$("#one_star").click(new Function() {
-			@Override
-			public void f() {
-				if(! $("#one_star").hasClass("redStar")) {
-					
-					$("#one_star").addClass("redStar");
-					
-				}
-				else {
-					$("#two_stars").removeClass("redStar");
-					$("#three_stars").removeClass("redStar");
-					$("#four_stars").removeClass("redStar");
-					$("#five_stars").removeClass("redStar");
-				}
-			}
-		});
-		*/
 	}
 
 	public void setGallery(Gallery result) {

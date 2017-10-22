@@ -5,6 +5,7 @@ import static com.google.gwt.query.client.GQuery.$;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.query.client.Function;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
@@ -45,8 +46,12 @@ public class ImageContainer extends Composite {
 	
 	@UiField
 	HTMLPanel imgContainer;
+	
+	private ClickHandler clickHandler;
 
-	public ImageContainer() {
+	public ImageContainer(ClickHandler clickHandler) {
+		
+		this.clickHandler = clickHandler;
 		
 		initWidget(uiBinder.createAndBindUi(this));
 	}
@@ -100,6 +105,8 @@ public class ImageContainer extends Composite {
 		$(img).mouseleave(mouseLeave);
 		$(voter).mouseenter(mouseEnter);	
 		$(voter).mouseleave(mouseLeave);
+		
+		img.addClickHandler(clickHandler);
 	}
 
 	public void addImage(String galleryName, GalleryImage image) {
