@@ -9,13 +9,13 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="three column">
-				<button class="button">Zurück</button>
+			<div class="three columns">
+				<button class="button u-pull-left">Zurück</button>
 			</div>
 			<div class="six columns" id="imageVoterContainer">
 			</div>
-			<div class="three column">
-				<button class="button">Vor</button>
+			<div class="three columns">
+				<button class="button u-pull-right">Vor</button>
 			</div>
 		</div>
 	</g:HTMLPanel>
