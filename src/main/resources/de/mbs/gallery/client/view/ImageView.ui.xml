@@ -12,17 +12,6 @@
 			<g:HTMLPanel styleName="twelve columns" ui:field="voterContainer">
 			</g:HTMLPanel>
 		</g:HTMLPanel>
-		<g:HTMLPanel styleName="row" ui:field="buttonPanel">
-			<div class="four columns">
-				<button class="button" id="previousImageButton">Zurück</button>
-			</div>
-			<div class="four columns">
-				<button class="button" id="nextImageButton">Vor</button>
-			</div>
-			<div class="four columns">
-				<button class="button" id="galleryButton">Zur Übersicht</button>
-			</div>
-		</g:HTMLPanel>
 	</g:HTMLPanel>
 
 </ui:UiBinder>

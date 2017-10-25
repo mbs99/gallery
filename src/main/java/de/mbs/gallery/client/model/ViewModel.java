@@ -3,14 +3,13 @@ package de.mbs.gallery.client.model;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.google.gwt.query.client.Function;
-
 public class ViewModel {
 	
 	private Map<String,Gallery> galleriesByName = new LinkedHashMap<>();
 	private Authorization authorization;
+	private int slideshowPos = -1;
 
-	public Gallery getGallery(String name, Function callback) {
+	public Gallery getGallery(String name) {
 		
 		return galleriesByName.get(name);
 	}
@@ -25,5 +24,13 @@ public class ViewModel {
 
 	public void setAuthorization(Authorization authorization) {
 		this.authorization = authorization;
+	}
+	
+	public void setSlideshowPos(int pos) {
+		this.slideshowPos = pos;
+	}
+	
+	public int getSlideshowPos() {
+		return this.slideshowPos;
 	}
 }

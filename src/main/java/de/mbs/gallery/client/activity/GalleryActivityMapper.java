@@ -22,7 +22,9 @@ public class GalleryActivityMapper implements ActivityMapper {
 	@Override
 	public Activity getActivity(Place place) {
 		if (place instanceof GalleryPlace) {
-			return new GalleryActivity((GalleryPlace) place, clientFactory);
+			GalleryActivity galleryActivity = new GalleryActivity(clientFactory);
+			galleryActivity.setPlace((GalleryPlace) place);
+			return galleryActivity;
 		}
 		else if(place instanceof LoginPlace) {
 			return new LoginActivity((LoginPlace)place, clientFactory);
@@ -31,7 +33,10 @@ public class GalleryActivityMapper implements ActivityMapper {
 			return new AdminActivity((AdminPlace)place, clientFactory);
 		}
 		else if(place instanceof ImagePlace) {
-			return new ImageActivity((ImagePlace)place, clientFactory);
+			ImageActivity imageActivity = new ImageActivity(clientFactory);
+			imageActivity.setPlace((ImagePlace)place);
+			
+			return imageActivity;
 		}
 		else {
 			Window.alert("Unknown place: " + place);

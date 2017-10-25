@@ -35,6 +35,7 @@ public class GalleryEntryPoint implements EntryPoint {
 		PlaceController placeController = clientFactory.placeController();
 		AppPanelPresenter appPanelPresenter = new AppPanelPresenter(clientFactory);
 		AppPanel view = clientFactory.appPanel(appPanelPresenter);
+		appPanelPresenter.setView(view);
 
 		// Start ActivityManager for the main widget with our ActivityMapper
 		ActivityMapper activityMapper = new GalleryActivityMapper(clientFactory);

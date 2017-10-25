@@ -3,7 +3,8 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 
 	<g:HTMLPanel>
-		<g:HTMLPanel styleName="container">
+		<g:HTMLPanel styleName="container" ui:field="navbarContainer">
+			<!-- 
 			<div class="row">
 				<div class="one-third column">
 					<select id="filter">
@@ -20,6 +21,7 @@
 					<button class="button">Bestellung abschicken</button>
 				</div>
 			</div>
+			-->
 		</g:HTMLPanel>
 		<g:HTMLPanel styleName="container paddingTop">
 			<g:SimplePanel ui:field="contentPanel" />

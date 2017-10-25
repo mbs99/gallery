@@ -1,14 +1,14 @@
 package de.mbs.gallery.client.view;
 
+import static com.google.gwt.query.client.GQuery.$;
+
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
-import com.google.gwt.query.client.Function;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -16,8 +16,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.mbs.gallery.client.activity.ImageActivity;
 import de.mbs.gallery.client.model.GalleryImage;
-
-import static com.google.gwt.query.client.GQuery.$;
 
 public class ImageView extends Composite {
 	
@@ -29,9 +27,6 @@ public class ImageView extends Composite {
 	
 	@UiField
 	HTMLPanel voterContainer;
-	
-	@UiField
-	HTMLPanel buttonPanel;
 	
 	private ImageActivity presenter;
 	
@@ -55,43 +50,12 @@ public class ImageView extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		voterContainer.setVisible(false);
-		buttonPanel.setVisible(false);
 	}
 	
 	@Override
 	protected void onLoad() {
 		
 		super.onLoad();
-		
-		$("#nextImageButton").click(new Function() {
-			@Override
-			public boolean f(Event e) {
-				
-				presenter.nextImage(index);
-				
-				return false;
-			}
-		});
-		
-		$("#previousImageButton").click(new Function() {
-			@Override
-			public boolean f(Event e) {
-				
-				presenter.previousImage(index);
-				
-				return false;
-			}
-		});
-		
-		$("#galleryButton").click(new Function() {
-			@Override
-			public boolean f(Event e) {
-				
-				presenter.showGallery();
-				
-				return false;
-			}
-		});
 	}
 	
 	@Override
@@ -120,13 +84,13 @@ public class ImageView extends Composite {
 			@Override
 			public void onLoad(LoadEvent event) {
 				voterContainer.setVisible(true);
-				buttonPanel.setVisible(true);
-				
 			}
 		});
 		
+		imageContainer.clear();
 		imageContainer.add(img);
 		
+		voterContainer.clear();
 		voterContainer.add(voter);
 		
 	}

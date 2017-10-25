@@ -28,6 +28,7 @@
 	<!-- Specify the paths for translatable code -->
 	<source path='client' />
 	<source path='client/model' />
+	<source path='client/event' />
 	<source path='shared' />
 
 </module>

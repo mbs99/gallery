@@ -15,7 +15,9 @@ import de.mbs.gallery.client.presenter.AppPanelPresenter;
 import de.mbs.gallery.client.view.AdminView;
 import de.mbs.gallery.client.view.AppPanel;
 import de.mbs.gallery.client.view.GalleryView;
+import de.mbs.gallery.client.view.GalleryViewNavbar;
 import de.mbs.gallery.client.view.ImageView;
+import de.mbs.gallery.client.view.ImageViewNavbar;
 import de.mbs.gallery.client.view.LoginView;
 
 public class ClientFactory {
@@ -67,5 +69,13 @@ public class ClientFactory {
 	
 	public ViewModel getViewModel() {
 		return viewModel;
+	}
+	
+	public ImageViewNavbar getImageViewNavbar(AppPanelPresenter presenter) {
+		return new ImageViewNavbar(presenter);
+	}
+	
+	public GalleryViewNavbar getGalleryViewNavbar(AppPanelPresenter presenter) {
+		return new GalleryViewNavbar(presenter);
 	}
 }

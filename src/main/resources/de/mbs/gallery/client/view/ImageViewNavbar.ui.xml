@@ -1,0 +1,21 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+
+	<g:HTMLPanel styleName="row">
+		<div class="one-third column">
+			<select id="filter">
+				<option value="off">alle</option>
+				<option value="1Star">1 Stern</option>
+				<option value="2Stars">2 Sterne</option>
+				<option value="3Stars">3 Sterne</option>
+			</select>
+		</div>
+		<div class="two-thirds column">
+			<button class="button u-pull-right" id="nextImageButton">Vor</button>
+			<button class="button u-pull-right" id="previousImageButton">Zurück</button>
+			<button class="button u-pull-right" id="galleryButton">Zur Gallerie</button>
+		</div>
+	</g:HTMLPanel>
+
+</ui:UiBinder>

@@ -1,21 +1,22 @@
 package de.mbs.gallery.client.activity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.query.client.GQ;
-import com.google.gwt.query.client.js.JsUtils;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.GalleryResources;
+import de.mbs.gallery.client.event.ChangeNavbarEvent;
+import de.mbs.gallery.client.event.ChangeNavbarEvent.NAVBAR_TYPE;
 import de.mbs.gallery.client.model.Gallery;
 import de.mbs.gallery.client.model.GalleryImage;
+import de.mbs.gallery.client.model.ViewModel;
 import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.place.ImagePlace;
 import de.mbs.gallery.client.view.GalleryView;
@@ -25,52 +26,44 @@ public class GalleryActivity extends AbstractActivity {
 	GalleryPlace place;
 	ClientFactory clientFactory;
 	GalleryView view;
-	Gallery gallery;
+	ViewModel model;
 
 	public GalleryActivity(GalleryPlace place, ClientFactory clientFactory) {
 		super();
 
 		this.place = place;
 		this.clientFactory = clientFactory;
+		this.model = clientFactory.getViewModel();
+	}
+
+	public GalleryActivity(ClientFactory clientFactory) {
+		this.clientFactory = clientFactory;
+		this.model = clientFactory.getViewModel();
+	}
+	
+	public void setPlace(GalleryPlace place) {
+		this.place = place;
 	}
 
 	@Override
 	public void start(AcceptsOneWidget parent, EventBus eventBus) {
+		
+		clientFactory.eventBus().fireEvent(new ChangeNavbarEvent(NAVBAR_TYPE.GALLERY_VIEW));
 
 		this.view = clientFactory.galleryView(this);
 		GalleryResources res = clientFactory.galleryResources();
 		
-		if(null == gallery) {
-			gallery = GQ.create(Gallery.class);
-		}
-		
-		String cachedGallery = JsUtils.jsni("sessionStorage.getItem", place.getId());
-		if(null != cachedGallery && ! cachedGallery.isEmpty()) {
-			gallery = gallery.parse(cachedGallery);
-			if(null != place.getFilter()) {
-				if(place.getFilter().equals("1Star")) {
-					
-					gallery = filterGalleryImagesByVote(gallery, new Integer(1));
-				}
-				else if(place.getFilter().equals("2Stars")) {
-					gallery = filterGalleryImagesByVote(gallery, new Integer(2));
-				}
-				else if(place.getFilter().equals("3Stars")) {
-					gallery = filterGalleryImagesByVote(gallery, new Integer(3));
-				}
-			}
-			
-			view.setGallery(gallery);
-			parent.setWidget(view.asWidget());
-		}
-		else {
+		if(null == model.getGallery(place.getId())) {
 
 			res.getGallery(place.getId(), new Callback<Gallery, String>() {
 	
 				@Override
 				public void onSuccess(Gallery result) {
 					
-					gallery = result;
+					Gallery gallery = result;
+					
+					model.setGallery(gallery);
+					
 					
 					if(null != place.getFilter()) {
 						if(place.getFilter().equals("1Star")) {
@@ -101,9 +94,11 @@ public class GalleryActivity extends AbstractActivity {
 	@Override
 	public void onStop() {
 		
+		Gallery gallery = model.getGallery(place.getId());
+		
 		if(null != gallery) {
 		
-			String cachedGalleryJson = JsUtils.jsni("sessionStorage.getItem", place.getId());
+			/*String cachedGalleryJson = JsUtils.jsni("sessionStorage.getItem", place.getId());
 			
 			Gallery cachedGallery = GQ.create(Gallery.class, cachedGalleryJson);
 			cachedGallery.setName(gallery.getName());
@@ -133,6 +128,7 @@ public class GalleryActivity extends AbstractActivity {
 			JsUtils.jsni("sessionStorage.setItem",
 					cachedGallery.getName(),
 					cachedGallery.toJson());
+			*/
 		}
 	}
 	
@@ -155,6 +151,7 @@ public class GalleryActivity extends AbstractActivity {
 	
 	public void saveGallery() {
 		GalleryResources res = clientFactory.galleryResources();
+		Gallery gallery = model.getGallery(place.getId());
 		res.saveGallery(null, gallery, new Callback<Void, String>() {
 
 			@Override
@@ -172,6 +169,7 @@ public class GalleryActivity extends AbstractActivity {
 	}
 
 	public void clickImage(String id) {
+		Gallery gallery = model.getGallery(place.getId());
 		GalleryImage selectedImage = null;
 		for(GalleryImage iter : gallery.getImages()) {
 			if(iter.getId().equals(id)) {
