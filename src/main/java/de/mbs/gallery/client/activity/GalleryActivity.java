@@ -89,6 +89,24 @@ public class GalleryActivity extends AbstractActivity {
 				}
 			});
 		}
+		else {
+			Gallery gallery = model.getGallery(place.getId());
+			if(null != place.getFilter()) {
+				if(place.getFilter().equals("1Star")) {
+					
+					gallery = filterGalleryImagesByVote(gallery, new Integer(1));
+				}
+				else if(place.getFilter().equals("2Stars")) {
+					gallery = filterGalleryImagesByVote(gallery, new Integer(2));
+				}
+				else if(place.getFilter().equals("3Stars")) {
+					gallery = filterGalleryImagesByVote(gallery, new Integer(3));
+				}
+			}
+			
+			view.setGallery(gallery);
+			parent.setWidget(view.asWidget());
+		}
 	}
 	
 	@Override
