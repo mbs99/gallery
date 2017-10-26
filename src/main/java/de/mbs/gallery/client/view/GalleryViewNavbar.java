@@ -39,11 +39,11 @@ public class GalleryViewNavbar extends Composite {
 		
 		$("#filter").change(new Function() {
     		@Override
-    		public boolean f(Event e, Object...objects) {
+    		public boolean f(Event e) {
     			
     			presenter.setFilter($(e.getEventTarget()).val());
     			
-    			return false;
+    			return true;
     		}
 		});
 	}

@@ -1,8 +1,10 @@
 package de.mbs.gallery.client.presenter;
 
 import com.google.gwt.place.shared.Place;
+import com.google.gwt.user.client.Window;
 
 import de.mbs.gallery.client.ClientFactory;
+import de.mbs.gallery.client.event.ChangeFilterEvent;
 import de.mbs.gallery.client.event.ChangeNavbarEvent;
 import de.mbs.gallery.client.event.EMenuItem;
 import de.mbs.gallery.client.event.MenuItemEvent;
@@ -25,11 +27,21 @@ public class AppPanelPresenter {
 						handleChangeNavbar(event);
 					}
 				});
+		
+		clientFactory.eventBus().addHandler(ChangeFilterEvent.TYPE,
+				new ChangeFilterEvent.ChangeFilterEventEventHandler() {
+					
+					@Override
+					public void changeFilter(ChangeFilterEvent event) {
+						handleChangeFilter(event);
+						
+					}
+				});
 
 	}
 
 	public void setFilter(String filter) {
-
+		
 		Place currentPlace = factory.placeController().getWhere();
 		if (currentPlace instanceof GalleryPlace) {
 			GalleryPlace place = new GalleryPlace(((GalleryPlace) currentPlace).getId(), filter);
@@ -69,5 +81,9 @@ public class AppPanelPresenter {
 		default:
 		break;
 		}
+	}
+	
+	private void handleChangeFilter(ChangeFilterEvent event) {
+		view.setFilter(event.getFilter());
 	}
 }

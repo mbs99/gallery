@@ -71,7 +71,7 @@ public class ImageView extends Composite {
 		this.galleryImage = image;
 		this.index = index;
 		
-		voter = new StarVoter(galleryImage);
+		voter = new StarVoter(presenter, galleryImage);
 		voter.setStyleName("starVoterFs");
 		
 		Image img = new Image();

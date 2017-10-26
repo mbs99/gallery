@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.mbs.gallery.client.model.GalleryImage;
+import de.mbs.gallery.client.presenter.StarVoterPresenter;
 
 public class StarVoter extends Composite {
 	
@@ -20,10 +21,11 @@ public class StarVoter extends Composite {
 	interface StarVoterUiBinder extends UiBinder<Widget, StarVoter> {
 	}
 
+	private StarVoterPresenter presenter;
 	private GalleryImage image;
 	
-	public StarVoter(GalleryImage image) {
-		
+	public StarVoter(StarVoterPresenter presenter,GalleryImage image) {
+		this.presenter = presenter;
 		this.image = image;
 		
 		initWidget(uiBinder.createAndBindUi(this));
@@ -36,45 +38,22 @@ public class StarVoter extends Composite {
 		
 		super.onLoad();
 		
+		if(null == image.getVote()) {
+			initStars(0);
+		}
+		else {
+			initStars(image.getVote());
+		}
+		
 		$("#starVoter"+image.getId()+" span").click(new Function() {
 			@Override
 			public boolean f(Event e) {
 				
 				final String vote = $(e.getEventTarget()).attr("data-stars");
 				
-				if(null != image.getVote() 
-					&& image.getVote().equals(new Integer(Integer.parseInt(vote)))) {
-					$("#starVoter"+image.getId()+" span").each(new Function() {
-						@Override
-						public void f(Element e) {						
-							e.addClassName("blackStar");
-							e.removeClassName("redStar");
-						}
-					});
-					
-					$("#starVoter"+image.getId()).attr("data-current-vote", "0");
-					image.setVote(Integer.parseInt("0"));
-				}
-				else {
-					$("#starVoter"+image.getId()).attr("data-current-vote", vote);
-					
-					image.setVote(Integer.parseInt(vote));
-					
-					$("#starVoter"+image.getId()+" span").each(new Function() {
-						@Override
-						public void f(Element e) {
-							
-							if( Integer.parseInt(vote) >= Integer.parseInt($(e).attr("data-stars"))) {
-								e.addClassName("redStar");
-								e.removeClassName("blackStar");
-							}
-							else {
-								e.removeClassName("redStar");
-								e.addClassName("blackStar");
-							}
-						}
-					});
-				}
+				updateStars(Integer.parseInt(vote));
+				
+				presenter.updateVote(image);
 				
 				return false;
 			}
@@ -87,5 +66,58 @@ public class StarVoter extends Composite {
 		super.onUnload();
 		
 		$("#starVoter"+image.getId()+" span").off();
+	}
+	
+	private void updateStars(Integer vote) {
+		if(null != image.getVote() 
+				&& image.getVote().equals(vote)) {
+			$("#starVoter"+image.getId()+" span").each(new Function() {
+				@Override
+				public void f(Element e) {						
+					e.addClassName("blackStar");
+					e.removeClassName("redStar");
+				}
+			});
+			
+			$("#starVoter"+image.getId()).attr("data-current-vote", "0");
+			image.setVote(Integer.parseInt("0"));
+		}
+		else {
+			$("#starVoter"+image.getId()).attr("data-current-vote", vote);
+			
+			image.setVote(vote);
+			
+			$("#starVoter"+image.getId()+" span").each(new Function() {
+				@Override
+				public void f(Element e) {
+					
+					if( vote >= Integer.parseInt($(e).attr("data-stars"))) {
+						e.addClassName("redStar");
+						e.removeClassName("blackStar");
+					}
+					else {
+						e.removeClassName("redStar");
+						e.addClassName("blackStar");
+					}
+				}
+			});
+		}
+	}
+	
+	private void initStars(Integer vote) {
+		$("#starVoter"+image.getId()+" span").each(new Function() {
+			@Override
+			public void f(Element e) {
+				
+				if( vote >= Integer.parseInt($(e).attr("data-stars"))) {
+					e.addClassName("redStar");
+					e.removeClassName("blackStar");
+				}
+				else {
+					e.removeClassName("redStar");
+					e.addClassName("blackStar");
+				}
+			}
+		});
 	}
 }

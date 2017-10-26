@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.GalleryResources;
+import de.mbs.gallery.client.event.ChangeFilterEvent;
 import de.mbs.gallery.client.event.ChangeNavbarEvent;
 import de.mbs.gallery.client.event.ChangeNavbarEvent.NAVBAR_TYPE;
 import de.mbs.gallery.client.model.Gallery;
@@ -19,9 +20,10 @@ import de.mbs.gallery.client.model.GalleryImage;
 import de.mbs.gallery.client.model.ViewModel;
 import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.place.ImagePlace;
+import de.mbs.gallery.client.presenter.StarVoterPresenter;
 import de.mbs.gallery.client.view.GalleryView;
 
-public class GalleryActivity extends AbstractActivity {
+public class GalleryActivity extends AbstractActivity implements StarVoterPresenter {
 
 	GalleryPlace place;
 	ClientFactory clientFactory;
@@ -49,6 +51,7 @@ public class GalleryActivity extends AbstractActivity {
 	public void start(AcceptsOneWidget parent, EventBus eventBus) {
 		
 		clientFactory.eventBus().fireEvent(new ChangeNavbarEvent(NAVBAR_TYPE.GALLERY_VIEW));
+		clientFactory.eventBus().fireEvent(new ChangeFilterEvent(place.getFilter()));
 
 		this.view = clientFactory.galleryView(this);
 		GalleryResources res = clientFactory.galleryResources();
@@ -197,6 +200,19 @@ public class GalleryActivity extends AbstractActivity {
 		}
 		if(null != selectedImage) {
 			clientFactory.placeController().goTo(new ImagePlace(gallery.getName(), id));
+		}
+	}
+
+	@Override
+	public void updateVote(GalleryImage img) {
+		
+		Gallery gallery = model.getGallery(place.getId());
+		for(GalleryImage iter : gallery.getImages()) {
+			if(iter.getId().equals(img.getId())) {
+				iter.setVote(img.getVote());
+				
+				break;
+			}
 		}
 	}
 }

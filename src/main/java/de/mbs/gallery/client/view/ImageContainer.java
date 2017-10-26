@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.mbs.gallery.client.activity.GalleryActivity;
 import de.mbs.gallery.client.model.GalleryImage;
 
 public class ImageContainer extends Composite {
@@ -48,9 +49,11 @@ public class ImageContainer extends Composite {
 	HTMLPanel imgContainer;
 	
 	private ClickHandler clickHandler;
+	private GalleryActivity presenter;
 
-	public ImageContainer(ClickHandler clickHandler) {
+	public ImageContainer(GalleryActivity presenter, ClickHandler clickHandler) {
 		
+		this.presenter = presenter;
 		this.clickHandler = clickHandler;
 		
 		initWidget(uiBinder.createAndBindUi(this));
@@ -66,7 +69,7 @@ public class ImageContainer extends Composite {
 		
 		imgContainer.add(img);
 		
-		StarVoter voter = new StarVoter(image);
+		StarVoter voter = new StarVoter(presenter, image);
 		//$(voter).attr("id", "starVoter"+image.getId());
 		
 		imgContainer.add(voter);

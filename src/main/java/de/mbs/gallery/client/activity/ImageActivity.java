@@ -17,9 +17,10 @@ import de.mbs.gallery.client.model.Gallery;
 import de.mbs.gallery.client.model.GalleryImage;
 import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.place.ImagePlace;
+import de.mbs.gallery.client.presenter.StarVoterPresenter;
 import de.mbs.gallery.client.view.ImageView;
 
-public class ImageActivity extends AbstractActivity {
+public class ImageActivity extends AbstractActivity implements StarVoterPresenter {
 
 	ImagePlace place;
 	ClientFactory clientFactory;
@@ -155,5 +156,17 @@ public class ImageActivity extends AbstractActivity {
 		Gallery gallery = clientFactory.getViewModel().getGallery(place.getGalleryName());
 		
 		clientFactory.placeController().goTo(new GalleryPlace(gallery.getName()));
+	}
+
+	@Override
+	public void updateVote(GalleryImage img) {
+		Gallery gallery = clientFactory.getViewModel().getGallery(place.getGalleryName());
+		for(GalleryImage iter : gallery.getImages()) {
+			if(iter.getId().equals(img.getId())) {
+				iter.setVote(img.getVote());
+				
+				break;
+			}
+		}
 	}
 }

@@ -64,4 +64,12 @@ public class AppPanel extends Composite {
 		navbarContainer.add(navbar);
 	}
 
+	public void setFilter(String filter) {
+		if(null == filter
+				|| filter.isEmpty()) {
+			
+		} else {
+			$("#filter").val(filter);
+		}
+	}
 }

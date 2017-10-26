@@ -68,7 +68,7 @@ public class GalleryView extends Composite {
 		};
 		
 		for(int i=0;i<colNum;i++) {
-			cols.add(new ImageContainer(clickHandler));
+			cols.add(new ImageContainer(presenter, clickHandler));
 		}
 		
 		GalleryImage[] images = gallery.getImages();
