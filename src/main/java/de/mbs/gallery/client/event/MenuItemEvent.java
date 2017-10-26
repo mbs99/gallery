@@ -7,13 +7,9 @@ import de.mbs.gallery.client.event.MenuItemEvent.MenuItemEventEventHandler;
 
 public class MenuItemEvent extends GwtEvent<MenuItemEventEventHandler> {
 	
-	public enum MENU_ITEM {
-		SHOW_GALLERY, SHOW_NEXT_IMAGE, SHOW_PREVIOUS_IMAGE
-	};
+	private EMenuItem item;
 	
-	private MENU_ITEM item;
-	
-	public MenuItemEvent(MENU_ITEM item) {
+	public MenuItemEvent(EMenuItem item) {
 		this.item = item;
 	}
 	
@@ -34,7 +30,7 @@ public class MenuItemEvent extends GwtEvent<MenuItemEventEventHandler> {
 		handler.menuItem(this);
 	}
 	
-	public MENU_ITEM getItem() {
+	public EMenuItem getItem() {
 		return item;
 	}
 }

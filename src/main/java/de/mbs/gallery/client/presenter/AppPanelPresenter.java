@@ -4,8 +4,8 @@ import com.google.gwt.place.shared.Place;
 
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.event.ChangeNavbarEvent;
+import de.mbs.gallery.client.event.EMenuItem;
 import de.mbs.gallery.client.event.MenuItemEvent;
-import de.mbs.gallery.client.event.MenuItemEvent.MENU_ITEM;
 import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.view.AppPanel;
 
@@ -40,15 +40,15 @@ public class AppPanelPresenter {
 	}
 
 	public void showGallery() {
-		factory.eventBus().fireEvent(new MenuItemEvent(MENU_ITEM.SHOW_GALLERY));
+		factory.eventBus().fireEvent(new MenuItemEvent(EMenuItem.SHOW_GALLERY));
 	}
 
 	public void previousImage() {
-		factory.eventBus().fireEvent(new MenuItemEvent(MENU_ITEM.SHOW_PREVIOUS_IMAGE));
+		factory.eventBus().fireEvent(new MenuItemEvent(EMenuItem.SHOW_PREVIOUS_IMAGE));
 	}
 
 	public void nextImage() {
-		factory.eventBus().fireEvent(new MenuItemEvent(MENU_ITEM.SHOW_NEXT_IMAGE));
+		factory.eventBus().fireEvent(new MenuItemEvent(EMenuItem.SHOW_NEXT_IMAGE));
 	}
 
 	public void setView(AppPanel view) {
