@@ -1,7 +1,6 @@
 package de.mbs.gallery.client.presenter;
 
 import com.google.gwt.place.shared.Place;
-import com.google.gwt.user.client.Window;
 
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.event.ChangeFilterEvent;
