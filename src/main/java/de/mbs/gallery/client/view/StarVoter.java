@@ -45,6 +45,8 @@ public class StarVoter extends Composite {
 			initStars(image.getVote());
 		}
 		
+		$("#starVoter"+image.getId()+" label").text(image.getFile());
+		
 		$("#starVoter"+image.getId()+" span").click(new Function() {
 			@Override
 			public boolean f(Event e) {

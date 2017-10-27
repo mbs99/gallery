@@ -6,7 +6,7 @@ public interface GalleryImage extends JsonBuilder {
 	
 	String getId();
 	
-	String getFilename();
+	String getFile();
 	
 	Integer getVote();
 	

@@ -63,7 +63,7 @@ public class ImageContainer extends Composite {
 		
 		Image img = new Image();
 		img.setUrl(url);
-		img.setAltText(image.getFilename());
+		img.setAltText(image.getFile());
 		img.setStyleName("galleryImage");
 		img.getElement().setId(image.getId());
 		

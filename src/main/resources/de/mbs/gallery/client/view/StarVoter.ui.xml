@@ -3,9 +3,14 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 
 	<g:HTMLPanel styleName="starVoter">
-		<span class="material-icons" style="width:1em" data-stars="1">star_rate</span>
-		<span class="material-icons" style="width:1em" data-stars="2">star_rate</span>
-		<span class="material-icons" style="width:1em" data-stars="3">star_rate</span>
+		<div>
+			<span class="material-icons" style="width:1em" data-stars="1">star_rate</span>
+			<span class="material-icons" style="width:1em" data-stars="2">star_rate</span>
+			<span class="material-icons" style="width:1em" data-stars="3">star_rate</span>
+		</div>
+		<div>
+			<label/>
+		</div>
 	</g:HTMLPanel>
 
 </ui:UiBinder>

@@ -76,7 +76,7 @@ public class ImageView extends Composite {
 		
 		Image img = new Image();
 		img.setUrl(url);
-		img.setAltText(galleryImage.getFilename());
+		img.setAltText(galleryImage.getFile());
 		img.setStyleName("galleryImageFs");
 		img.getElement().setId(galleryImage.getId());
 		img.addLoadHandler(new LoadHandler() {
