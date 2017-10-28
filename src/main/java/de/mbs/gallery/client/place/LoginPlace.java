@@ -5,13 +5,16 @@ import com.google.gwt.place.shared.PlaceTokenizer;
 
 public class LoginPlace extends Place {
 	
-	private String redirect;
+	private Place redirect;
+	
+	public LoginPlace(String redirect) {
+	    }
 
-    public LoginPlace(String redirect) {
+    public LoginPlace(Place redirect) {
        this.redirect = redirect;
     }
 
-	public String getRedirect() {
+	public Place getRedirect() {
     	return redirect;
     }
 

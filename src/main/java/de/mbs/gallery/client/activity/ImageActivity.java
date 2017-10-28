@@ -134,6 +134,9 @@ public class ImageActivity extends AbstractActivity implements StarVoterPresente
 		Gallery gallery = clientFactory.getViewModel().getGallery(place.getGalleryName());
 		int currentIndex = clientFactory.getViewModel().getSlideshowPos();
 		if(currentIndex < gallery.getImages().length -1) {
+			
+			saveGallery();
+			
 			GalleryImage image = gallery.getImages()[currentIndex + 1];
 			String nextImageId = image.getId();
 			clientFactory.placeController().goTo(new ImagePlace(gallery.getName(), nextImageId));
@@ -145,6 +148,8 @@ public class ImageActivity extends AbstractActivity implements StarVoterPresente
 		int currentIndex = clientFactory.getViewModel().getSlideshowPos();
 		
 		if(currentIndex > 0) {
+			
+			saveGallery();
 			
 			GalleryImage image = gallery.getImages()[currentIndex - 1];
 			String previousImageId = image.getId();
@@ -168,5 +173,24 @@ public class ImageActivity extends AbstractActivity implements StarVoterPresente
 				break;
 			}
 		}
+	}
+	
+	private void saveGallery() {
+		GalleryResources res = clientFactory.galleryResources();
+		Gallery gallery = clientFactory.getViewModel().getGallery(place.getGalleryName());
+		res.saveGallery(gallery, new Callback<Void, String>() {
+
+			@Override
+			public void onFailure(String reason) {
+				Window.alert(reason);
+				
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				view.onSaveGallery();
+				
+			}
+		});
 	}
 }

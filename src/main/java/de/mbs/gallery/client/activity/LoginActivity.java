@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.GalleryResources;
 import de.mbs.gallery.client.model.Authorization;
-import de.mbs.gallery.client.place.AdminPlace;
 import de.mbs.gallery.client.place.LoginPlace;
 import de.mbs.gallery.client.view.LoginView;
 
@@ -57,9 +56,7 @@ public class LoginActivity extends AbstractActivity {
 				auth.setPassword(result.getPassword());
 				auth.setUser(result.getUser());
 				
-				Window.alert(place.getRedirect());
-				
-				clientFactory.placeController().goTo(new AdminPlace(""));
+				clientFactory.placeController().goTo(place.getRedirect());
 			}
 			
 			@Override

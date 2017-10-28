@@ -118,6 +118,8 @@ public class GalleryActivity extends AbstractActivity implements StarVoterPresen
 		Gallery gallery = model.getGallery(place.getId());
 		
 		if(null != gallery) {
+			
+			saveGallery();
 		
 			/*String cachedGalleryJson = JsUtils.jsni("sessionStorage.getItem", place.getId());
 			
@@ -173,11 +175,11 @@ public class GalleryActivity extends AbstractActivity implements StarVoterPresen
 	public void saveGallery() {
 		GalleryResources res = clientFactory.galleryResources();
 		Gallery gallery = model.getGallery(place.getId());
-		res.saveGallery(null, gallery, new Callback<Void, String>() {
+		res.saveGallery(gallery, new Callback<Void, String>() {
 
 			@Override
 			public void onFailure(String reason) {
-				// TODO Auto-generated method stub
+				Window.alert(reason);
 				
 			}
 

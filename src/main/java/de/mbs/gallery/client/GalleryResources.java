@@ -60,12 +60,9 @@ public class GalleryResources {
 		
 	}
 	
-	public void saveGallery(Authorization authorization, Gallery gallery, Callback<Void, String> callback) {
+	public void saveGallery(Gallery gallery, Callback<Void, String> callback) {
 		
 		Settings settings = Ajax.createSettings();
-		settings.setWithCredentials(true);
-		settings.setUsername(authorization.getUser());
-		settings.setPassword(authorization.getPassword());
 		settings.setUrl(GWT.getHostPageBaseURL() + "api/gallery/" + gallery.getName());
 		settings.setType("post");
 		

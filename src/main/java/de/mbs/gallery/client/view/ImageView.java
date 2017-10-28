@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
+import com.google.gwt.query.client.Console;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
@@ -55,6 +56,8 @@ public class ImageView extends Composite {
 	@Override
 	protected void onLoad() {
 		
+		logger.finest("onLoad");
+		
 		super.onLoad();
 	}
 	
@@ -62,12 +65,18 @@ public class ImageView extends Composite {
 	protected void onUnload() {
 		super.onUnload();
 		
+		logger.finest("onUnload");
+		
 		$("#nextImageButton").off();
 		$("#previousImageButton").off();
 		$("#galleryButton").off();
+		
 	}
 
 	public void setImage(GalleryImage image, String url, int index) {
+		
+		logger.finest("setImage");
+		
 		this.galleryImage = image;
 		this.index = index;
 		
@@ -93,5 +102,9 @@ public class ImageView extends Composite {
 		voterContainer.clear();
 		voterContainer.add(voter);
 		
+	}
+
+	public void onSaveGallery() {
+		logger.finest("onSaveGallery");
 	}
 }

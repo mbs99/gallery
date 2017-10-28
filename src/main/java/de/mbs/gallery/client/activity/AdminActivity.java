@@ -36,12 +36,11 @@ public class AdminActivity extends AbstractActivity {
 			clientFactory.eventBus().fireEvent(new ChangeNavbarEvent(NAVBAR_TYPE.ADMIN_VIEW));
 	
 			this.view = clientFactory.getAdminView(this);
-			GalleryResources res = clientFactory.galleryResources();
 	
 			parent.setWidget(view.asWidget());
 		}
 		else {
-			clientFactory.placeController().goTo(new LoginPlace(Window.Location.getHref()));
+			clientFactory.placeController().goTo(new LoginPlace(place));
 		}
 
 	}
