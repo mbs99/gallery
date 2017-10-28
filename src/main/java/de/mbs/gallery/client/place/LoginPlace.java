@@ -5,20 +5,20 @@ import com.google.gwt.place.shared.PlaceTokenizer;
 
 public class LoginPlace extends Place {
 	
-	private String id;
+	private String redirect;
 
-    public LoginPlace(String id) {
-       this.id = id;
+    public LoginPlace(String redirect) {
+       this.redirect = redirect;
     }
 
-	public String getId() {
-    	return id;
+	public String getRedirect() {
+    	return redirect;
     }
 
     public static class Tokenizer implements PlaceTokenizer<LoginPlace> {
         @Override
         public String getToken(LoginPlace place) {
-            return place.id;
+            return "";
         }
 
         @Override

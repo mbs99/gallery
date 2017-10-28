@@ -86,5 +86,25 @@ public class GalleryResources {
  			}
  		});
 	}
+	
+	public void logout(Callback<Void, String> callback) {
+		Ajax.post(GWT.getHostPageBaseURL() + "api/logout", null)
+ 		.done(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				callback.onSuccess(null);
+ 				
+ 				return null;
+ 			}
+ 		})
+ 		.fail(new Function() {
+ 			@Override
+ 			public void f() {
+ 				callback.onFailure("bla");
+ 			}
+ 		});
+		
+	}
 
 }

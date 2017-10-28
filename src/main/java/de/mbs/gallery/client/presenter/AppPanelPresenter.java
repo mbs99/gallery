@@ -1,12 +1,15 @@
 package de.mbs.gallery.client.presenter;
 
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.place.shared.Place;
+import com.google.gwt.user.client.Window;
 
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.event.ChangeFilterEvent;
 import de.mbs.gallery.client.event.ChangeNavbarEvent;
 import de.mbs.gallery.client.event.EMenuItem;
 import de.mbs.gallery.client.event.MenuItemEvent;
+import de.mbs.gallery.client.model.Authorization;
 import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.view.AppPanel;
 
@@ -93,7 +96,21 @@ public class AppPanelPresenter {
 	}
 
 	public void logout() {
-		// TODO Auto-generated method stub
+		factory.galleryResources().logout(new Callback<Void, String>() {
+			
+			@Override
+			public void onSuccess(Void result) {
+				Authorization auth = factory.getAuthorization();
+				auth.setUser(null);
+				auth.setPassword(null);		
+			}
+			
+			@Override
+			public void onFailure(String reason) {
+				Window.alert(reason);
+				
+			}
+		});
 		
 	}
 }

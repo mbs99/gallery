@@ -3,13 +3,14 @@ package de.mbs.gallery.client.activity;
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.query.client.GQ;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.GalleryResources;
 import de.mbs.gallery.client.model.Authorization;
-import de.mbs.gallery.client.place.GalleryPlace;
+import de.mbs.gallery.client.place.AdminPlace;
 import de.mbs.gallery.client.place.LoginPlace;
 import de.mbs.gallery.client.view.LoginView;
 
@@ -41,18 +42,24 @@ public class LoginActivity extends AbstractActivity {
 
 	public void authorize(String user, String pwd) {
 		
-		Authorization auth = clientFactory.getAuthorization();
-		auth.setPassword(pwd);
-		auth.setUser(user);
-		
 		GalleryResources res = clientFactory.galleryResources();
+		
+		Authorization auth = GQ.create(Authorization.class);
+		auth.setUser(user);
+		auth.setPassword(pwd);
 		
 		res.login(auth, new Callback<Authorization, String>() {
 			
 			@Override
 			public void onSuccess(Authorization result) {
-				clientFactory.placeController().goTo(new GalleryPlace("dummy"));
 				
+				Authorization auth = clientFactory.getAuthorization();
+				auth.setPassword(result.getPassword());
+				auth.setUser(result.getUser());
+				
+				Window.alert(place.getRedirect());
+				
+				clientFactory.placeController().goTo(new AdminPlace(""));
 			}
 			
 			@Override
