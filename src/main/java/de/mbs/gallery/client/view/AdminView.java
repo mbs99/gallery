@@ -7,6 +7,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.mbs.gallery.client.activity.AdminActivity;
@@ -15,7 +16,7 @@ import de.mbs.gallery.client.activity.AdminActivity;
 public class AdminView extends Composite {
 	
 	@UiField
-	FormPanel adminViewPanel;
+	HTMLPanel adminViewPanel;
 	
 	AdminActivity presenter;
 	

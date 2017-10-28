@@ -6,6 +6,8 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.GalleryResources;
+import de.mbs.gallery.client.event.ChangeNavbarEvent;
+import de.mbs.gallery.client.event.ChangeNavbarEvent.NAVBAR_TYPE;
 import de.mbs.gallery.client.place.AdminPlace;
 import de.mbs.gallery.client.view.AdminView;
 
@@ -24,6 +26,8 @@ public class AdminActivity extends AbstractActivity {
 
 	@Override
 	public void start(AcceptsOneWidget parent, EventBus eventBus) {
+		
+		clientFactory.eventBus().fireEvent(new ChangeNavbarEvent(NAVBAR_TYPE.ADMIN_VIEW));
 
 		this.view = clientFactory.getAdminView(this);
 		GalleryResources res = clientFactory.galleryResources();

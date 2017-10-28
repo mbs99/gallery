@@ -77,6 +77,12 @@ public class AppPanelPresenter {
 			view.setNavbar(factory.getImageViewNavbar(this));
 		}
 		break;
+		
+		case ADMIN_VIEW: {
+			view.setNavbar(factory.getAdminViewNavbar(this));
+		}
+		break;
+		
 		default:
 		break;
 		}
@@ -84,5 +90,10 @@ public class AppPanelPresenter {
 	
 	private void handleChangeFilter(ChangeFilterEvent event) {
 		view.setFilter(event.getFilter());
+	}
+
+	public void logout() {
+		// TODO Auto-generated method stub
+		
 	}
 }

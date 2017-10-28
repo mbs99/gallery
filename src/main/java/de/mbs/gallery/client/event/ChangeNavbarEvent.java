@@ -7,7 +7,7 @@ import de.mbs.gallery.client.event.ChangeNavbarEvent.ChangeNavbarEventEventHandl
 
 public class ChangeNavbarEvent extends GwtEvent<ChangeNavbarEventEventHandler> {
 	
-	public enum NAVBAR_TYPE { GALLERY_VIEW, IMAGE_VIEW};
+	public enum NAVBAR_TYPE { GALLERY_VIEW, IMAGE_VIEW, ADMIN_VIEW};
 	private NAVBAR_TYPE navbarType;
 	
 	public ChangeNavbarEvent(NAVBAR_TYPE navbarType) {

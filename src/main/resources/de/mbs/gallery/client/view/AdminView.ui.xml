@@ -1,17 +1,70 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui"
-	xmlns:view="urn:import:de.mbs.gallery.client.view">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:view="urn:import:de.mbs.gallery.client.view">
 
-	<g:FormPanel ui:field="adminViewPanel" styleName="row">
-		<g:HTMLPanel styleName="one-half column">
-			<label for="username"></label>
-			<input id="username"></input>
+	<g:HTMLPanel ui:field="adminViewPanel">
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="twelve columns">
+				<h5>Benutzer anlegen</h5>
+			</g:HTMLPanel>
 		</g:HTMLPanel>
-		<g:HTMLPanel styleName="one-half column">
-			<label for="password"></label>
-			<input id="password"></input>
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="one-half column">
+				<label for="username">Benutzer</label>
+				<input id="username" type="text"></input>
+			</g:HTMLPanel>
+			<g:HTMLPanel styleName="one-half column">
+				<label for="password">Passwort</label>
+				<input id="password" type="password"></input>
+				<label for="password2">Passwort wiederholen</label>
+				<input id="password2" type="password"></input>
+			</g:HTMLPanel>
 		</g:HTMLPanel>
-	</g:FormPanel>
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="twelve columns">
+				<button class="button">Benutzer anlegen</button>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="twelve columns">
+				<h5>Benutzer zu Gallerie hinzuf&uuml;gen</h5>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="one-half column">
+				<label for="gallery">Gallerie</label>
+				<select id="gallery"></select>
+			</g:HTMLPanel>
+			<g:HTMLPanel styleName="one-half column">
+				<label for="galleryUser">Benutzer</label>
+				<select id="galleryUser" ></select>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="twelve columns">
+				<button class="button">Benutzer hinzuf&uuml;gen</button>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="twelve columns">
+				<h5>Admin-Passwort</h5>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="one-half column">
+				<label for="adminPassword">Admin-Passwort</label>
+				<input id="adminPassword" type="password"></input>
+			</g:HTMLPanel>
+			<g:HTMLPanel styleName="one-half column">
+				<label for="adminPassword2">Admin-Passwort wiederholen</label>
+				<input id="adminPassword2" type="password"></input>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="twelve columns">
+				<button class="button">Admin-Passwort &auml;ndern</button>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+	</g:HTMLPanel>
 
 </ui:UiBinder>
