@@ -11,6 +11,7 @@ import de.mbs.gallery.client.event.EMenuItem;
 import de.mbs.gallery.client.event.MenuItemEvent;
 import de.mbs.gallery.client.model.Authorization;
 import de.mbs.gallery.client.place.GalleryPlace;
+import de.mbs.gallery.client.place.LogoutPlace;
 import de.mbs.gallery.client.view.AppPanel;
 
 public class AppPanelPresenter {
@@ -87,6 +88,7 @@ public class AppPanelPresenter {
 		break;
 		
 		default:
+			view.setNavbar(factory.getDefaultNavbar(this));
 		break;
 		}
 	}
@@ -102,13 +104,16 @@ public class AppPanelPresenter {
 			public void onSuccess(Void result) {
 				Authorization auth = factory.getAuthorization();
 				auth.setUser(null);
-				auth.setPassword(null);		
+				auth.setPassword(null);
+				
+				factory.placeController().goTo(new LogoutPlace());
 			}
 			
 			@Override
 			public void onFailure(String reason) {
 				Window.alert(reason);
 				
+				factory.placeController().goTo(new LogoutPlace());
 			}
 		});
 		

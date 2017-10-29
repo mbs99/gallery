@@ -2,8 +2,8 @@ package de.mbs.gallery.client.activity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
-import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.query.client.GQ;
@@ -14,7 +14,7 @@ import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.GalleryResources;
 import de.mbs.gallery.client.event.ChangeFilterEvent;
 import de.mbs.gallery.client.event.ChangeNavbarEvent;
-import de.mbs.gallery.client.event.ChangeNavbarEvent.NAVBAR_TYPE;
+import de.mbs.gallery.client.event.ENavbarType;
 import de.mbs.gallery.client.model.Gallery;
 import de.mbs.gallery.client.model.GalleryImage;
 import de.mbs.gallery.client.model.ViewModel;
@@ -23,23 +23,23 @@ import de.mbs.gallery.client.place.ImagePlace;
 import de.mbs.gallery.client.presenter.StarVoterPresenter;
 import de.mbs.gallery.client.view.GalleryView;
 
-public class GalleryActivity extends AbstractActivity implements StarVoterPresenter {
+public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace> implements StarVoterPresenter {
 
-	GalleryPlace place;
-	ClientFactory clientFactory;
 	GalleryView view;
 	ViewModel model;
+	
+	private static final Logger logger = Logger.getLogger("GalleryActivity");
+	
 
 	public GalleryActivity(GalleryPlace place, ClientFactory clientFactory) {
-		super();
-
-		this.place = place;
-		this.clientFactory = clientFactory;
+		super(place, clientFactory);
 		this.model = clientFactory.getViewModel();
 	}
 
 	public GalleryActivity(ClientFactory clientFactory) {
-		this.clientFactory = clientFactory;
+		
+		super(null, clientFactory);
+		
 		this.model = clientFactory.getViewModel();
 	}
 	
@@ -50,65 +50,71 @@ public class GalleryActivity extends AbstractActivity implements StarVoterPresen
 	@Override
 	public void start(AcceptsOneWidget parent, EventBus eventBus) {
 		
-		clientFactory.eventBus().fireEvent(new ChangeNavbarEvent(NAVBAR_TYPE.GALLERY_VIEW));
-		clientFactory.eventBus().fireEvent(new ChangeFilterEvent(place.getFilter()));
-
-		this.view = clientFactory.galleryView(this);
-		GalleryResources res = clientFactory.galleryResources();
+		if(isAuthorized()) {
 		
-		if(null == model.getGallery(place.getId())) {
-
-			res.getGallery(place.getId(), new Callback<Gallery, String>() {
+			clientFactory.eventBus().fireEvent(new ChangeNavbarEvent(ENavbarType.GALLERY_VIEW));
+			clientFactory.eventBus().fireEvent(new ChangeFilterEvent(place.getFilter()));
 	
-				@Override
-				public void onSuccess(Gallery result) {
-					
-					Gallery gallery = result;
-					
-					model.setGallery(gallery);
-					
-					
-					if(null != place.getFilter()) {
-						if(place.getFilter().equals("1Star")) {
-							
-							gallery = filterGalleryImagesByVote(result, new Integer(1));
+			this.view = clientFactory.galleryView(this);
+			GalleryResources res = clientFactory.galleryResources();
+			
+			if(null == model.getGallery(place.getId())) {
+	
+				res.getGallery(place.getId(), new Callback<Gallery, String>() {
+		
+					@Override
+					public void onSuccess(Gallery result) {
+						
+						Gallery gallery = result;
+						
+						model.setGallery(gallery);
+						
+						
+						if(null != place.getFilter()) {
+							if(place.getFilter().equals("1Star")) {
+								
+								gallery = filterGalleryImagesByVote(result, new Integer(1));
+							}
+							else if(place.getFilter().equals("2Stars")) {
+								gallery = filterGalleryImagesByVote(result, new Integer(2));
+							}
+							else if(place.getFilter().equals("3Stars")) {
+								gallery = filterGalleryImagesByVote(result, new Integer(3));
+							}
 						}
-						else if(place.getFilter().equals("2Stars")) {
-							gallery = filterGalleryImagesByVote(result, new Integer(2));
-						}
-						else if(place.getFilter().equals("3Stars")) {
-							gallery = filterGalleryImagesByVote(result, new Integer(3));
-						}
+						
+						view.setGallery(gallery);
+						parent.setWidget(view.asWidget());
 					}
-					
-					view.setGallery(gallery);
-					parent.setWidget(view.asWidget());
+		
+					@Override
+					public void onFailure(String reason) {
+						Window.alert(reason);
+		
+					}
+				});
+			}
+			else {
+				Gallery gallery = model.getGallery(place.getId());
+				if(null != place.getFilter()) {
+					if(place.getFilter().equals("1Star")) {
+						
+						gallery = filterGalleryImagesByVote(gallery, new Integer(1));
+					}
+					else if(place.getFilter().equals("2Stars")) {
+						gallery = filterGalleryImagesByVote(gallery, new Integer(2));
+					}
+					else if(place.getFilter().equals("3Stars")) {
+						gallery = filterGalleryImagesByVote(gallery, new Integer(3));
+					}
 				}
-	
-				@Override
-				public void onFailure(String reason) {
-					Window.alert(reason);
-	
-				}
-			});
+				
+				view.setGallery(gallery);
+				parent.setWidget(view.asWidget());
+			}
 		}
 		else {
-			Gallery gallery = model.getGallery(place.getId());
-			if(null != place.getFilter()) {
-				if(place.getFilter().equals("1Star")) {
-					
-					gallery = filterGalleryImagesByVote(gallery, new Integer(1));
-				}
-				else if(place.getFilter().equals("2Stars")) {
-					gallery = filterGalleryImagesByVote(gallery, new Integer(2));
-				}
-				else if(place.getFilter().equals("3Stars")) {
-					gallery = filterGalleryImagesByVote(gallery, new Integer(3));
-				}
-			}
-			
-			view.setGallery(gallery);
-			parent.setWidget(view.asWidget());
+			redirectToLogin();
 		}
 	}
 	
@@ -179,7 +185,7 @@ public class GalleryActivity extends AbstractActivity implements StarVoterPresen
 
 			@Override
 			public void onFailure(String reason) {
-				Window.alert(reason);
+				logger.warning(reason);
 				
 			}
 

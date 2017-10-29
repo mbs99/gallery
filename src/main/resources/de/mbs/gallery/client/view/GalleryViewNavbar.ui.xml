@@ -17,6 +17,7 @@
 					<option value="3Stars">3 Sterne</option>
 				</select>
 			</div>
+			<button class="button u-pull-right" id="logoutButton">Abmelden</button>
 			<button class="button u-pull-right">Bestellung abschicken</button>
 		</div>
 	</g:HTMLPanel>

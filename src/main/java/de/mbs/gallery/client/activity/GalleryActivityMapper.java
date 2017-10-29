@@ -10,21 +10,26 @@ import de.mbs.gallery.client.place.AdminPlace;
 import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.place.ImagePlace;
 import de.mbs.gallery.client.place.LoginPlace;
+import de.mbs.gallery.client.place.LogoutPlace;
 
 public class GalleryActivityMapper implements ActivityMapper {
 	private ClientFactory clientFactory;
 
 	public GalleryActivityMapper(ClientFactory clientFactory) {
-		super();
 		this.clientFactory = clientFactory;
 	}
 
 	@Override
 	public Activity getActivity(Place place) {
-		if (place instanceof GalleryPlace) {
-			GalleryActivity galleryActivity = new GalleryActivity(clientFactory);
-			galleryActivity.setPlace((GalleryPlace) place);
-			return galleryActivity;
+		
+		Activity activity = createActivityFromPlace(place);
+		
+		return activity;
+	}
+	
+	private Activity createActivityFromPlace(Place place) {
+		if (place instanceof GalleryPlace) {	 	
+			return new GalleryActivity((GalleryPlace) place, clientFactory);
 		}
 		else if(place instanceof LoginPlace) {
 			return new LoginActivity((LoginPlace)place, clientFactory);
@@ -33,10 +38,10 @@ public class GalleryActivityMapper implements ActivityMapper {
 			return new AdminActivity((AdminPlace)place, clientFactory);
 		}
 		else if(place instanceof ImagePlace) {
-			ImageActivity imageActivity = new ImageActivity(clientFactory);
-			imageActivity.setPlace((ImagePlace)place);
-			
-			return imageActivity;
+			return new ImageActivity((ImagePlace)place, clientFactory);
+		}
+		else if(place instanceof LogoutPlace) {
+			return new LogoutActivity((LogoutPlace)place, clientFactory);
 		}
 		else {
 			Window.alert("Unknown place: " + place);

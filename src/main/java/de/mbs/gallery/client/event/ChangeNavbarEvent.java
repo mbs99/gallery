@@ -7,10 +7,9 @@ import de.mbs.gallery.client.event.ChangeNavbarEvent.ChangeNavbarEventEventHandl
 
 public class ChangeNavbarEvent extends GwtEvent<ChangeNavbarEventEventHandler> {
 	
-	public enum NAVBAR_TYPE { GALLERY_VIEW, IMAGE_VIEW, ADMIN_VIEW};
-	private NAVBAR_TYPE navbarType;
+	private ENavbarType navbarType;
 	
-	public ChangeNavbarEvent(NAVBAR_TYPE navbarType) {
+	public ChangeNavbarEvent(ENavbarType navbarType) {
 		this.navbarType = navbarType;
 	}
 	
@@ -31,7 +30,7 @@ public class ChangeNavbarEvent extends GwtEvent<ChangeNavbarEventEventHandler> {
 		handler.changeNavbar(this);
 	}
 	
-	public NAVBAR_TYPE getNavbarType() {
+	public ENavbarType getNavbarType() {
 		return navbarType;
 	}
 }

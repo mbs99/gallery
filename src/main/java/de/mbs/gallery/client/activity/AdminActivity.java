@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.GalleryResources;
 import de.mbs.gallery.client.event.ChangeNavbarEvent;
-import de.mbs.gallery.client.event.ChangeNavbarEvent.NAVBAR_TYPE;
+import de.mbs.gallery.client.event.ENavbarType;
 import de.mbs.gallery.client.model.Authorization;
 import de.mbs.gallery.client.place.AdminPlace;
 import de.mbs.gallery.client.place.LoginPlace;
@@ -33,7 +33,7 @@ public class AdminActivity extends AbstractActivity {
 		Authorization auth = clientFactory.getAuthorization();
 		if(auth.getUser() != null) {
 		
-			clientFactory.eventBus().fireEvent(new ChangeNavbarEvent(NAVBAR_TYPE.ADMIN_VIEW));
+			clientFactory.eventBus().fireEvent(new ChangeNavbarEvent(ENavbarType.ADMIN_VIEW));
 	
 			this.view = clientFactory.getAdminView(this);
 	

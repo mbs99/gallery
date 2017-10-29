@@ -22,7 +22,7 @@ public class GalleryViewNavbar extends Composite {
 	interface GalleryViewNavbarUiBinder extends UiBinder<Widget, GalleryViewNavbar> {
 	}
 	
-	private static final Logger logger = Logger.getLogger("GalleryView");
+	private static final Logger logger = Logger.getLogger("GalleryViewNavbar");
 	
 	private AppPanelPresenter presenter;
 
@@ -46,6 +46,16 @@ public class GalleryViewNavbar extends Composite {
     			return true;
     		}
 		});
+		
+		$("#logoutButton").click(new Function() {
+			@Override
+			public boolean f(Event e) {
+				
+				presenter.logout();
+				
+				return false;
+			}
+		});
 	}
 	
 	@Override
@@ -53,5 +63,8 @@ public class GalleryViewNavbar extends Composite {
 		super.onUnload();
 		
 		$("#filter").off();
+		$("#logoutButton").off();
+		
+		logger.finest("onUnload");
 	}
 }

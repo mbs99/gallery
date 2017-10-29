@@ -9,6 +9,8 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.GalleryResources;
+import de.mbs.gallery.client.event.ChangeNavbarEvent;
+import de.mbs.gallery.client.event.ENavbarType;
 import de.mbs.gallery.client.model.Authorization;
 import de.mbs.gallery.client.place.LoginPlace;
 import de.mbs.gallery.client.view.LoginView;
@@ -28,6 +30,8 @@ public class LoginActivity extends AbstractActivity {
 
 	@Override
 	public void start(AcceptsOneWidget parent, EventBus eventBus) {
+		
+		clientFactory.eventBus().fireEvent(new ChangeNavbarEvent(ENavbarType.DEFAULT));
 
 		this.view = clientFactory.getLoginView(this);
 
@@ -53,7 +57,6 @@ public class LoginActivity extends AbstractActivity {
 			public void onSuccess(Authorization result) {
 				
 				Authorization auth = clientFactory.getAuthorization();
-				auth.setPassword(result.getPassword());
 				auth.setUser(result.getUser());
 				
 				clientFactory.placeController().goTo(place.getRedirect());

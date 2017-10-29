@@ -9,17 +9,20 @@ import de.mbs.gallery.client.activity.AdminActivity;
 import de.mbs.gallery.client.activity.GalleryActivity;
 import de.mbs.gallery.client.activity.ImageActivity;
 import de.mbs.gallery.client.activity.LoginActivity;
+import de.mbs.gallery.client.activity.LogoutActivity;
 import de.mbs.gallery.client.model.Authorization;
 import de.mbs.gallery.client.model.ViewModel;
 import de.mbs.gallery.client.presenter.AppPanelPresenter;
 import de.mbs.gallery.client.view.AdminView;
 import de.mbs.gallery.client.view.AdminViewNavbar;
 import de.mbs.gallery.client.view.AppPanel;
+import de.mbs.gallery.client.view.DefaultNavbar;
 import de.mbs.gallery.client.view.GalleryView;
 import de.mbs.gallery.client.view.GalleryViewNavbar;
 import de.mbs.gallery.client.view.ImageView;
 import de.mbs.gallery.client.view.ImageViewNavbar;
 import de.mbs.gallery.client.view.LoginView;
+import de.mbs.gallery.client.view.LogoutView;
 
 public class ClientFactory {
 	
@@ -83,5 +86,14 @@ public class ClientFactory {
 	public AdminViewNavbar getAdminViewNavbar(AppPanelPresenter presenter) {
 		
 		return new AdminViewNavbar(presenter);
+	}
+
+	public DefaultNavbar getDefaultNavbar(AppPanelPresenter presenter) {
+		
+		return new DefaultNavbar(presenter);
+	}
+
+	public LogoutView getLogoutView(LogoutActivity presenter) {
+		return new LogoutView(presenter);
 	}
 }

@@ -1,6 +1,5 @@
 package de.mbs.gallery.client.activity;
 
-import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
@@ -12,7 +11,7 @@ import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.GalleryResources;
 import de.mbs.gallery.client.event.ChangeNavbarEvent;
 import de.mbs.gallery.client.event.MenuItemEvent;
-import de.mbs.gallery.client.event.ChangeNavbarEvent.NAVBAR_TYPE;
+import de.mbs.gallery.client.event.ENavbarType;
 import de.mbs.gallery.client.model.Gallery;
 import de.mbs.gallery.client.model.GalleryImage;
 import de.mbs.gallery.client.place.GalleryPlace;
@@ -20,23 +19,17 @@ import de.mbs.gallery.client.place.ImagePlace;
 import de.mbs.gallery.client.presenter.StarVoterPresenter;
 import de.mbs.gallery.client.view.ImageView;
 
-public class ImageActivity extends AbstractActivity implements StarVoterPresenter {
+public class ImageActivity extends AbstractGalleryActivity<ImagePlace> implements StarVoterPresenter {
 
-	ImagePlace place;
-	ClientFactory clientFactory;
 	ImageView view;
 	HandlerRegistration handler;
 
 	public ImageActivity(ImagePlace place, ClientFactory clientFactory) {
-		super();
-
-		this.place = place;
-		this.clientFactory = clientFactory;
-		
+		super(place, clientFactory);
 	}
 
 	public ImageActivity(ClientFactory clientFactory) {
-		this.clientFactory = clientFactory;
+		super(null, clientFactory);
 	}
 	
 	public void setPlace(ImagePlace place) {
@@ -46,75 +39,81 @@ public class ImageActivity extends AbstractActivity implements StarVoterPresente
 	@Override
 	public void start(AcceptsOneWidget parent, EventBus eventBus) {
 		
-		clientFactory.eventBus().fireEvent(new ChangeNavbarEvent(NAVBAR_TYPE.IMAGE_VIEW));
+		if(isAuthorized()) {
 		
-		handler = clientFactory.eventBus().addHandler(MenuItemEvent.TYPE, new MenuItemEvent.MenuItemEventEventHandler() {
+			clientFactory.eventBus().fireEvent(new ChangeNavbarEvent(ENavbarType.IMAGE_VIEW));
 			
-			@Override
-			public void menuItem(MenuItemEvent event) {
-				switch (event.getItem()) {
-				case SHOW_GALLERY:
-					showGallery();
-					break;
-				case SHOW_NEXT_IMAGE:
-					nextImage();
-					break;
-				case SHOW_PREVIOUS_IMAGE:
-					previousImage();
-					break;
-
-				default:
-					break;
-				}
-			}
-		});
-		
-		this.view = clientFactory.getImageView(this);
-		
-		GalleryResources res = clientFactory.galleryResources();
-		
-		Gallery gallery = clientFactory.getViewModel().getGallery(place.getGalleryName());
-		if(null != gallery) {
-			int pos = 0;
-			for(GalleryImage iter : gallery.getImages()) {
-				if(iter.getId().equals(place.getImageId())) {
-					String url = getImageUrl(gallery, iter);
-					view.setImage(iter, url, pos);
-					clientFactory.getViewModel().setSlideshowPos(pos);
-					break;
-				}
-				pos++;
-			}
-			
-			parent.setWidget(view.asWidget());
-		}
-		else {
-
-			res.getGallery(place.getGalleryName(), new Callback<Gallery, String>() {
-	
+			handler = clientFactory.eventBus().addHandler(MenuItemEvent.TYPE, new MenuItemEvent.MenuItemEventEventHandler() {
+				
 				@Override
-				public void onSuccess(Gallery result) {
-					
-					Gallery gallery = result;
-					clientFactory.getViewModel().setGallery(gallery);
-					int pos =0;
-					for(GalleryImage iter : result.getImages()) {
-						if(iter.getId().equals(place.getImageId())) {
-							String url = getImageUrl(result, iter);
-							view.setImage(iter, url, pos);
-							clientFactory.getViewModel().setSlideshowPos(pos);
-						}
-						pos++;
+				public void menuItem(MenuItemEvent event) {
+					switch (event.getItem()) {
+					case SHOW_GALLERY:
+						showGallery();
+						break;
+					case SHOW_NEXT_IMAGE:
+						nextImage();
+						break;
+					case SHOW_PREVIOUS_IMAGE:
+						previousImage();
+						break;
+	
+					default:
+						break;
 					}
-					parent.setWidget(view.asWidget());
-				}
-	
-				@Override
-				public void onFailure(String reason) {
-					Window.alert(reason);
-	
 				}
 			});
+			
+			this.view = clientFactory.getImageView(this);
+			
+			GalleryResources res = clientFactory.galleryResources();
+			
+			Gallery gallery = clientFactory.getViewModel().getGallery(place.getGalleryName());
+			if(null != gallery) {
+				int pos = 0;
+				for(GalleryImage iter : gallery.getImages()) {
+					if(iter.getId().equals(place.getImageId())) {
+						String url = getImageUrl(gallery, iter);
+						view.setImage(iter, url, pos);
+						clientFactory.getViewModel().setSlideshowPos(pos);
+						break;
+					}
+					pos++;
+				}
+				
+				parent.setWidget(view.asWidget());
+			}
+			else {
+	
+				res.getGallery(place.getGalleryName(), new Callback<Gallery, String>() {
+		
+					@Override
+					public void onSuccess(Gallery result) {
+						
+						Gallery gallery = result;
+						clientFactory.getViewModel().setGallery(gallery);
+						int pos =0;
+						for(GalleryImage iter : result.getImages()) {
+							if(iter.getId().equals(place.getImageId())) {
+								String url = getImageUrl(result, iter);
+								view.setImage(iter, url, pos);
+								clientFactory.getViewModel().setSlideshowPos(pos);
+							}
+							pos++;
+						}
+						parent.setWidget(view.asWidget());
+					}
+		
+					@Override
+					public void onFailure(String reason) {
+						Window.alert(reason);
+		
+					}
+				});
+			}
+		}
+		else {
+			redirectToLogin();
 		}
 	}
 	

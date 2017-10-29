@@ -67,5 +67,26 @@ public class ImageViewNavbar extends Composite {
 				return false;
 			}
 		});
+		
+		$("#logoutButton").click(new Function() {
+			@Override
+			public boolean f(Event e) {
+				
+				presenter.logout();
+				
+				return false;
+			}
+		});
+	}
+	
+	@Override
+	protected void onUnload() {
+		super.onUnload();
+		
+		$("#nextImageButton").off();
+		$("#previousImageButton").off();
+		$("#galleryButton").off();
+		$("#logoutButton").off();
+		
 	}
 }

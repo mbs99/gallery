@@ -6,6 +6,7 @@ import com.google.gwt.query.client.Function;
 import com.google.gwt.query.client.GQ;
 import com.google.gwt.query.client.plugins.ajax.Ajax;
 import com.google.gwt.query.client.plugins.ajax.Ajax.Settings;
+import com.google.gwt.user.client.Window;
 
 import de.mbs.gallery.client.model.Authorization;
 import de.mbs.gallery.client.model.Gallery;
@@ -54,6 +55,7 @@ public class GalleryResources {
  		.fail(new Function() {
  			@Override
  			public void f() {
+ 				
  				callback.onFailure("bla");
  			}
  		});
@@ -79,7 +81,7 @@ public class GalleryResources {
  		.fail(new Function() {
  			@Override
  			public void f() {
- 				callback.onFailure("bla");
+ 				callback.onFailure("");
  			}
  		});
 	}
