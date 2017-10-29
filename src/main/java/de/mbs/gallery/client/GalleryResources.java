@@ -10,6 +10,9 @@ import com.google.gwt.user.client.Window;
 
 import de.mbs.gallery.client.model.Authorization;
 import de.mbs.gallery.client.model.Gallery;
+import de.mbs.gallery.client.model.GalleryList;
+import de.mbs.gallery.client.model.UserAccount;
+import de.mbs.gallery.client.model.UsernameList;
 
 public class GalleryResources {
 
@@ -104,6 +107,124 @@ public class GalleryResources {
  			@Override
  			public void f() {
  				callback.onFailure("bla");
+ 			}
+ 		});
+		
+	}
+
+	public void getUsers(Callback<String[], String> callback) {
+		Settings settings = Ajax.createSettings();
+		settings.setUrl(GWT.getHostPageBaseURL() + "api/admin/users");
+		settings.setType("get");
+		
+		Ajax.ajax(settings)
+		.done(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				UsernameList users = GQ.create(UsernameList.class, (String)args[0]);
+ 				
+ 				callback.onSuccess(users.getUsers());
+ 				
+ 				return null;
+ 			}
+ 		})
+ 		.fail(new Function() {
+ 			@Override
+ 			public void f() {
+ 				callback.onFailure("");
+ 			}
+ 		});
+		
+	}
+	
+	public void getGalleries(Callback<String[], String> callback) {
+		Settings settings = Ajax.createSettings();
+		settings.setUrl(GWT.getHostPageBaseURL() + "api/galleries");
+		settings.setType("get");
+		
+		Ajax.ajax(settings)
+		.done(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				GalleryList galleries = GQ.create(GalleryList.class);
+ 				
+ 				galleries.parse( (String)args[0]);
+ 				
+ 				callback.onSuccess(galleries.getGalleries());
+ 				
+ 				return null;
+ 			}
+ 		})
+ 		.fail(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				Window.alert((String)args[0]);
+ 				
+ 				return null;
+ 			}
+ 		});
+		
+	}
+	
+	public void addUserToGallery(String user, String gallery, Callback<Void, String> callback) {
+		Settings settings = Ajax.createSettings();
+		settings.setUrl(GWT.getHostPageBaseURL()
+				+ "/api/admin/gallery/"
+				+ gallery + "/user/"
+				+ user);
+		settings.setType("post");
+		
+		Ajax.ajax(settings)
+		.done(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				callback.onSuccess(null);
+ 				
+ 				return null;
+ 			}
+ 		})
+ 		.fail(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				Window.alert((String)args[0]);
+ 				
+ 				return null;
+ 			}
+ 		});
+		
+	}
+	
+	public void createUser(UserAccount user, Callback<Void, String> callback) {
+		Settings settings = Ajax.createSettings();
+		settings.setUrl(GWT.getHostPageBaseURL()
+				+ "/api/admin/user");
+		settings.setType("post");
+		settings.setData(user);
+		settings.setDataType("json");
+		settings.setContentType("application/json");
+		
+		Ajax.ajax(settings)
+		.done(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				callback.onSuccess(null);
+ 				
+ 				return null;
+ 			}
+ 		})
+ 		.fail(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				Window.alert((String)args[0]);
+ 				
+ 				return null;
  			}
  		});
 		

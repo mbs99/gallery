@@ -1,9 +1,8 @@
 package de.mbs.gallery.client.place;
 
-import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;
 
-public class GalleryPlace extends Place {
+public class GalleryPlace extends AbstractGalleryPlace {
 	
 	private String id;
 	private String filter;
@@ -13,6 +12,8 @@ public class GalleryPlace extends Place {
     }
     
     public GalleryPlace(String id, String filter) {
+    	super(id);
+    	
     	this.id = id;
     	this.filter = filter;
 	}

@@ -12,6 +12,7 @@ import de.mbs.gallery.client.GalleryResources;
 import de.mbs.gallery.client.event.ChangeNavbarEvent;
 import de.mbs.gallery.client.event.ENavbarType;
 import de.mbs.gallery.client.model.Authorization;
+import de.mbs.gallery.client.place.AbstractGalleryPlace;
 import de.mbs.gallery.client.place.LoginPlace;
 import de.mbs.gallery.client.view.LoginView;
 
@@ -50,6 +51,10 @@ public class LoginActivity extends AbstractActivity {
 		Authorization auth = GQ.create(Authorization.class);
 		auth.setUser(user);
 		auth.setPassword(pwd);
+		if(place.getRedirect() instanceof AbstractGalleryPlace) {
+			AbstractGalleryPlace redirectPlace = (AbstractGalleryPlace)place.getRedirect();
+			auth.setRoles(new String[]{redirectPlace.getRole()});
+		}
 		
 		res.login(auth, new Callback<Authorization, String>() {
 			
