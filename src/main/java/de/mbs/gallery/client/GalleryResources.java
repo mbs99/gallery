@@ -67,6 +67,9 @@ public class GalleryResources {
 		Settings settings = Ajax.createSettings();
 		settings.setUrl(GWT.getHostPageBaseURL() + "api/gallery/" + gallery.getName());
 		settings.setType("post");
+		settings.setData(gallery);
+		settings.setDataType("json");
+		settings.setContentType("application/json");
 		
 		Ajax.ajax(settings)
 		.done(new Function() {
