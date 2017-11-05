@@ -118,4 +118,8 @@ public class AppPanelPresenter {
 		});
 		
 	}
+
+	public void submitOrder() {
+		factory.eventBus().fireEvent(new MenuItemEvent(EMenuItem.SUBMIT_ORDER));
+	}
 }

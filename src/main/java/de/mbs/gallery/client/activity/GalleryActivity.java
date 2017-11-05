@@ -2,6 +2,7 @@ package de.mbs.gallery.client.activity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.Callback;
@@ -9,12 +10,15 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.query.client.GQ;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.GalleryResources;
 import de.mbs.gallery.client.event.ChangeFilterEvent;
 import de.mbs.gallery.client.event.ChangeNavbarEvent;
+import de.mbs.gallery.client.event.EMenuItem;
 import de.mbs.gallery.client.event.ENavbarType;
+import de.mbs.gallery.client.event.MenuItemEvent;
 import de.mbs.gallery.client.model.Gallery;
 import de.mbs.gallery.client.model.GalleryImage;
 import de.mbs.gallery.client.model.ViewModel;
@@ -27,6 +31,8 @@ public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace> imple
 
 	GalleryView view;
 	ViewModel model;
+	
+	private HandlerRegistration handlerRegistration; 
 	
 	private static final Logger logger = Logger.getLogger("GalleryActivity");
 	
@@ -51,6 +57,17 @@ public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace> imple
 	public void start(AcceptsOneWidget parent, EventBus eventBus) {
 		
 		if(isAuthorized()) {
+			
+			handlerRegistration = clientFactory.eventBus().addHandler(MenuItemEvent.TYPE, new MenuItemEvent.MenuItemEventEventHandler() {
+				
+				@Override
+				public void menuItem(MenuItemEvent event) {
+					if(event.getItem() == EMenuItem.SUBMIT_ORDER) {
+						submitOrder();
+					}
+					
+				}
+			});
 		
 			clientFactory.eventBus().fireEvent(new ChangeNavbarEvent(ENavbarType.GALLERY_VIEW));
 			clientFactory.eventBus().fireEvent(new ChangeFilterEvent(place.getFilter()));
@@ -118,8 +135,43 @@ public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace> imple
 		}
 	}
 	
+	protected void submitOrder() {
+		saveGallery(new Callback<Void, String>() {
+
+			@Override
+			public void onFailure(String reason) {
+				logger.log(Level.SEVERE, reason);
+				
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				
+				clientFactory.galleryResources().submitOrder(new Callback<Void, String>() {
+
+					@Override
+					public void onFailure(String reason) {
+						logger.log(Level.SEVERE, reason);
+						
+					}
+
+					@Override
+					public void onSuccess(Void result) {
+						view.onSubmitOrder();
+						
+					}
+				});
+			}
+		});
+		
+	}
+
 	@Override
 	public void onStop() {
+		
+		if(null != handlerRegistration) {
+			handlerRegistration.removeHandler();
+		}
 		
 		Gallery gallery = model.getGallery(place.getId());
 		
@@ -179,9 +231,7 @@ public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace> imple
 	}
 	
 	public void saveGallery() {
-		GalleryResources res = clientFactory.galleryResources();
-		Gallery gallery = model.getGallery(place.getId());
-		res.saveGallery(gallery, new Callback<Void, String>() {
+		saveGallery(new Callback<Void, String>() {
 
 			@Override
 			public void onFailure(String reason) {
@@ -195,6 +245,12 @@ public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace> imple
 				
 			}
 		});
+	}
+	
+	protected void saveGallery(Callback<Void, String> callback) {
+		GalleryResources res = clientFactory.galleryResources();
+		Gallery gallery = model.getGallery(place.getId());
+		res.saveGallery(gallery, callback);
 	}
 
 	public void clickImage(String id) {
@@ -214,13 +270,23 @@ public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace> imple
 	@Override
 	public void updateVote(GalleryImage img) {
 		
+		logger.log(Level.FINEST, "enter updateVote");
+		
 		Gallery gallery = model.getGallery(place.getId());
 		for(GalleryImage iter : gallery.getImages()) {
 			if(iter.getId().equals(img.getId())) {
 				iter.setVote(img.getVote());
 				
+				saveImage(iter);
+				
 				break;
 			}
 		}
+		
+		logger.log(Level.FINEST, "leave updateVote");
+	}
+	
+	protected void saveImage(GalleryImage img) {
+		
 	}
 }

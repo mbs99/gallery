@@ -230,4 +230,9 @@ public class GalleryResources {
 		
 	}
 
+	public void submitOrder(Callback<Void, String> callback) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

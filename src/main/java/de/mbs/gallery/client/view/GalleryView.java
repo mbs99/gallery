@@ -2,6 +2,7 @@ package de.mbs.gallery.client.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
@@ -49,6 +50,8 @@ public class GalleryView extends Composite {
 	@Override
 	protected void onLoad() {
 		
+		logger.log(Level.FINEST, "enter onLoad");
+		
 		super.onLoad();
 		
 		HTMLPanel row = new HTMLPanel("");
@@ -85,15 +88,25 @@ public class GalleryView extends Composite {
 		for(int i=0;i<colNum;i++) {
 			row.add(cols.get(i));
 		}
+		
+		logger.log(Level.FINEST, "leave onLoad");
 	}
 
 	public void setGallery(Gallery result) {
+		logger.log(Level.FINEST, "enter setGallery()");
+		
 		gallery = result;
 		
+		logger.log(Level.FINEST, "leave setGallery");
 	}
 
 	public void onSaveGallery() {
-		// TODO Auto-generated method stub
-		
+		logger.log(Level.FINEST, "enter onSaveGallery()");
+		logger.log(Level.FINEST, "leave onSaveGallery");
+	}
+
+	public void onSubmitOrder() {
+		logger.log(Level.FINEST, "enter onSubmitOrder()");
+		logger.log(Level.FINEST, "leave onSubmitOrder");
 	}
 }

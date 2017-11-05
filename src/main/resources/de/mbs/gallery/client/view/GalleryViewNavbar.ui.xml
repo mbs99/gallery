@@ -18,7 +18,7 @@
 				</select>
 			</div>
 			<button class="button u-pull-right" id="logoutButton">Abmelden</button>
-			<button class="button u-pull-right">Bestellung abschicken</button>
+			<button class="button u-pull-right" id="orderButton">Bestellung abschicken</button>
 		</div>
 	</g:HTMLPanel>
 

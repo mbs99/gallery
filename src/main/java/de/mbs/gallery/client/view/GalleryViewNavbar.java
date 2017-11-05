@@ -56,6 +56,16 @@ public class GalleryViewNavbar extends Composite {
 				return false;
 			}
 		});
+		
+		$("#orderButton").click(new Function() {
+			@Override
+			public boolean f(Event e) {
+				
+				presenter.submitOrder();
+				
+				return false;
+			}
+		});
 	}
 	
 	@Override
@@ -64,6 +74,7 @@ public class GalleryViewNavbar extends Composite {
 		
 		$("#filter").off();
 		$("#logoutButton").off();
+		$("#orderButton").off();
 		
 		logger.finest("onUnload");
 	}
