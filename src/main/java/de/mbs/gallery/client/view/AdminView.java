@@ -74,6 +74,19 @@ public class AdminView extends Composite {
 			}
 		});
 		
+		$("#removeUserFromGalleryButton").click(new Function() {
+			@Override
+			public boolean f(Event e) {
+				
+				Window.alert($("#galleryName").val());
+				
+				presenter.removeUserFromGallery($("#galleryUser").val(),
+						$("#galleryName").val());
+				
+				return false;
+			}
+		});
+		
 		$("#changeAdminPwdButton").click(new Function() {
 			@Override
 			public boolean f(Event e) {
@@ -115,6 +128,11 @@ public class AdminView extends Composite {
 
 	public void onCreateUser() {
 		logger.finest("onCreateUser");
+		
+	}
+
+	public void onRemoveUserFromGallery() {
+		logger.finest("onRemoveUserFromGallery");
 		
 	}
 }

@@ -21,7 +21,7 @@
 				<button class="button u-pull-right" id="logoutButton">Abmelden</button>
 				<button class="button u-pull-right" id="nextImageButton">Vor</button>
 				<button class="button u-pull-right" id="previousImageButton">Zurück</button>
-				<button class="button u-pull-right" id="galleryButton">Zur Gallerie</button>
+				<button class="button u-pull-right" id="galleryButton">Zur Galerie</button>
 			</div>
 		</div>
 	</g:HTMLPanel>

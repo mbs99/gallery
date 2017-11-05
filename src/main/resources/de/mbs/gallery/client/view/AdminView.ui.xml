@@ -47,6 +47,7 @@
 		<g:HTMLPanel styleName="row">
 			<g:HTMLPanel styleName="twelve columns">
 				<button class="button" id="addUserToGalleryButton">Benutzer hinzuf&uuml;gen</button>
+				<button class="button" id="removeUserFromGalleryButton">Benutzer entfernen</button>
 			</g:HTMLPanel>
 		</g:HTMLPanel>
 		<g:HTMLPanel styleName="row">

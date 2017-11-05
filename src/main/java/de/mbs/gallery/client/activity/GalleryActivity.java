@@ -147,7 +147,8 @@ public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace> imple
 			@Override
 			public void onSuccess(Void result) {
 				
-				clientFactory.galleryResources().submitOrder(new Callback<Void, String>() {
+				clientFactory.galleryResources().submitOrder(model.getGallery(place.getId()),
+						new Callback<Void, String>() {
 
 					@Override
 					public void onFailure(String reason) {

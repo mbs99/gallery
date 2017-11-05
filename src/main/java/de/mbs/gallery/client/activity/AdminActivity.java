@@ -116,4 +116,22 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace> {
 			view.onFailure("Die Passwörter stimmen nicht überein!");
 		}	
 	}
+
+	public void removeUserFromGallery(String user, String gallery) {
+		galleryResources.removeUserFromGallery(user, gallery, new Callback<Void, String>() {
+
+			@Override
+			public void onFailure(String reason) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				view.onRemoveUserFromGallery();
+				
+			}
+		});
+		
+	}
 }

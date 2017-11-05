@@ -6,7 +6,6 @@ import com.google.gwt.query.client.Function;
 import com.google.gwt.query.client.GQ;
 import com.google.gwt.query.client.plugins.ajax.Ajax;
 import com.google.gwt.query.client.plugins.ajax.Ajax.Settings;
-import com.google.gwt.user.client.Window;
 
 import de.mbs.gallery.client.model.Authorization;
 import de.mbs.gallery.client.model.Gallery;
@@ -161,7 +160,7 @@ public class GalleryResources {
  			@Override
  			public Object f(Object... args) {
  				
- 				Window.alert((String)args[0]);
+ 				callback.onFailure((String)args[0]);
  				
  				return null;
  			}
@@ -191,7 +190,7 @@ public class GalleryResources {
  			@Override
  			public Object f(Object... args) {
  				
- 				Window.alert((String)args[0]);
+ 				callback.onFailure((String)args[0]);
  				
  				return null;
  			}
@@ -222,7 +221,7 @@ public class GalleryResources {
  			@Override
  			public Object f(Object... args) {
  				
- 				Window.alert((String)args[0]);
+ 				callback.onFailure((String)args[0]);
  				
  				return null;
  			}
@@ -230,9 +229,59 @@ public class GalleryResources {
 		
 	}
 
-	public void submitOrder(Callback<Void, String> callback) {
-		// TODO Auto-generated method stub
+	public void submitOrder(Gallery gallery, Callback<Void, String> callback) {
+		Settings settings = Ajax.createSettings();
+		settings.setUrl(GWT.getHostPageBaseURL() + "api/gallery/" + gallery.getName() + "/order");
+		settings.setType("post");
+		settings.setData("");
+		settings.setDataType("json");
+		settings.setContentType("application/json");
 		
+		Ajax.ajax(settings)
+		.done(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				callback.onSuccess(null);
+ 				
+ 				return null;
+ 			}
+ 		})
+ 		.fail(new Function() {
+ 			@Override
+ 			public void f() {
+ 				callback.onFailure("");
+ 			}
+ 		});
 	}
 
+	public void removeUserFromGallery(String user, String gallery, Callback<Void, String> callback) {
+		Settings settings = Ajax.createSettings();
+		settings.setUrl(GWT.getHostPageBaseURL()
+				+ "/api/admin/gallery/"
+				+ gallery + "/user/"
+				+ user);
+		settings.setType("delete");
+		
+		Ajax.ajax(settings)
+		.done(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				callback.onSuccess(null);
+ 				
+ 				return null;
+ 			}
+ 		})
+ 		.fail(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				callback.onFailure((String)args[0]);
+ 				
+ 				return null;
+ 			}
+ 		});
+		
+	}
 }
