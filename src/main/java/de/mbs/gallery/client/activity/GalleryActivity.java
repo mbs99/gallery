@@ -29,7 +29,7 @@ import de.mbs.gallery.client.view.GalleryView;
 
 public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace, GalleryView> implements StarVoterPresenter {
 	
-	private HandlerRegistration handlerRegistration; 
+	private List<HandlerRegistration> handlerRegistration = new ArrayList<>();
 	
 	private static final Logger logger = Logger.getLogger(GalleryActivity.class.getName());
 	
@@ -55,17 +55,16 @@ public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace, Galle
 		
 		if(isAuthorized()) {
 			
-			handlerRegistration = clientFactory.eventBus().addHandler(MenuItemEvent.TYPE, new MenuItemEvent.MenuItemEventEventHandler() {
+			handlerRegistration.add(clientFactory.eventBus().addHandler(MenuItemEvent.TYPE, new MenuItemEvent.MenuItemEventEventHandler() {
 				
 				@Override
 				public void menuItem(MenuItemEvent event) {
-					if(event.getItem() == EMenuItem.SUBMIT_ORDER) {
-						//submitOrder();
+					if(event.getItem() == EMenuItem.SHOW_ORDER) {
+						
 						clientFactory.placeController().goTo(new OrderPlace(place.getId()));
 					}
-					
 				}
-			});
+			}));
 		
 			clientFactory.eventBus().fireEvent(new ChangeNavbarEvent(ENavbarType.GALLERY_VIEW));
 			clientFactory.eventBus().fireEvent(new ChangeFilterEvent(place.getFilter()));
@@ -132,44 +131,14 @@ public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace, Galle
 			redirectToLogin();
 		}
 	}
-	
-	protected void submitOrder() {
-		saveGallery(new Callback<Void, String>() {
-
-			@Override
-			public void onFailure(String reason) {
-				logger.log(Level.SEVERE, reason);
-				
-			}
-
-			@Override
-			public void onSuccess(Void result) {
-				
-				clientFactory.galleryResources().submitOrder(model.getGallery(place.getId()),
-						new Callback<Void, String>() {
-
-					@Override
-					public void onFailure(String reason) {
-						logger.log(Level.SEVERE, reason);
-						
-					}
-
-					@Override
-					public void onSuccess(Void result) {
-						view.onSubmitOrder();
-						
-					}
-				});
-			}
-		});
-		
-	}
 
 	@Override
 	public void onStop() {
 		
 		if(null != handlerRegistration) {
-			handlerRegistration.removeHandler();
+			for(HandlerRegistration iter : handlerRegistration) {
+				iter.removeHandler();
+			}
 		}
 		
 		Gallery gallery = model.getGallery(place.getId());

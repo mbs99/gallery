@@ -2,6 +2,7 @@ package de.mbs.gallery.client;
 
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.query.client.GQ;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 
@@ -25,6 +26,7 @@ import de.mbs.gallery.client.view.ImageViewNavbar;
 import de.mbs.gallery.client.view.LoginView;
 import de.mbs.gallery.client.view.LogoutView;
 import de.mbs.gallery.client.view.OrderView;
+import de.mbs.gallery.client.view.OrderViewNavbar;
 
 public class ClientFactory {
 	
@@ -102,5 +104,10 @@ public class ClientFactory {
 	public OrderView getOrderView(OrderActivity presenter) {
 		
 		return new OrderView(presenter);
+	}
+
+	public Composite getOrderViewNavbar(AppPanelPresenter presenter) {
+		
+		return new OrderViewNavbar(presenter);
 	}
 }

@@ -61,7 +61,7 @@ public class GalleryViewNavbar extends Composite {
 			@Override
 			public boolean f(Event e) {
 				
-				presenter.submitOrder();
+				presenter.goToOrderPlace();
 				
 				return false;
 			}

@@ -2,14 +2,20 @@ package de.mbs.gallery.client.activity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.query.client.GQ;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.event.ChangeNavbarEvent;
+import de.mbs.gallery.client.event.EMenuItem;
 import de.mbs.gallery.client.event.ENavbarType;
+import de.mbs.gallery.client.event.MenuItemEvent;
 import de.mbs.gallery.client.model.Gallery;
 import de.mbs.gallery.client.model.GalleryImage;
 import de.mbs.gallery.client.model.Order;
@@ -18,21 +24,40 @@ import de.mbs.gallery.client.view.OrderView;
 
 public class OrderActivity extends AbstractGalleryActivity<OrderPlace, OrderView> {
 
+	private static final Logger logger = Logger.getLogger(OrderActivity.class.getName());
+
+	private List<HandlerRegistration> handlerRegistration = new ArrayList<>();
+
 	public OrderActivity(OrderPlace place, ClientFactory clientFactory) {
-		super(place,clientFactory);
+		super(place, clientFactory);
 	}
 
 	@Override
 	public void start(AcceptsOneWidget parent, EventBus eventBus) {
-		
-		clientFactory.eventBus().fireEvent(new ChangeNavbarEvent(ENavbarType.DEFAULT));
 
-		this.view = clientFactory.getOrderView(this);
+		if (isAuthorized()) {
 
-		parent.setWidget(view.asWidget());
+			handlerRegistration.add(clientFactory.eventBus().addHandler(MenuItemEvent.TYPE,
+					new MenuItemEvent.MenuItemEventEventHandler() {
 
+						@Override
+						public void menuItem(MenuItemEvent event) {
+							if (event.getItem() == EMenuItem.SUBMIT_ORDER) {
+								submitOrder();
+							}
+						}
+					}));
+			clientFactory.eventBus().fireEvent(new ChangeNavbarEvent(ENavbarType.ORDER_VIEW));
+
+			this.view = clientFactory.getOrderView(this);
+
+			parent.setWidget(view.asWidget());
+		}
+		else {
+			redirectToLogin();
+		}
 	}
-	
+
 	@Override
 	public void onStop() {
 	}
@@ -40,17 +65,34 @@ public class OrderActivity extends AbstractGalleryActivity<OrderPlace, OrderView
 	public Order getOrder() {
 		Gallery gallery = model.getGallery(place.getRole());
 		List<GalleryImage> images = new ArrayList<>();
-		for(GalleryImage img : gallery.getImages()) {
-			if(null != img.getVote()
-				&& 3 == img.getVote()) {
+		for (GalleryImage img : gallery.getImages()) {
+			if (null != img.getVote() && 3 == img.getVote()) {
 				images.add(img);
 			}
 		}
-		
+
 		Order order = GQ.create(Order.class);
 		order.setImages(images);
 		order.setGalleryName(gallery.getName());
-		
+
 		return order;
+	}
+
+	protected void submitOrder() {
+		clientFactory.galleryResources().submitOrder(model.getGallery(place.getRole()), new Callback<Void, String>() {
+
+			@Override
+			public void onFailure(String reason) {
+				logger.log(Level.SEVERE, reason);
+
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				view.onSubmitOrder();
+
+			}
+		});
+
 	}
 }

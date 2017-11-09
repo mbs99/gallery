@@ -66,4 +66,9 @@ public class OrderView extends Composite {
 		return GWT.getHostPageBaseURL() + "api/gallery/" + galleryName + "/" + id;
 		
 	}
+
+	public void onSubmitOrder() {
+		// TODO Auto-generated method stub
+		
+	}
 }

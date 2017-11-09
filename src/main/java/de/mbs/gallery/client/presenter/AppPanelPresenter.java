@@ -87,6 +87,11 @@ public class AppPanelPresenter {
 		}
 		break;
 		
+		case ORDER_VIEW: {
+			view.setNavbar(factory.getOrderViewNavbar(this));
+		}
+		break;
+		
 		default:
 			view.setNavbar(factory.getDefaultNavbar(this));
 		break;
@@ -117,6 +122,10 @@ public class AppPanelPresenter {
 			}
 		});
 		
+	}
+
+	public void goToOrderPlace() {
+		factory.eventBus().fireEvent(new MenuItemEvent(EMenuItem.SHOW_ORDER));
 	}
 
 	public void submitOrder() {

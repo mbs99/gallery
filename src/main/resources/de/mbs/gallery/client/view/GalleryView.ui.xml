@@ -4,6 +4,11 @@
 	xmlns:view="urn:import:de.mbs.gallery.client.view">
 
 	<g:HTMLPanel ui:field="galleryViewPanel">
+		<div class="row>">
+			<p>Bilder k&ouml;nnen als Auswahlhilfe mit 1,2 oder 3 Sternen markiert werden. Der Filter
+			erlaubt eine reduzierte Ansicht anhand der gesetzten Markierungen. F&uml;r eine eventuelle Bestellung sind nur die Bilder mit
+			3 Sternen relevant.</p>
+		</div>
 	</g:HTMLPanel>
 
 </ui:UiBinder>
