@@ -7,7 +7,8 @@ import com.google.gwt.place.shared.WithTokenizers;
 	LoginPlace.Tokenizer.class,
 	AdminPlace.Tokenizer.class,
 	ImagePlace.Tokenizer.class,
-	LogoutPlace.Tokenizer.class})
+	LogoutPlace.Tokenizer.class,
+	OrderPlace.Tokenizer.class})
 public interface GalleryPlaceHistoryMapper extends PlaceHistoryMapper
 {
 }

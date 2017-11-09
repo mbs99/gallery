@@ -12,9 +12,7 @@ import de.mbs.gallery.client.model.UserAccount;
 import de.mbs.gallery.client.place.AdminPlace;
 import de.mbs.gallery.client.view.AdminView;
 
-public class AdminActivity extends AbstractGalleryActivity<AdminPlace> {
-
-	AdminView view;
+public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView> {
 
 	public AdminActivity(AdminPlace place, ClientFactory clientFactory) {
 		super(place, clientFactory);

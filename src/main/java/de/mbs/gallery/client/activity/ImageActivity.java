@@ -19,9 +19,8 @@ import de.mbs.gallery.client.place.ImagePlace;
 import de.mbs.gallery.client.presenter.StarVoterPresenter;
 import de.mbs.gallery.client.view.ImageView;
 
-public class ImageActivity extends AbstractGalleryActivity<ImagePlace> implements StarVoterPresenter {
+public class ImageActivity extends AbstractGalleryActivity<ImagePlace, ImageView> implements StarVoterPresenter {
 
-	ImageView view;
 	HandlerRegistration handler;
 
 	public ImageActivity(ImagePlace place, ClientFactory clientFactory) {

@@ -11,16 +11,8 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="one-third column">
-				<select id="filter">
-					<option value="off">alle</option>
-					<option value="1Star">1 Stern</option>
-					<option value="2Stars">2 Sterne</option>
-					<option value="3Stars">3 Sterne</option>
-				</select>
-			</div>
 			<button class="button u-pull-right" id="logoutButton">Abmelden</button>
-			<button class="button u-pull-right" id="orderButton">Bestellung anzeigen</button>
+			<button class="button u-pull-right" id="orderButton">kostenpflichtig bestellen</button>
 		</div>
 	</g:HTMLPanel>
 

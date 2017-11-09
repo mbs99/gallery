@@ -11,6 +11,7 @@ import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.place.ImagePlace;
 import de.mbs.gallery.client.place.LoginPlace;
 import de.mbs.gallery.client.place.LogoutPlace;
+import de.mbs.gallery.client.place.OrderPlace;
 
 public class GalleryActivityMapper implements ActivityMapper {
 	private ClientFactory clientFactory;
@@ -42,6 +43,9 @@ public class GalleryActivityMapper implements ActivityMapper {
 		}
 		else if(place instanceof LogoutPlace) {
 			return new LogoutActivity((LogoutPlace)place, clientFactory);
+		}
+		else if(place instanceof OrderPlace) {
+			return new OrderActivity((OrderPlace)place, clientFactory);
 		}
 		else {
 			Window.alert("Unknown place: " + place);

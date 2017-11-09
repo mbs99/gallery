@@ -21,20 +21,17 @@ import de.mbs.gallery.client.event.ENavbarType;
 import de.mbs.gallery.client.event.MenuItemEvent;
 import de.mbs.gallery.client.model.Gallery;
 import de.mbs.gallery.client.model.GalleryImage;
-import de.mbs.gallery.client.model.ViewModel;
 import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.place.ImagePlace;
+import de.mbs.gallery.client.place.OrderPlace;
 import de.mbs.gallery.client.presenter.StarVoterPresenter;
 import de.mbs.gallery.client.view.GalleryView;
 
-public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace> implements StarVoterPresenter {
-
-	GalleryView view;
-	ViewModel model;
+public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace, GalleryView> implements StarVoterPresenter {
 	
 	private HandlerRegistration handlerRegistration; 
 	
-	private static final Logger logger = Logger.getLogger("GalleryActivity");
+	private static final Logger logger = Logger.getLogger(GalleryActivity.class.getName());
 	
 
 	public GalleryActivity(GalleryPlace place, ClientFactory clientFactory) {
@@ -63,7 +60,8 @@ public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace> imple
 				@Override
 				public void menuItem(MenuItemEvent event) {
 					if(event.getItem() == EMenuItem.SUBMIT_ORDER) {
-						submitOrder();
+						//submitOrder();
+						clientFactory.placeController().goTo(new OrderPlace(place.getId()));
 					}
 					
 				}

@@ -58,7 +58,7 @@ public class GalleryResources {
  			@Override
  			public void f() {
  				
- 				callback.onFailure("bla");
+ 				callback.onFailure("Fehler bei der Anmeldung");
  			}
  		});
 		

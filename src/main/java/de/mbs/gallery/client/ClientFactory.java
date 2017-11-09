@@ -10,6 +10,7 @@ import de.mbs.gallery.client.activity.GalleryActivity;
 import de.mbs.gallery.client.activity.ImageActivity;
 import de.mbs.gallery.client.activity.LoginActivity;
 import de.mbs.gallery.client.activity.LogoutActivity;
+import de.mbs.gallery.client.activity.OrderActivity;
 import de.mbs.gallery.client.model.Authorization;
 import de.mbs.gallery.client.model.ViewModel;
 import de.mbs.gallery.client.presenter.AppPanelPresenter;
@@ -23,6 +24,7 @@ import de.mbs.gallery.client.view.ImageView;
 import de.mbs.gallery.client.view.ImageViewNavbar;
 import de.mbs.gallery.client.view.LoginView;
 import de.mbs.gallery.client.view.LogoutView;
+import de.mbs.gallery.client.view.OrderView;
 
 public class ClientFactory {
 	
@@ -95,5 +97,10 @@ public class ClientFactory {
 
 	public LogoutView getLogoutView(LogoutActivity presenter) {
 		return new LogoutView(presenter);
+	}
+
+	public OrderView getOrderView(OrderActivity presenter) {
+		
+		return new OrderView(presenter);
 	}
 }

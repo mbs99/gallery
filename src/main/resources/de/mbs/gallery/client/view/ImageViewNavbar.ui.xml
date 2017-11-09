@@ -20,10 +20,10 @@
 				</select>
 			</div>
 			<div class="two-thirds column">
+				<button class="button u-pull-right" id="galleryButton">Zur Galerie</button>
 				<button class="button u-pull-right" id="logoutButton">Abmelden</button>
 				<button class="button u-pull-right" id="nextImageButton">Vor</button>
 				<button class="button u-pull-right" id="previousImageButton">Zurück</button>
-				<button class="button u-pull-right" id="galleryButton">Zur Galerie</button>
 			</div>
 		</div>
 	</g:HTMLPanel>
