@@ -4,7 +4,6 @@ import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.query.client.GQ;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 import de.mbs.gallery.client.ClientFactory;
@@ -69,7 +68,7 @@ public class LoginActivity extends AbstractActivity {
 			
 			@Override
 			public void onFailure(String reason) {
-				Window.alert(reason);
+				view.onLoginFailure(reason);
 			}
 		});
 	}

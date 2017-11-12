@@ -19,6 +19,7 @@ import de.mbs.gallery.client.event.MenuItemEvent;
 import de.mbs.gallery.client.model.Gallery;
 import de.mbs.gallery.client.model.GalleryImage;
 import de.mbs.gallery.client.model.Order;
+import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.place.OrderPlace;
 import de.mbs.gallery.client.view.OrderView;
 
@@ -45,13 +46,33 @@ public class OrderActivity extends AbstractGalleryActivity<OrderPlace, OrderView
 							if (event.getItem() == EMenuItem.SUBMIT_ORDER) {
 								submitOrder();
 							}
+							else if (event.getItem() == EMenuItem.SHOW_GALLERY) {
+								showGallery();
+							}
+							else {
+								logger.severe("unbekannter Event: " + event.toDebugString());
+							}
 						}
 					}));
 			clientFactory.eventBus().fireEvent(new ChangeNavbarEvent(ENavbarType.ORDER_VIEW));
 
 			this.view = clientFactory.getOrderView(this);
+			
+			asyncLoadGallery(place.getRole(), new Callback<Gallery, String>() {
+				
+				@Override
+				public void onSuccess(Gallery result) {
 
-			parent.setWidget(view.asWidget());
+					parent.setWidget(view.asWidget());
+					
+				}
+				
+				@Override
+				public void onFailure(String reason) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
 		}
 		else {
 			redirectToLogin();
@@ -63,7 +84,7 @@ public class OrderActivity extends AbstractGalleryActivity<OrderPlace, OrderView
 	}
 
 	public Order getOrder() {
-		Gallery gallery = model.getGallery(place.getRole());
+		Gallery gallery = getGallery(place.getRole());
 		List<GalleryImage> images = new ArrayList<>();
 		for (GalleryImage img : gallery.getImages()) {
 			if (null != img.getVote() && 3 == img.getVote()) {
@@ -94,5 +115,28 @@ public class OrderActivity extends AbstractGalleryActivity<OrderPlace, OrderView
 			}
 		});
 
+	}
+
+	public void removeImage(String id) {
+		Gallery gallery = getGallery(place.getRole());
+		for(GalleryImage iter : gallery.getImages()) {
+			if(iter.getId().equals(id)) {
+				iter.setVote(0);
+			}
+			break;
+		}
+		
+		view.onRemoveImage(id);
+	}
+	
+	private Gallery getGallery(String galleryName) {
+		Gallery gallery = model.getGallery(place.getRole());
+		return gallery;
+	}
+	
+	private void showGallery() {
+		Gallery gallery = clientFactory.getViewModel().getGallery(place.getRole());
+		
+		clientFactory.placeController().goTo(new GalleryPlace(gallery.getName()));
 	}
 }

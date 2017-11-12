@@ -11,8 +11,11 @@
 			</div>
 		</div>
 		<div class="row">
-			<button class="button u-pull-right" id="logoutButton">Abmelden</button>
-			<button class="button u-pull-right" id="orderButton">kostenpflichtig bestellen</button>
+			<div class="twelve columns">
+				<button class="button u-pull-right" id="logoutButton">Abmelden</button>
+				<button class="button u-pull-right" id="galleryButton">Zur Galerie</button>
+				<button class="button u-pull-right" id="orderButton">kostenpflichtig bestellen</button>
+			</div>
 		</div>
 	</g:HTMLPanel>
 

@@ -56,6 +56,16 @@ public class OrderViewNavbar extends Composite {
 				return false;
 			}
 		});
+		
+		$("#galleryButton").click(new Function() {
+			@Override
+			public boolean f(Event e) {
+				
+				presenter.showGallery();
+				
+				return false;
+			}
+		});
 	}
 	
 	@Override

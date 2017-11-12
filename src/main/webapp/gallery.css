@@ -20,7 +20,6 @@
 .galleryImage {
 	display: block;
 	margin: 0 auto;
-	padding-top: 1em;
 	max-width: 100%;
 }
 
@@ -54,4 +53,12 @@
 .logo {
 	max-width:33%;
 	margin: 1em 0em;
+}
+
+.errorMsg {
+	color: red;
+}
+
+.galleryImagePadding {
+	padding-top: 1em;
 }

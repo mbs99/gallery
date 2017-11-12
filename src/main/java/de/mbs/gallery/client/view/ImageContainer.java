@@ -32,7 +32,7 @@ public class ImageContainer extends Composite {
 	}
 	
 	public interface ImageTemplate extends SafeHtmlTemplates {
-		   @Template("<img class=\"galleryImage\" id=\"{0}\" alt=\"{0}\" src=\"{1}\"/>")
+		   @Template("<img class=\"galleryImage galleryImagePadding\" id=\"{0}\" alt=\"{0}\" src=\"{1}\"/>")
 		   SafeHtml image(String id, String imgUrl);
 		}
 		
@@ -113,6 +113,8 @@ public class ImageContainer extends Composite {
 	}
 
 	public void addImage(String galleryName, GalleryImage image) {
+		
+		logger.finest("addImage " + galleryName);
 		
 		addImage(image,
 				GWT.getHostPageBaseURL() + "api/gallery/" + galleryName + "/" + image.getId());

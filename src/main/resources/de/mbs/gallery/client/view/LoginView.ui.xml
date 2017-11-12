@@ -19,6 +19,10 @@
 					<button id="loginButton">Anmelden</button>
 				</div>
 			</div>
+			<div class="row">
+				<div class="twelve columns" id="errorMsgContainer">
+				</div>
+			</div>
 		</g:HTMLPanel>
 	</g:FormPanel>
 
