@@ -83,7 +83,7 @@ public class OrderView extends Composite {
 		Order order = presenter.getOrder();
 		for (GalleryImage img : order.getImages()) {
 
-			$("#" + DELETE_BUTTON_ID_PREFIX + img.getFile()).off();
+			$("#" + DELETE_BUTTON_ID_PREFIX + img.getId()).off();
 		}
 	}
 
@@ -98,7 +98,7 @@ public class OrderView extends Composite {
 		Order order = presenter.getOrder();
 		for (GalleryImage img : order.getImages()) {
 
-			String comment = $("#" + COMMENTS_ID_PREFIX + img.getFile()).val();
+			String comment = $("#" + COMMENTS_ID_PREFIX + img.getId()).val();
 			if("" != comment) {
 				img.setComments(comment);
 			}
