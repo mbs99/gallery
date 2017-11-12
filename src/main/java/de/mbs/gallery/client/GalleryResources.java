@@ -34,7 +34,7 @@ public class GalleryResources {
  		.fail(new Function() {
  			@Override
  			public void f() {
- 				callback.onFailure("bla");
+ 				callback.onFailure("Fehler beim Laden der Galerie!");
  			}
  		});
 	}
@@ -105,7 +105,7 @@ public class GalleryResources {
  		.fail(new Function() {
  			@Override
  			public void f() {
- 				callback.onFailure("bla");
+ 				callback.onFailure("Fehler bei der Abmeldung!");
  			}
  		});
 		

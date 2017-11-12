@@ -42,6 +42,13 @@ public class LoginView extends Composite {
 		}
 		
 	ErrorMsgTemplate errorMsgTemplate = GWT.create(ErrorMsgTemplate.class);
+	
+	interface SelectOptionTemplate extends SafeHtmlTemplates {
+		   @Template("<option value=\"{0}\">{0}</option>")
+		   SafeHtml option(String galleryName);
+		}
+		
+	SelectOptionTemplate selectOptionTemplate = GWT.create(SelectOptionTemplate.class);
 
 	public LoginView(LoginActivity activity) {
 		this.presenter = activity;
@@ -68,6 +75,20 @@ public class LoginView extends Composite {
 				return false;
 			}
 		});
+		
+		$("#selectGalleryContainer").hide();
+		$("#gallery").change(new Function() {
+			@Override
+			public boolean f(Event e) {
+				
+				String option = $(e.getEventTarget()).val();
+				if(! option.equals("off")) {
+					presenter.showGallery(option);
+				}
+				
+				return false;
+			}
+		});
 	}
 
 	public void onLoginFailure(String reason) {
@@ -85,5 +106,14 @@ public class LoginView extends Composite {
 		};
 		timer.schedule(Constants.SHOW_ERROR_SCHEDULE_TIME_IN_MS);
 		
+	}
+
+	public void onLoginSuccess(String[] result) {
+		
+		for(String iter : result) {
+			$("#gallery").append($(selectOptionTemplate.option(iter)));
+		}
+		
+		$("#selectGalleryContainer").show();
 	}
 }

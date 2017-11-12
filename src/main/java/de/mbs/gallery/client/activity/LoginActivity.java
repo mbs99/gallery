@@ -12,6 +12,7 @@ import de.mbs.gallery.client.event.ChangeNavbarEvent;
 import de.mbs.gallery.client.event.ENavbarType;
 import de.mbs.gallery.client.model.Authorization;
 import de.mbs.gallery.client.place.AbstractGalleryPlace;
+import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.place.LoginPlace;
 import de.mbs.gallery.client.view.LoginView;
 
@@ -62,8 +63,14 @@ public class LoginActivity extends AbstractActivity {
 				
 				Authorization auth = clientFactory.getAuthorization();
 				auth.setUser(result.getUser());
+				auth.setRoles(result.getRoles());
 				
-				clientFactory.placeController().goTo(place.getRedirect());
+				if(null != place.getRedirect()) {
+					clientFactory.placeController().goTo(place.getRedirect());
+				}
+				else {
+					view.onLoginSuccess(auth.getRoles());
+				}
 			}
 			
 			@Override
@@ -71,5 +78,9 @@ public class LoginActivity extends AbstractActivity {
 				view.onLoginFailure(reason);
 			}
 		});
+	}
+
+	public void showGallery(String id) {
+		clientFactory.placeController().goTo(new GalleryPlace(id));
 	}
 }

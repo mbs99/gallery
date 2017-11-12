@@ -19,6 +19,14 @@
 					<button id="loginButton">Anmelden</button>
 				</div>
 			</div>
+			<div class="row" id="selectGalleryContainer">
+				<div class="one-half column">
+					<label for="password">Galerie ausw&auml;hlen</label>
+					<select id="gallery" class="u-full-width">
+						<option value="off"></option>
+					</select>
+				</div>
+			</div>
 			<div class="row">
 				<div class="twelve columns" id="errorMsgContainer">
 				</div>
