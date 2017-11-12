@@ -3,6 +3,13 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:view="urn:import:de.mbs.gallery.client.view">
 	
 	<g:HTMLPanel ui:field="orderViewPanel">
+		<div class="row">
+			<div class="twelve columns">
+				<h6>Bestellstatus:
+				<span id="orderStatus">offen</span>
+				</h6>
+			</div>
+		</div>
 	</g:HTMLPanel>
 
 </ui:UiBinder>

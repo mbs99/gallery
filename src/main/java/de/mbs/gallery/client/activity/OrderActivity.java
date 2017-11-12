@@ -101,6 +101,8 @@ public class OrderActivity extends AbstractGalleryActivity<OrderPlace, OrderView
 
 	protected void submitOrder() {
 		
+		view.bindToModel();
+		
 		saveGallery(place.getRole(), new Callback<Void, String>() {
 
 			@Override

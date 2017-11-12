@@ -92,7 +92,7 @@ public class OrderView extends Composite {
 
 	}
 
-	public void onSubmitOrder() {
+	public void bindToModel() {
 		logger.finest("onSubmitOrder");
 		
 		Order order = presenter.getOrder();
@@ -113,7 +113,12 @@ public class OrderView extends Composite {
 	}
 
 	public void onError(String reason) {
-		// TODO Auto-generated method stub
+		$("#orderStatus").text("Fehler - " + reason);
+		
+	}
+
+	public void onSubmitOrder() {
+		$("#orderStatus").text("erfolgreich versendet");
 		
 	}
 }
