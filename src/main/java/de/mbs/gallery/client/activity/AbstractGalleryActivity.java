@@ -68,4 +68,10 @@ public abstract class AbstractGalleryActivity<T extends Place, V extends Composi
 			callback.onSuccess(model.getGallery(galleryName));
 		}
 	}
+	
+	protected void saveGallery(String galleryName, Callback<Void, String> callback) {
+		GalleryResources res = clientFactory.galleryResources();
+		Gallery gallery = model.getGallery(galleryName);
+		res.saveGallery(gallery, callback);
+	}
 }

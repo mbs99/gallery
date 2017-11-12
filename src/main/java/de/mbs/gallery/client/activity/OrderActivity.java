@@ -100,18 +100,31 @@ public class OrderActivity extends AbstractGalleryActivity<OrderPlace, OrderView
 	}
 
 	protected void submitOrder() {
-		clientFactory.galleryResources().submitOrder(model.getGallery(place.getRole()), new Callback<Void, String>() {
+		
+		saveGallery(place.getRole(), new Callback<Void, String>() {
 
 			@Override
 			public void onFailure(String reason) {
-				logger.log(Level.SEVERE, reason);
-
+				view.onError(reason);
+				
 			}
 
 			@Override
 			public void onSuccess(Void result) {
-				view.onSubmitOrder();
+				clientFactory.galleryResources().submitOrder(model.getGallery(place.getRole()), new Callback<Void, String>() {
 
+					@Override
+					public void onFailure(String reason) {
+						logger.log(Level.SEVERE, reason);
+
+					}
+
+					@Override
+					public void onSuccess(Void result) {
+						view.onSubmitOrder();
+
+					}
+				});		
 			}
 		});
 
@@ -138,5 +151,18 @@ public class OrderActivity extends AbstractGalleryActivity<OrderPlace, OrderView
 		Gallery gallery = clientFactory.getViewModel().getGallery(place.getRole());
 		
 		clientFactory.placeController().goTo(new GalleryPlace(gallery.getName()));
+	}
+
+	public void updateOrder(Order order) {
+		Gallery gallery = getGallery(place.getRole());
+		for(GalleryImage iter : gallery.getImages()) {
+			for(GalleryImage orderIter : order.getImages()) {
+				if(iter.getId().equals(orderIter.getId())) {
+					iter.setComments(orderIter.getComments());
+				}
+			}
+		}
+		
+		clientFactory.getViewModel().setGallery(gallery);
 	}
 }

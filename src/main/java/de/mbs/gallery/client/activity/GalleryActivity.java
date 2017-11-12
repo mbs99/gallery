@@ -199,7 +199,7 @@ public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace, Galle
 	}
 	
 	public void saveGallery() {
-		saveGallery(new Callback<Void, String>() {
+		saveGallery(place.getId(), new Callback<Void, String>() {
 
 			@Override
 			public void onFailure(String reason) {
@@ -213,12 +213,6 @@ public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace, Galle
 				
 			}
 		});
-	}
-	
-	protected void saveGallery(Callback<Void, String> callback) {
-		GalleryResources res = clientFactory.galleryResources();
-		Gallery gallery = model.getGallery(place.getId());
-		res.saveGallery(gallery, callback);
 	}
 
 	public void clickImage(String id) {

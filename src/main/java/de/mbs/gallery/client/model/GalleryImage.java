@@ -11,5 +11,8 @@ public interface GalleryImage extends JsonBuilder {
 	Integer getVote();
 	
 	void setVote(int vote);
+	
+	String getComments();
+	void setComments(String comments);
 
 }

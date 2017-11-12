@@ -28,6 +28,7 @@ public class OrderView extends Composite {
 
 	private static final String DELETE_BUTTON_ID_PREFIX = "deleteItem";
 	private static final String ORDER_ITEM_ID_PREFIX = "orderItem";
+	private static final String COMMENTS_ID_PREFIX = "textarea";
 
 	private static OrderViewUiBinder uiBinder = GWT.create(OrderViewUiBinder.class);
 
@@ -39,7 +40,7 @@ public class OrderView extends Composite {
 				+ "<img class=\"galleryImage\" src=\"{2}\"/>" + "<button id=\"" + DELETE_BUTTON_ID_PREFIX
 				+ "{1}\">Bild entfernen</button>" + "</div>" + "<div class=\"nine columns\">"
 				+ "<span>Bildnummer {0}</span>" + "<label for=\"textarea{1}\">Anmerkungen, W&uuml;nsche usw.</label>"
-				+ "<textarea id=\"textarea{1}\" class=\"u-full-width\"></textarea>" + "</div>" + "</div>")
+				+ "<textarea id=\""+COMMENTS_ID_PREFIX+"{1}\" class=\"u-full-width\"></textarea>" + "</div>" + "</div>")
 		SafeHtml image(String imgTitle, String imgId, String imgUrl);
 	}
 
@@ -93,11 +94,26 @@ public class OrderView extends Composite {
 
 	public void onSubmitOrder() {
 		logger.finest("onSubmitOrder");
+		
+		Order order = presenter.getOrder();
+		for (GalleryImage img : order.getImages()) {
+
+			String comment = $("#" + COMMENTS_ID_PREFIX + img.getFile()).val();
+			if("" != comment) {
+				img.setComments(comment);
+			}
+		}
+		
+		presenter.updateOrder(order);
 
 	}
 
 	public void onRemoveImage(String id) {
 		$("#" + ORDER_ITEM_ID_PREFIX + id).remove();
+	}
 
+	public void onError(String reason) {
+		// TODO Auto-generated method stub
+		
 	}
 }
