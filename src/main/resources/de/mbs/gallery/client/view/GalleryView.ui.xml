@@ -5,8 +5,7 @@
 
 	<g:HTMLPanel ui:field="galleryViewPanel">
 		<div class="row>">
-			<p>Bilder k&ouml;nnen als Auswahlhilfe mit 1,2 oder 3 Sternen markiert werden. Der Filter
-			erlaubt eine reduzierte Ansicht anhand der gesetzten Markierungen.
+			<p>Bilder k&ouml;nnen als Auswahlhilfe mit 1,2 oder 3 Sternen markiert werden.
 			</p>
 			<p>Bilder mit 3 Sternen werden in die Bestellung &uuml;bernommen.</p>
 		</div>

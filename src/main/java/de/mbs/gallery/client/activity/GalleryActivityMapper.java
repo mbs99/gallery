@@ -3,7 +3,6 @@ package de.mbs.gallery.client.activity;
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
-import com.google.gwt.user.client.Window;
 
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.place.AdminPlace;
@@ -48,8 +47,7 @@ public class GalleryActivityMapper implements ActivityMapper {
 			return new OrderActivity((OrderPlace)place, clientFactory);
 		}
 		else {
-			Window.alert("Unknown place: " + place);
+			return new LoginActivity((LoginPlace)place, clientFactory);
 		}
-		return null;
 	}
 }
