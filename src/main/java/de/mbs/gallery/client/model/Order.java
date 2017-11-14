@@ -8,10 +8,10 @@ public interface Order extends JsonBuilder {
 	
 	List<GalleryImage> getImages();
 	void setImages(List<GalleryImage> images);
-
-	String getComment();
-	void getComment(String comment);
 	
 	String getGalleryName();
 	void setGalleryName(String galleryName);
+	
+	String getOrderState();
+	void setOrderState(String orderState);
 }

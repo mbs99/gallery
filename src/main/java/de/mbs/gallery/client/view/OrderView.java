@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.mbs.gallery.client.activity.OrderActivity;
+import de.mbs.gallery.client.model.EOrderState;
 import de.mbs.gallery.client.model.GalleryImage;
 import de.mbs.gallery.client.model.Order;
 
@@ -40,7 +41,8 @@ public class OrderView extends Composite {
 				+ "<img class=\"galleryImage\" src=\"{2}\"/>" + "<button id=\"" + DELETE_BUTTON_ID_PREFIX
 				+ "{1}\">Bild entfernen</button>" + "</div>" + "<div class=\"nine columns\">"
 				+ "<span>Bildnummer {0}</span>" + "<label for=\"textarea{1}\">Anmerkungen, W&uuml;nsche usw.</label>"
-				+ "<textarea id=\""+COMMENTS_ID_PREFIX+"{1}\" class=\"u-full-width\"></textarea>" + "</div>" + "</div>")
+				+ "<textarea id=\"" + COMMENTS_ID_PREFIX + "{1}\" class=\"u-full-width\"></textarea>" + "</div>"
+				+ "</div>")
 		SafeHtml image(String imgTitle, String imgId, String imgUrl);
 	}
 
@@ -74,6 +76,13 @@ public class OrderView extends Composite {
 				}
 			});
 		}
+		
+		EOrderState orderState = EOrderState.OPEN;
+		if(null != order.getOrderState()) {
+			orderState = EOrderState.valueOf(order.getOrderState());
+		}
+		
+		updateOrderState(orderState);
 	}
 
 	@Override
@@ -94,16 +103,16 @@ public class OrderView extends Composite {
 
 	public void bindToModel() {
 		logger.finest("onSubmitOrder");
-		
+
 		Order order = presenter.getOrder();
 		for (GalleryImage img : order.getImages()) {
 
 			String comment = $("#" + COMMENTS_ID_PREFIX + img.getId()).val();
-			if("" != comment) {
+			if ("" != comment) {
 				img.setComments(comment);
 			}
 		}
-		
+
 		presenter.updateOrder(order);
 
 	}
@@ -114,11 +123,26 @@ public class OrderView extends Composite {
 
 	public void onError(String reason) {
 		$("#orderStatus").text("Fehler - " + reason);
-		
+
 	}
 
 	public void onSubmitOrder() {
 		$("#orderStatus").text("erfolgreich versendet");
-		
+
+	}
+
+	private void updateOrderState(EOrderState state) {
+		if(null != state) {
+			switch (state) {
+	
+				case SUBMIT: {
+					$("#orderStatus").text("erfolgreich versendet");
+				}
+				break;
+	
+			default:
+				$("#orderStatus").text("offen");
+			}
+		}
 	}
 }

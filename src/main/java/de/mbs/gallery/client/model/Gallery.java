@@ -9,4 +9,7 @@ public interface Gallery extends JsonBuilder {
 	
 	GalleryImage[] getImages();
 	void setImages(GalleryImage[] images);
+	
+	String getOrderState();
+	void setOrderState(String orderState);
 }

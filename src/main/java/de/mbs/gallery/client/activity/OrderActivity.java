@@ -16,6 +16,7 @@ import de.mbs.gallery.client.event.ChangeNavbarEvent;
 import de.mbs.gallery.client.event.EMenuItem;
 import de.mbs.gallery.client.event.ENavbarType;
 import de.mbs.gallery.client.event.MenuItemEvent;
+import de.mbs.gallery.client.model.EOrderState;
 import de.mbs.gallery.client.model.Gallery;
 import de.mbs.gallery.client.model.GalleryImage;
 import de.mbs.gallery.client.model.Order;
@@ -95,6 +96,10 @@ public class OrderActivity extends AbstractGalleryActivity<OrderPlace, OrderView
 		Order order = GQ.create(Order.class);
 		order.setImages(images);
 		order.setGalleryName(gallery.getName());
+		if(null == gallery.getOrderState()) {
+			gallery.setOrderState(EOrderState.OPEN.toString());
+		}
+		order.setOrderState(gallery.getOrderState());
 
 		return order;
 	}
@@ -123,8 +128,25 @@ public class OrderActivity extends AbstractGalleryActivity<OrderPlace, OrderView
 
 					@Override
 					public void onSuccess(Void result) {
-						view.onSubmitOrder();
+						
+						Gallery gallery = model.getGallery(place.getRole());
+						gallery.setOrderState(EOrderState.SUBMIT.toString());
+						
+						clientFactory.galleryResources().saveGallery(gallery, new Callback<Void, String>() {
 
+							@Override
+							public void onFailure(String reason) {
+								logger.log(Level.SEVERE, reason);
+								
+								view.onError(reason);
+							}
+
+							@Override
+							public void onSuccess(Void result) {
+								view.onSubmitOrder();
+								
+							}
+						});
 					}
 				});		
 			}

@@ -9,6 +9,7 @@ import com.google.gwt.query.client.plugins.ajax.Ajax.Settings;
 
 import de.mbs.gallery.client.model.Authorization;
 import de.mbs.gallery.client.model.Gallery;
+import de.mbs.gallery.client.model.GalleryImage;
 import de.mbs.gallery.client.model.GalleryList;
 import de.mbs.gallery.client.model.UserAccount;
 import de.mbs.gallery.client.model.UsernameList;
@@ -262,6 +263,39 @@ public class GalleryResources {
 				+ gallery + "/user/"
 				+ user);
 		settings.setType("delete");
+		
+		Ajax.ajax(settings)
+		.done(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				callback.onSuccess(null);
+ 				
+ 				return null;
+ 			}
+ 		})
+ 		.fail(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				callback.onFailure((String)args[0]);
+ 				
+ 				return null;
+ 			}
+ 		});
+		
+	}
+
+	public void saveImage(String gallery, GalleryImage img, Callback<Void, String> callback) {
+		Settings settings = Ajax.createSettings();
+		settings.setUrl(GWT.getHostPageBaseURL()
+				+ "/api/gallery/"
+				+ gallery + "/"
+				+ img.getId());
+		settings.setType("put");
+		settings.setData(img);
+		settings.setDataType("json");
+		settings.setContentType("application/json");
 		
 		Ajax.ajax(settings)
 		.done(new Function() {

@@ -239,7 +239,7 @@ public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace, Galle
 			if(iter.getId().equals(img.getId())) {
 				iter.setVote(img.getVote());
 				
-				saveImage(iter);
+				saveImage(gallery.getName(), iter);
 				
 				break;
 			}
@@ -248,7 +248,20 @@ public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace, Galle
 		logger.log(Level.FINEST, "leave updateVote");
 	}
 	
-	protected void saveImage(GalleryImage img) {
-		
+	protected void saveImage(String gallery, GalleryImage img) {
+		clientFactory.galleryResources().saveImage(gallery, img, new Callback<Void, String>() {
+
+			@Override
+			public void onFailure(String reason) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 }

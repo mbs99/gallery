@@ -65,6 +65,7 @@ public class ImageContainer extends Composite {
 		img.setUrl(url);
 		img.setAltText(image.getFile());
 		img.setStyleName("galleryImage");
+		img.addStyleName("galleryImagePadding");
 		img.getElement().setId(image.getId());
 		
 		imgContainer.add(img);
