@@ -6,6 +6,7 @@ import com.google.gwt.place.shared.Place;
 
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.place.AdminPlace;
+import de.mbs.gallery.client.place.CheckoutPlace;
 import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.place.ImagePlace;
 import de.mbs.gallery.client.place.LoginPlace;
@@ -45,6 +46,9 @@ public class GalleryActivityMapper implements ActivityMapper {
 		}
 		else if(place instanceof OrderPlace) {
 			return new OrderActivity((OrderPlace)place, clientFactory);
+		}
+		else if(place instanceof CheckoutPlace) {
+			return new CheckoutActivity((CheckoutPlace)place, clientFactory);
 		}
 		else {
 			return new LoginActivity((LoginPlace)place, clientFactory);

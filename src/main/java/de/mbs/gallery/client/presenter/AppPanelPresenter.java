@@ -92,6 +92,11 @@ public class AppPanelPresenter {
 		}
 		break;
 		
+		case CHECKOUT_VIEW: {
+			view.setNavbar(factory.getCheckoutViewNavbar(this));
+		}
+		break;
+		
 		default:
 			view.setNavbar(factory.getDefaultNavbar(this));
 		break;

@@ -14,19 +14,19 @@ import com.google.gwt.user.client.ui.Widget;
 import de.mbs.gallery.client.presenter.AppPanelPresenter;
 
 
-public class OrderViewNavbar extends Composite {
+public class CheckoutViewNavbar extends Composite {
 	
-	private static OrderViewNavbarUiBinder uiBinder = GWT
-			.create(OrderViewNavbarUiBinder.class);
+	private static CheckoutViewNavbarUiBinder uiBinder = GWT
+			.create(CheckoutViewNavbarUiBinder.class);
 
-	interface OrderViewNavbarUiBinder extends UiBinder<Widget, OrderViewNavbar> {
+	interface CheckoutViewNavbarUiBinder extends UiBinder<Widget, CheckoutViewNavbar> {
 	}
 	
-	private static final Logger logger = Logger.getLogger("OrderViewNavbar");
+	private static final Logger logger = Logger.getLogger("CheckoutViewNavbar");
 	
 	private AppPanelPresenter presenter;
 
-	public OrderViewNavbar(AppPanelPresenter presenter) {
+	public CheckoutViewNavbar(AppPanelPresenter presenter) {
 		
 		this.presenter = presenter;
 		initWidget(uiBinder.createAndBindUi(this));
@@ -46,35 +46,13 @@ public class OrderViewNavbar extends Composite {
 				return false;
 			}
 		});
-		
-		$("#orderButton").click(new Function() {
-			@Override
-			public boolean f(Event e) {
-				
-				presenter.submitOrder();
-				
-				return false;
-			}
-		});
-		
-		$("#galleryButton").click(new Function() {
-			@Override
-			public boolean f(Event e) {
-				
-				presenter.showGallery();
-				
-				return false;
-			}
-		});
 	}
 	
 	@Override
 	protected void onUnload() {
 		super.onUnload();
 		
-		$("#filter").off();
 		$("#logoutButton").off();
-		$("#orderButton").off();
 		
 		logger.finest("onUnload");
 	}

@@ -318,4 +318,29 @@ public class GalleryResources {
  		});
 		
 	}
+	
+	public void isDownloadReady(String galleryName, Callback<String, String> callback) {
+		
+		Settings settings = Ajax.createSettings();
+		settings.setUrl(GWT.getHostPageBaseURL() + "api/gallery/" + galleryName + "/order/download");
+		settings.setType("head");
+		
+		Ajax.ajax(settings)
+ 		.done(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				callback.onSuccess(settings.getUrl());
+ 				
+ 				return null;
+ 			}
+ 		})
+ 		.fail(new Function() {
+ 			@Override
+ 			public void f() {
+ 				callback.onFailure("Fehler...");
+ 			}
+ 		});
+		
+	}
 }
