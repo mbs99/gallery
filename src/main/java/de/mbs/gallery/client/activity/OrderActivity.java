@@ -20,6 +20,7 @@ import de.mbs.gallery.client.model.EOrderState;
 import de.mbs.gallery.client.model.Gallery;
 import de.mbs.gallery.client.model.GalleryImage;
 import de.mbs.gallery.client.model.Order;
+import de.mbs.gallery.client.place.CheckoutPlace;
 import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.place.OrderPlace;
 import de.mbs.gallery.client.view.OrderView;
@@ -144,6 +145,8 @@ public class OrderActivity extends AbstractGalleryActivity<OrderPlace, OrderView
 							@Override
 							public void onSuccess(Void result) {
 								view.onSubmitOrder();
+								
+								clientFactory.placeController().goTo(new CheckoutPlace(place.getRole()));
 								
 							}
 						});
