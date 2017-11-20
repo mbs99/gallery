@@ -25,7 +25,7 @@
 				<button class="button" id="createUserButton">Benutzer anlegen</button>
 			</g:HTMLPanel>
 		</g:HTMLPanel>
-		<g:HTMLPanel styleName="row">
+		<g:HTMLPanel styleName="row" addStyleNames="paddingTop">
 			<g:HTMLPanel styleName="twelve columns">
 				<h5>Benutzer zu Galerie hinzuf&uuml;gen</h5>
 			</g:HTMLPanel>
@@ -34,13 +34,13 @@
 			<g:HTMLPanel styleName="one-half column">
 				<label for="galleryName">Galerie</label>
 				<select id="galleryName">
-					<option value="off"></option>
+					<option value="-"></option>
 				</select>
 			</g:HTMLPanel>
 			<g:HTMLPanel styleName="one-half column">
 				<label for="galleryUser">Benutzer</label>
 				<select id="galleryUser" >
-					<option value="off"></option>
+					<option value="-"></option>
 				</select>
 			</g:HTMLPanel>
 		</g:HTMLPanel>
@@ -50,7 +50,24 @@
 				<button class="button" id="removeUserFromGalleryButton">Benutzer entfernen</button>
 			</g:HTMLPanel>
 		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row" addStyleNames="paddingTop">
+			<g:HTMLPanel styleName="twelve columns">
+				<h5>Galerie-Link anzeigen</h5>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
 		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="one-half column">
+				<label for="gallery">Galerie</label>
+				<select id="gallery">
+					<option value="-"></option>
+				</select>
+			</g:HTMLPanel>
+			<g:HTMLPanel styleName="one-half column">
+				<label for="galleryLink">Link</label>
+				<span id="galleryLink"></span>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row" addStyleNames="paddingTop">
 			<g:HTMLPanel styleName="twelve columns">
 				<h5>Admin-Passwort</h5>
 			</g:HTMLPanel>

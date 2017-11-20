@@ -71,65 +71,88 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
 	}
 
 	public void addUserToGallery(String user, String gallery) {
-		galleryResources.addUserToGallery(user, gallery, new Callback<Void, String>() {
-
-			@Override
-			public void onFailure(String reason) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onSuccess(Void result) {
-				view.onAddUserToGallery();
-				
-			}
-		});
 		
-	}
-
-	public void createUser(String username, String password, String password2) {
-		if(password.equals(password2)) {
-			
-			UserAccount user = GQ.create(UserAccount.class);
-			user.setUsername(username);
-			user.setPassword(password);
-			
-			galleryResources.createUser(user, new Callback<Void, String>() {
-
+		if(isValidSelection(user) && isValidSelection(gallery)) {
+			galleryResources.addUserToGallery(user, gallery, new Callback<Void, String>() {
+	
 				@Override
 				public void onFailure(String reason) {
-					view.onFailure(reason);
+					view.onAddUserToGalleryFailure(reason);
 					
 				}
-
+	
 				@Override
 				public void onSuccess(Void result) {
-					view.onCreateUser();
+					view.onAddUserToGallery();
 					
 				}
 			});
 		}
 		else {
-			view.onFailure("Die Passwörter stimmen nicht überein!");
-		}	
+			view.onAddUserToGalleryFailure("Benutzername und Galerie sind erforderlich.");
+		}
+		
+	}
+
+	public void createUser(String username, String password, String password2) {
+		
+		if(! username.isEmpty() && ! password.isEmpty() && ! password2.isEmpty()) {
+			
+			if(password.equals(password2)) {
+			
+				UserAccount user = GQ.create(UserAccount.class);
+				user.setUsername(username);
+				user.setPassword(password);
+				
+				galleryResources.createUser(user, new Callback<Void, String>() {
+	
+					@Override
+					public void onFailure(String reason) {
+						view.onCreateUserFailure(reason);
+						
+					}
+	
+					@Override
+					public void onSuccess(Void result) {
+						view.onCreateUser();
+						
+					}
+				});
+			}
+			else {
+				view.onCreateUserFailure("Die Passwörter stimmen nicht überein!");
+			}	
+		}
+		else {
+			view.onCreateUserFailure("Benutzername und Passwort sind erforderlich.");
+		}
 	}
 
 	public void removeUserFromGallery(String user, String gallery) {
-		galleryResources.removeUserFromGallery(user, gallery, new Callback<Void, String>() {
-
-			@Override
-			public void onFailure(String reason) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onSuccess(Void result) {
-				view.onRemoveUserFromGallery();
-				
-			}
-		});
 		
+		if(isValidSelection(user) && isValidSelection(gallery)) {
+		
+			galleryResources.removeUserFromGallery(user, gallery, new Callback<Void, String>() {
+	
+				@Override
+				public void onFailure(String reason) {
+					view.onRemoveUserFromGalleryFailure(reason);
+				}
+	
+				@Override
+				public void onSuccess(Void result) {
+					view.onRemoveUserFromGallery();
+					
+				}
+			});
+		}
+		else {
+			view.onRemoveUserFromGalleryFailure("Benutzername und Galerie sind erforderlich.");
+		}
+		
+	}
+	
+	private boolean isValidSelection(String value) {
+		return ! value.equals("-") && ! value.isEmpty();
 	}
 }
