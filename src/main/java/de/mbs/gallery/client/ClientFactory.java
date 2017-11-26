@@ -8,6 +8,7 @@ import com.google.web.bindery.event.shared.SimpleEventBus;
 
 import de.mbs.gallery.client.activity.AdminActivity;
 import de.mbs.gallery.client.activity.CheckoutActivity;
+import de.mbs.gallery.client.activity.DownloadActivity;
 import de.mbs.gallery.client.activity.GalleryActivity;
 import de.mbs.gallery.client.activity.ImageActivity;
 import de.mbs.gallery.client.activity.LoginActivity;
@@ -22,6 +23,8 @@ import de.mbs.gallery.client.view.AppPanel;
 import de.mbs.gallery.client.view.CheckoutView;
 import de.mbs.gallery.client.view.CheckoutViewNavbar;
 import de.mbs.gallery.client.view.DefaultNavbar;
+import de.mbs.gallery.client.view.DownloadView;
+import de.mbs.gallery.client.view.DownloadViewNavbar;
 import de.mbs.gallery.client.view.GalleryView;
 import de.mbs.gallery.client.view.GalleryViewNavbar;
 import de.mbs.gallery.client.view.ImageView;
@@ -122,5 +125,13 @@ public class ClientFactory {
 	public Composite getCheckoutViewNavbar(AppPanelPresenter presenter) {
 		
 		return new CheckoutViewNavbar(presenter);
+	}
+
+	public DownloadView downloadView(DownloadActivity presenter) {
+		return new DownloadView(presenter);
+	}
+
+	public Composite getDownloadViewNavbar(AppPanelPresenter presenter) {
+		return new DownloadViewNavbar(presenter);
 	}
 }

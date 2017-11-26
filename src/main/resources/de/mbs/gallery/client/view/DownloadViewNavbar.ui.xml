@@ -1,0 +1,18 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+
+	<g:HTMLPanel>
+		<div class="row">
+			<div class="twelve columns">
+				<a href="https://www.atelier-fuer-bildkunst.de">
+					<img src="logo.png" class="logo"/>
+				</a>
+			</div>
+		</div>
+		<div class="row">
+			<button class="button u-pull-right" id="logoutButton">Abmelden</button>
+		</div>
+	</g:HTMLPanel>
+
+</ui:UiBinder>

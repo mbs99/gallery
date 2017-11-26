@@ -7,6 +7,7 @@ import com.google.gwt.place.shared.Place;
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.place.AdminPlace;
 import de.mbs.gallery.client.place.CheckoutPlace;
+import de.mbs.gallery.client.place.DownloadPlace;
 import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.place.ImagePlace;
 import de.mbs.gallery.client.place.LoginPlace;
@@ -31,6 +32,9 @@ public class GalleryActivityMapper implements ActivityMapper {
 	private Activity createActivityFromPlace(Place place) {
 		if (place instanceof GalleryPlace) {	 	
 			return new GalleryActivity((GalleryPlace) place, clientFactory);
+		}
+		else if (place instanceof DownloadPlace) {	 	
+			return new DownloadActivity((DownloadPlace) place, clientFactory);
 		}
 		else if(place instanceof LoginPlace) {
 			return new LoginActivity((LoginPlace)place, clientFactory);

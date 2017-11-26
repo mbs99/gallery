@@ -97,6 +97,11 @@ public class AppPanelPresenter {
 		}
 		break;
 		
+		case DOWNLOAD_VIEW: {
+			view.setNavbar(factory.getDownloadViewNavbar(this));
+		}
+		break;
+		
 		default:
 			view.setNavbar(factory.getDefaultNavbar(this));
 		break;

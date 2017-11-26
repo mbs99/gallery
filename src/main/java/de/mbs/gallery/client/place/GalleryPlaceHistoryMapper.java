@@ -9,7 +9,8 @@ import com.google.gwt.place.shared.WithTokenizers;
 	ImagePlace.Tokenizer.class,
 	LogoutPlace.Tokenizer.class,
 	OrderPlace.Tokenizer.class,
-	CheckoutPlace.Tokenizer.class})
+	CheckoutPlace.Tokenizer.class,
+	DownloadPlace.Tokenizer.class})
 public interface GalleryPlaceHistoryMapper extends PlaceHistoryMapper
 {
 }
