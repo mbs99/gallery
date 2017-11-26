@@ -6,13 +6,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.mbs.gallery.client.activity.DownloadActivity;
@@ -58,20 +55,8 @@ public class DownloadView extends Composite {
 		row.setStyleName("row");
 		downloadViewPanel.add(row);
 		
-		ClickHandler clickHandler = new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				Image targetImage = (Image)event.getSource();
-				if(null !=targetImage) {
-					presenter.clickImage(targetImage.getElement().getId());
-				}
-				
-			}
-		};
-		
 		for(int i=0;i<colNum;i++) {
-			cols.add(new DownloadImageContainer(presenter, clickHandler));
+			cols.add(new DownloadImageContainer());
 		}
 		
 		GalleryImage[] images = gallery.getImages();
