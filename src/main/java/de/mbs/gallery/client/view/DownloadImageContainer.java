@@ -26,8 +26,8 @@ public class DownloadImageContainer extends Composite {
 	}
 	
 	public interface ImageTemplate extends SafeHtmlTemplates {
-		   @Template("<a href=\"{1}\" download><img class=\"galleryImage galleryImagePadding\" id=\"{0}\" alt=\"{0}\" src=\"{1}\"/></a>")
-		   SafeHtml image(String id, String imgUrl);
+		   @Template("<a href=\"{1}\" download><img class=\"galleryImage galleryImagePadding\" id=\"{0}\" alt=\"{0}\" src=\"{2}\"/></a>")
+		   SafeHtml image(String id, String imgUrl, String thumbnailUrl);
 		}
 		
 	ImageTemplate imageTemplate = GWT.create(ImageTemplate.class);
@@ -42,7 +42,7 @@ public class DownloadImageContainer extends Composite {
 	
 	private void addImage(GalleryImage image, String thumbnailUrl, String url) {
 		
-		$(imageTemplate.image(image.getId(), url)).appendTo($(imgContainer));
+		$(imageTemplate.image(image.getId(), url, thumbnailUrl)).appendTo($(imgContainer));
 	}
 
 	public void addImage(String galleryName, GalleryImage image) {
@@ -50,7 +50,7 @@ public class DownloadImageContainer extends Composite {
 		logger.finest("addImage " + galleryName);
 		
 		addImage(image,
-				GWT.getHostPageBaseURL() + "api/gallery/" + galleryName + "/" + image.getId(),
+				GWT.getHostPageBaseURL() + "api/gallery/" + galleryName + "/" + image.getId() + "?thumbnail=true",
 				GWT.getHostPageBaseURL() + "api/gallery/" + galleryName + "/" + image.getId());
 		
 	}
