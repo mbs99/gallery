@@ -1,9 +1,11 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui"
-	xmlns:view="urn:import:de.mbs.gallery.client.view">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:view="urn:import:de.mbs.gallery.client.view">
 
 	<g:HTMLPanel ui:field="downloadViewPanel">
+		<div class="row>">
+			<p>Ein Klick auf das Vorschaubild startet den Download.</p>
+		</div>
 	</g:HTMLPanel>
 
 </ui:UiBinder>
