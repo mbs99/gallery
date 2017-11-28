@@ -13,6 +13,7 @@ import de.mbs.gallery.client.model.Authorization;
 import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.place.LogoutPlace;
 import de.mbs.gallery.client.view.AppPanel;
+import de.mbs.gallery.client.view.DownloadViewNavbar;
 
 public class AppPanelPresenter {
 
@@ -40,7 +41,6 @@ public class AppPanelPresenter {
 						
 					}
 				});
-
 	}
 
 	public void setFilter(String filter) {
@@ -98,7 +98,8 @@ public class AppPanelPresenter {
 		break;
 		
 		case DOWNLOAD_VIEW: {
-			view.setNavbar(factory.getDownloadViewNavbar(this));
+			DownloadViewNavbar navBar = factory.getDownloadViewNavbar(this);
+			view.setNavbar(navBar);
 		}
 		break;
 		
@@ -140,5 +141,9 @@ public class AppPanelPresenter {
 
 	public void submitOrder() {
 		factory.eventBus().fireEvent(new MenuItemEvent(EMenuItem.SUBMIT_ORDER));
+	}
+
+	public void zipDownload() {
+		factory.eventBus().fireEvent(new MenuItemEvent(EMenuItem.ZIP_DOWNLOAD));	
 	}
 }

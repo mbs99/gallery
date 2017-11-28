@@ -1,5 +1,7 @@
 package de.mbs.gallery.client.view;
 
+import static com.google.gwt.query.client.GQuery.$;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -83,5 +85,11 @@ public class DownloadView extends Composite {
 		gallery = result;
 		
 		logger.log(Level.FINEST, "leave setGallery");
+	}
+	
+	public void onClickDownload() {
+		$(downloadViewPanel)
+			.append($("<a href=\""+ GWT.getHostPageBaseURL() + "api/download/" + gallery.getName() + "\"/>")
+					.hide().click());
 	}
 }

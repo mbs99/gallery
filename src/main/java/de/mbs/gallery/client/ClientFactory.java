@@ -131,7 +131,7 @@ public class ClientFactory {
 		return new DownloadView(presenter);
 	}
 
-	public Composite getDownloadViewNavbar(AppPanelPresenter presenter) {
+	public DownloadViewNavbar getDownloadViewNavbar(AppPanelPresenter presenter) {
 		return new DownloadViewNavbar(presenter);
 	}
 }

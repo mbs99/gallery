@@ -20,7 +20,6 @@ import de.mbs.gallery.client.model.Gallery;
 import de.mbs.gallery.client.model.GalleryImage;
 import de.mbs.gallery.client.place.DownloadPlace;
 import de.mbs.gallery.client.place.ImagePlace;
-import de.mbs.gallery.client.place.OrderPlace;
 import de.mbs.gallery.client.view.DownloadView;
 
 public class DownloadActivity extends AbstractGalleryActivity<DownloadPlace, DownloadView> {
@@ -55,9 +54,9 @@ public class DownloadActivity extends AbstractGalleryActivity<DownloadPlace, Dow
 				
 				@Override
 				public void menuItem(MenuItemEvent event) {
-					if(event.getItem() == EMenuItem.SHOW_ORDER) {
+					if(event.getItem() == EMenuItem.ZIP_DOWNLOAD) {
 						
-						clientFactory.placeController().goTo(new OrderPlace(place.getId()));
+						view.onClickDownload();
 					}
 				}
 			}));

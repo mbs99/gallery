@@ -12,6 +12,7 @@
 		</div>
 		<div class="row">
 			<button class="button u-pull-right" id="logoutButton">Abmelden</button>
+			<button class="button u-pull-right" id="zipDownloadButton">Archiv herunterladen</button>
 		</div>
 	</g:HTMLPanel>
 

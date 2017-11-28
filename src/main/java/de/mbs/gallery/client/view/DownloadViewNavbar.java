@@ -46,6 +46,16 @@ public class DownloadViewNavbar extends Composite {
 				return false;
 			}
 		});
+		
+		$("#zipDownloadButton").click(new Function() {
+			@Override
+			public boolean f(Event e) {
+				
+				presenter.zipDownload();
+				
+				return false;
+			}
+		});
 	}
 	
 	@Override
@@ -53,6 +63,7 @@ public class DownloadViewNavbar extends Composite {
 		super.onUnload();
 		
 		$("#logoutButton").off();
+		$("#zipDownloadButton").off();
 		
 		logger.finest("onUnload");
 	}
