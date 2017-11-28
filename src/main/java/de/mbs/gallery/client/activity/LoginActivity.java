@@ -86,7 +86,7 @@ public class LoginActivity extends AbstractActivity {
 		
 		Place place;
 		
-		if(id.toLowerCase().endsWith("download")) {
+		if(null != id && id.toLowerCase().endsWith("download")) {
 			place = new DownloadPlace(id);
 		}
 		else {
