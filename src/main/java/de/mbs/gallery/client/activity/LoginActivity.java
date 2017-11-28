@@ -3,6 +3,7 @@ package de.mbs.gallery.client.activity;
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.place.shared.Place;
 import com.google.gwt.query.client.GQ;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
@@ -12,6 +13,7 @@ import de.mbs.gallery.client.event.ChangeNavbarEvent;
 import de.mbs.gallery.client.event.ENavbarType;
 import de.mbs.gallery.client.model.Authorization;
 import de.mbs.gallery.client.place.AbstractGalleryPlace;
+import de.mbs.gallery.client.place.DownloadPlace;
 import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.place.LoginPlace;
 import de.mbs.gallery.client.view.LoginView;
@@ -81,6 +83,16 @@ public class LoginActivity extends AbstractActivity {
 	}
 
 	public void showGallery(String id) {
-		clientFactory.placeController().goTo(new GalleryPlace(id));
+		
+		Place place;
+		
+		if(id.toLowerCase().endsWith("download")) {
+			place = new DownloadPlace(id);
+		}
+		else {
+			place = new GalleryPlace(id);
+		}
+		
+		clientFactory.placeController().goTo(place);
 	}
 }
