@@ -106,55 +106,66 @@ public class OrderActivity extends AbstractGalleryActivity<OrderPlace, OrderView
 	}
 
 	protected void submitOrder() {
+		Gallery gallery = model.getGallery(place.getRole());
+		EOrderState orderState = EOrderState.valueOf(gallery.getOrderState());
+		if(null == orderState
+				|| EOrderState.OPEN.equals(orderState)) {
 		
-		view.bindToModel();
-		
-		saveGallery(place.getRole(), new Callback<Void, String>() {
-
-			@Override
-			public void onFailure(String reason) {
-				view.onError(reason);
-				
-			}
-
-			@Override
-			public void onSuccess(Void result) {
-				clientFactory.galleryResources().submitOrder(model.getGallery(place.getRole()), new Callback<Void, String>() {
-
-					@Override
-					public void onFailure(String reason) {
-						logger.log(Level.SEVERE, reason);
-
-					}
-
-					@Override
-					public void onSuccess(Void result) {
-						
-						Gallery gallery = model.getGallery(place.getRole());
-						gallery.setOrderState(EOrderState.SUBMIT.toString());
-						
-						clientFactory.galleryResources().saveGallery(gallery, new Callback<Void, String>() {
-
-							@Override
-							public void onFailure(String reason) {
-								logger.log(Level.SEVERE, reason);
-								
-								view.onError(reason);
-							}
-
-							@Override
-							public void onSuccess(Void result) {
-								view.onSubmitOrder();
-								
-								clientFactory.placeController().goTo(new CheckoutPlace(place.getRole()));
-								
-							}
-						});
-					}
-				});		
-			}
-		});
-
+			view.bindToModel();
+			
+			gallery.setOrderState(EOrderState.SUBMIT.toString());
+			
+			saveGallery(place.getRole(), new Callback<Void, String>() {
+	
+				@Override
+				public void onFailure(String reason) {
+					view.onError(reason);
+					
+				}
+	
+				@Override
+				public void onSuccess(Void result) {
+					clientFactory.galleryResources().submitOrder(model.getGallery(place.getRole()), new Callback<Void, String>() {
+	
+						@Override
+						public void onFailure(String reason) {
+							logger.log(Level.SEVERE, reason);
+	
+							Gallery gallery = model.getGallery(place.getRole());
+							gallery.setOrderState(EOrderState.OPEN.toString());
+						}
+	
+						@Override
+						public void onSuccess(Void result) {
+							
+							Gallery gallery = model.getGallery(place.getRole());
+							gallery.setOrderState(EOrderState.WIP.toString());
+							
+							clientFactory.galleryResources().saveGallery(gallery, new Callback<Void, String>() {
+	
+								@Override
+								public void onFailure(String reason) {
+									logger.log(Level.SEVERE, reason);
+									
+									view.onError(reason);
+								}
+	
+								@Override
+								public void onSuccess(Void result) {
+									view.onSubmitOrder();
+									
+									clientFactory.placeController().goTo(new CheckoutPlace(place.getRole()));
+									
+								}
+							});
+						}
+					});		
+				}
+			});
+		}
+		else {
+			view.onSubmitOrder();
+		}
 	}
 
 	public void removeImage(String id) {
