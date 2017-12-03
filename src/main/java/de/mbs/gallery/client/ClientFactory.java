@@ -134,4 +134,8 @@ public class ClientFactory {
 	public DownloadViewNavbar getDownloadViewNavbar(AppPanelPresenter presenter) {
 		return new DownloadViewNavbar(presenter);
 	}
+
+	public Composite getReadOnlyOrderViewNavbar(AppPanelPresenter presenter) {
+		return new OrderViewNavbar(presenter, Boolean.TRUE);
+	}
 }

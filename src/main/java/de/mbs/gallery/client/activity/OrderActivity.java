@@ -65,6 +65,10 @@ public class OrderActivity extends AbstractGalleryActivity<OrderPlace, OrderView
 				@Override
 				public void onSuccess(Gallery result) {
 
+					if(! EOrderState.OPEN.equals(EOrderState.safeParseValue(result.getOrderState()))) {
+						clientFactory.eventBus().fireEvent(new ChangeNavbarEvent(ENavbarType.READONLY_ORDER_VIEW));
+					}
+					
 					parent.setWidget(view.asWidget());
 					
 				}
@@ -83,6 +87,9 @@ public class OrderActivity extends AbstractGalleryActivity<OrderPlace, OrderView
 
 	@Override
 	public void onStop() {
+		for(HandlerRegistration iter : handlerRegistration) {
+			iter.removeHandler();
+		}
 	}
 
 	public Order getOrder() {
@@ -107,7 +114,7 @@ public class OrderActivity extends AbstractGalleryActivity<OrderPlace, OrderView
 
 	protected void submitOrder() {
 		Gallery gallery = model.getGallery(place.getRole());
-		EOrderState orderState = EOrderState.valueOf(gallery.getOrderState());
+		EOrderState orderState = EOrderState.safeParseValue(gallery.getOrderState());
 		if(null == orderState
 				|| EOrderState.OPEN.equals(orderState)) {
 		
@@ -165,6 +172,8 @@ public class OrderActivity extends AbstractGalleryActivity<OrderPlace, OrderView
 		}
 		else {
 			view.onSubmitOrder();
+			
+			clientFactory.placeController().goTo(new CheckoutPlace(place.getRole()));
 		}
 	}
 

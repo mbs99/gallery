@@ -47,6 +47,17 @@ public class OrderView extends Composite {
 	}
 
 	OrderItemTemplate orderItemTemplate = GWT.create(OrderItemTemplate.class);
+	
+	public interface ReadonlyOrderItemTemplate extends SafeHtmlTemplates {
+		@Template("<div class=\"row\" id=\"" + ORDER_ITEM_ID_PREFIX + "{1}\">" + "<div class=\"three columns\">"
+				+ "<img class=\"galleryImage\" src=\"{2}\"/>" + "</div>" + "<div class=\"nine columns\">"
+				+ "<span>Bildnummer {0}</span>" + "<label for=\"textarea{1}\">Anmerkungen, W&uuml;nsche usw.</label>"
+				+ "<textarea disabled id=\"" + COMMENTS_ID_PREFIX + "{1}\" class=\"u-full-width\"></textarea>" + "</div>"
+				+ "</div>")
+		SafeHtml image(String imgTitle, String imgId, String imgUrl);
+	}
+
+	ReadonlyOrderItemTemplate readonlyOrderItemTemplate = GWT.create(ReadonlyOrderItemTemplate.class);
 
 	private static final Logger logger = Logger.getLogger("OrderView");
 
@@ -62,27 +73,37 @@ public class OrderView extends Composite {
 		super.onLoad();
 
 		Order order = presenter.getOrder();
-		for (GalleryImage img : order.getImages()) {
-			$(orderItemTemplate.image(img.getFile(), img.getId(), createImgUrl(order.getGalleryName(), img.getId())))
-					.appendTo($(orderViewPanel));
-
-			$("#" + DELETE_BUTTON_ID_PREFIX + img.getId()).click(new Function() {
-				@Override
-				public boolean f(Event e) {
-
-					presenter.removeImage(img.getId());
-
-					return false;
-				}
-			});
-		}
 		
 		EOrderState orderState = EOrderState.OPEN;
 		if(null != order.getOrderState()) {
-			orderState = EOrderState.valueOf(order.getOrderState());
+			orderState = EOrderState.safeParseValue(order.getOrderState());
 		}
 		
 		updateOrderState(orderState);
+		
+		Boolean readOnly = ! orderState.equals(EOrderState.OPEN);
+		
+		for (GalleryImage img : order.getImages()) {
+			
+			if(readOnly) {
+				$(readonlyOrderItemTemplate.image(img.getFile(), img.getId(), createImgUrl(order.getGalleryName(), img.getId())))
+				.appendTo($(orderViewPanel));
+			}
+			else {
+				$(orderItemTemplate.image(img.getFile(), img.getId(), createImgUrl(order.getGalleryName(), img.getId())))
+						.appendTo($(orderViewPanel));
+	
+				$("#" + DELETE_BUTTON_ID_PREFIX + img.getId()).click(new Function() {
+					@Override
+					public boolean f(Event e) {
+	
+						presenter.removeImage(img.getId());
+	
+						return false;
+					}
+				});
+			}
+		}
 	}
 
 	@Override
@@ -136,6 +157,16 @@ public class OrderView extends Composite {
 			switch (state) {
 	
 				case SUBMIT: {
+					$("#orderStatus").text("erfolgreich versendet");
+				}
+				break;
+				
+				case WIP: {
+					$("#orderStatus").text("erfolgreich versendet");
+				}
+				break;
+				
+				case DOWNLOAD: {
 					$("#orderStatus").text("erfolgreich versendet");
 				}
 				break;

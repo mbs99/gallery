@@ -103,6 +103,11 @@ public class AppPanelPresenter {
 		}
 		break;
 		
+		case READONLY_ORDER_VIEW: {
+			view.setNavbar(factory.getReadOnlyOrderViewNavbar(this));
+		}
+		break;
+		
 		default:
 			view.setNavbar(factory.getDefaultNavbar(this));
 		break;

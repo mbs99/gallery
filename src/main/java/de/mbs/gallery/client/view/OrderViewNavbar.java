@@ -25,10 +25,18 @@ public class OrderViewNavbar extends Composite {
 	private static final Logger logger = Logger.getLogger("OrderViewNavbar");
 	
 	private AppPanelPresenter presenter;
+	private final Boolean readOnly;
 
 	public OrderViewNavbar(AppPanelPresenter presenter) {
 		
+		this(presenter, Boolean.FALSE);
+	}
+	
+	public OrderViewNavbar(AppPanelPresenter presenter, Boolean readOnly) {
+		
 		this.presenter = presenter;
+		this.readOnly = readOnly;
+		
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
@@ -47,15 +55,20 @@ public class OrderViewNavbar extends Composite {
 			}
 		});
 		
-		$("#orderButton").click(new Function() {
-			@Override
-			public boolean f(Event e) {
-				
-				presenter.submitOrder();
-				
-				return false;
-			}
-		});
+		if(readOnly) {
+			$("#orderButton").hide();
+		}
+		else {
+			$("#orderButton").click(new Function() {
+				@Override
+				public boolean f(Event e) {
+					
+					presenter.submitOrder();
+					
+					return false;
+				}
+			});
+		}
 		
 		$("#galleryButton").click(new Function() {
 			@Override
