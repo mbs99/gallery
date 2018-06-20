@@ -131,16 +131,49 @@ public class ImageActivity extends AbstractGalleryActivity<ImagePlace, ImageView
 	public void nextImage() {
 		Gallery gallery = clientFactory.getViewModel().getGallery(place.getGalleryName());
 		int currentIndex = clientFactory.getViewModel().getSlideshowPos();
+		
 		if(currentIndex < gallery.getImages().length -1) {
 			
 			saveGallery();
 			
-			GalleryImage image = gallery.getImages()[currentIndex + 1];
-			String nextImageId = image.getId();
-			clientFactory.placeController().goTo(new ImagePlace(gallery.getName(), nextImageId));
+			String filter = place.getFilter();
+			if(null != filter && ! filter.isEmpty()) {
+				goToNextImage(gallery, currentIndex, convertFilterToVote(filter));
+			}
+			else {
+				goToNextImage(gallery, currentIndex);
+			}		
 		}
 	}
 	
+	private int convertFilterToVote(String filter) {
+		return 0;
+	}
+
+	private void goToNextImage(Gallery gallery, int currentIndex) {
+		
+		GalleryImage image = gallery.getImages()[currentIndex + 1];
+		
+		String nextImageId = image.getId();
+		clientFactory.placeController().goTo(new ImagePlace(gallery.getName(), nextImageId, place.getFilter()));	
+	}
+	
+	private void goToNextImage(Gallery gallery, int currentIndex, int vote) {
+		String nextImageId = null;
+		do {
+			GalleryImage image = gallery.getImages()[++currentIndex];
+			if(null != image.getVote() && vote == image.getVote().intValue()) {
+				nextImageId = image.getId();
+				break;
+			}
+		}
+		while(currentIndex < gallery.getImages().length);
+		
+		if(null != nextImageId) {
+			clientFactory.placeController().goTo(new ImagePlace(gallery.getName(), nextImageId, place.getFilter()));	
+		}
+	}
+
 	public void previousImage() {
 		Gallery gallery = clientFactory.getViewModel().getGallery(place.getGalleryName());
 		int currentIndex = clientFactory.getViewModel().getSlideshowPos();
@@ -149,9 +182,35 @@ public class ImageActivity extends AbstractGalleryActivity<ImagePlace, ImageView
 			
 			saveGallery();
 			
-			GalleryImage image = gallery.getImages()[currentIndex - 1];
-			String previousImageId = image.getId();
-			clientFactory.placeController().goTo(new ImagePlace(gallery.getName(), previousImageId));
+			String filter = place.getFilter();
+			if(null != filter && ! filter.isEmpty()) {
+				goToPreviousImage(gallery, currentIndex, convertFilterToVote(filter));
+			}
+			else {
+				goToPreviousImage(gallery, currentIndex);
+			}
+		}
+	}
+	
+	private void goToPreviousImage(Gallery gallery, int currentIndex) {
+		GalleryImage image = gallery.getImages()[currentIndex - 1];
+		String previousImageId = image.getId();
+		clientFactory.placeController().goTo(new ImagePlace(gallery.getName(), previousImageId, place.getFilter()));
+	}
+	
+	private void goToPreviousImage(Gallery gallery, int currentIndex, int vote) {
+		String previousImageId = null;
+		do {
+			GalleryImage image = gallery.getImages()[--currentIndex];
+			if(null != image.getVote() && vote == image.getVote().intValue()) {
+				previousImageId = image.getId();
+				break;
+			}
+		}
+		while(currentIndex > 0);
+		
+		if(null != previousImageId) {
+			clientFactory.placeController().goTo(new ImagePlace(gallery.getName(), previousImageId, place.getFilter()));	
 		}
 	}
 	

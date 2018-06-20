@@ -45,6 +45,8 @@ public class AppPanelPresenter {
 
 	public void setFilter(String filter) {
 		
+		factory.getViewModel().setFilter(filter);
+		
 		Place currentPlace = factory.placeController().getWhere();
 		if (currentPlace instanceof GalleryPlace) {
 			GalleryPlace place = new GalleryPlace(((GalleryPlace) currentPlace).getId(), filter);

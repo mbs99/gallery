@@ -8,6 +8,7 @@ public class ViewModel {
 	private Map<String,Gallery> galleriesByName = new LinkedHashMap<>();
 	private Authorization authorization;
 	private int slideshowPos = -1;
+	private String filter;
 
 	public Gallery getGallery(String name) {
 		
@@ -32,5 +33,13 @@ public class ViewModel {
 	
 	public int getSlideshowPos() {
 		return this.slideshowPos;
+	}
+
+	public String getFilter() {
+		return filter;
+	}
+
+	public void setFilter(String filter) {
+		this.filter = filter;
 	}
 }

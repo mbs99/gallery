@@ -122,7 +122,7 @@ public class DownloadActivity extends AbstractGalleryActivity<DownloadPlace, Dow
 			}
 		}
 		if(null != selectedImage) {
-			clientFactory.placeController().goTo(new ImagePlace(gallery.getName(), id));
+			clientFactory.placeController().goTo(new ImagePlace(gallery.getName(), id, ""));
 		}
 	}
 }

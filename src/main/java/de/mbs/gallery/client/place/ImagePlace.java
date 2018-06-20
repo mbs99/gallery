@@ -6,12 +6,14 @@ public class ImagePlace extends AbstractGalleryPlace {
 
 	private String galleryName;
 	private String imageId;
+	private String filter;
 
-	public ImagePlace(String galleryName, String imageId) {
+	public ImagePlace(String galleryName, String imageId, String filter) {
 		super(galleryName);
 		
 		this.galleryName = galleryName;
 		this.imageId = imageId;
+		this.filter = filter;
 	}
 
 	public String getGalleryName() {
@@ -33,11 +35,17 @@ public class ImagePlace extends AbstractGalleryPlace {
 			String[] tokens = token.split("::");
 			ImagePlace place;
 			if (tokens.length == 2) {
-				place = new ImagePlace(tokens[0], tokens[1]);
+				place = new ImagePlace(tokens[0], tokens[1], "");
+			} else if (tokens.length == 3) {
+				place = new ImagePlace(tokens[0], tokens[1], tokens[2]);
 			} else {
-				place = new ImagePlace("", "");
+				place = new ImagePlace("", "", "");
 			}
 			return place;
 		}
+	}
+
+	public String getFilter() {
+		return filter;
 	}
 }

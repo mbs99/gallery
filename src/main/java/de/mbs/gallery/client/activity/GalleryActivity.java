@@ -225,7 +225,7 @@ public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace, Galle
 			}
 		}
 		if(null != selectedImage) {
-			clientFactory.placeController().goTo(new ImagePlace(gallery.getName(), id));
+			clientFactory.placeController().goTo(new ImagePlace(gallery.getName(), id, place.getFilter()));
 		}
 	}
 
