@@ -8,6 +8,7 @@ import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.event.ChangeFilterEvent;
 import de.mbs.gallery.client.event.ChangeNavbarEvent;
 import de.mbs.gallery.client.event.EMenuItem;
+import de.mbs.gallery.client.event.EnableFilterEvent;
 import de.mbs.gallery.client.event.MenuItemEvent;
 import de.mbs.gallery.client.model.Authorization;
 import de.mbs.gallery.client.place.GalleryPlace;
@@ -38,6 +39,15 @@ public class AppPanelPresenter {
 					@Override
 					public void changeFilter(ChangeFilterEvent event) {
 						handleChangeFilter(event);
+						
+					}
+				});
+		clientFactory.eventBus().addHandler(EnableFilterEvent.TYPE,
+				new EnableFilterEvent.EnableFilterEventHandler() {
+					
+					@Override
+					public void changeFilter(EnableFilterEvent event) {
+						handleEnableFilter(event);
 						
 					}
 				});
@@ -118,6 +128,10 @@ public class AppPanelPresenter {
 	
 	private void handleChangeFilter(ChangeFilterEvent event) {
 		view.setFilter(event.getFilter());
+	}
+	
+	private void handleEnableFilter(EnableFilterEvent event) {
+		view.enableFilter(event.getEnableFilter());
 	}
 
 	public void logout() {

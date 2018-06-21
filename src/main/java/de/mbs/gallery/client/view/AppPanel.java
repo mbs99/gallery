@@ -72,4 +72,8 @@ public class AppPanel extends Composite {
 			$("#filter").val(filter);
 		}
 	}
+	
+	public void enableFilter(boolean enableFilter) {
+		$("#filter").prop("disabled", ! enableFilter);
+	}
 }

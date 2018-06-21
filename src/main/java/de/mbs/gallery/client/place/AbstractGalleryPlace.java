@@ -4,6 +4,8 @@ import com.google.gwt.place.shared.Place;
 
 public abstract class AbstractGalleryPlace extends Place {
 	
+	protected static final String SEPARATOR = "::";
+	
 	private String role;
 	
 	protected AbstractGalleryPlace(String role) {

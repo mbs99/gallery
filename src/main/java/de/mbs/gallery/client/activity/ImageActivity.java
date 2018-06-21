@@ -9,9 +9,11 @@ import com.google.web.bindery.event.shared.HandlerRegistration;
 
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.GalleryResources;
+import de.mbs.gallery.client.event.ChangeFilterEvent;
 import de.mbs.gallery.client.event.ChangeNavbarEvent;
 import de.mbs.gallery.client.event.MenuItemEvent;
 import de.mbs.gallery.client.event.ENavbarType;
+import de.mbs.gallery.client.event.EnableFilterEvent;
 import de.mbs.gallery.client.model.Gallery;
 import de.mbs.gallery.client.model.GalleryImage;
 import de.mbs.gallery.client.place.GalleryPlace;
@@ -110,6 +112,11 @@ public class ImageActivity extends AbstractGalleryActivity<ImagePlace, ImageView
 					}
 				});
 			}
+			if(null != place.getFilter() && ! place.getFilter().isEmpty()) {
+				clientFactory.eventBus().fireEvent(new ChangeFilterEvent(place.getFilter()));
+			}
+			clientFactory.eventBus().fireEvent(new EnableFilterEvent(false));
+			
 		}
 		else {
 			redirectToLogin();
@@ -119,6 +126,8 @@ public class ImageActivity extends AbstractGalleryActivity<ImagePlace, ImageView
 	@Override
 	public void onStop() {
 		handler.removeHandler();
+		
+		clientFactory.eventBus().fireEvent(new EnableFilterEvent(true));
 	}
 	
 	private String getImageUrl(Gallery gallery, GalleryImage image) {
@@ -137,7 +146,7 @@ public class ImageActivity extends AbstractGalleryActivity<ImagePlace, ImageView
 			saveGallery();
 			
 			String filter = place.getFilter();
-			if(null != filter && ! filter.isEmpty()) {
+			if(null != filter && ! filter.isEmpty() && ! "off".equals(filter)) {
 				goToNextImage(gallery, currentIndex, convertFilterToVote(filter));
 			}
 			else {
@@ -146,8 +155,16 @@ public class ImageActivity extends AbstractGalleryActivity<ImagePlace, ImageView
 		}
 	}
 	
-	private int convertFilterToVote(String filter) {
-		return 0;
+	private Integer convertFilterToVote(String filter) {
+		if("1Star".equals(filter)) {
+			return Integer.valueOf(1);
+		} else if("2Stars".equals(filter)) {
+			return Integer.valueOf(2);
+		}
+		else if("3Stars".equals(filter)) {
+			return Integer.valueOf(3);
+		}
+		return Integer.valueOf(0);
 	}
 
 	private void goToNextImage(Gallery gallery, int currentIndex) {
@@ -183,7 +200,7 @@ public class ImageActivity extends AbstractGalleryActivity<ImagePlace, ImageView
 			saveGallery();
 			
 			String filter = place.getFilter();
-			if(null != filter && ! filter.isEmpty()) {
+			if(null != filter && ! filter.isEmpty() && ! "off".equals(filter)) {
 				goToPreviousImage(gallery, currentIndex, convertFilterToVote(filter));
 			}
 			else {
@@ -198,11 +215,11 @@ public class ImageActivity extends AbstractGalleryActivity<ImagePlace, ImageView
 		clientFactory.placeController().goTo(new ImagePlace(gallery.getName(), previousImageId, place.getFilter()));
 	}
 	
-	private void goToPreviousImage(Gallery gallery, int currentIndex, int vote) {
+	private void goToPreviousImage(Gallery gallery, int currentIndex, Integer vote) {
 		String previousImageId = null;
 		do {
 			GalleryImage image = gallery.getImages()[--currentIndex];
-			if(null != image.getVote() && vote == image.getVote().intValue()) {
+			if(vote == image.getVote()) {
 				previousImageId = image.getId();
 				break;
 			}

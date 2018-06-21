@@ -27,12 +27,18 @@ public class ImagePlace extends AbstractGalleryPlace {
 	public static class Tokenizer implements PlaceTokenizer<ImagePlace> {
 		@Override
 		public String getToken(ImagePlace place) {
-			return place.galleryName + "::" + place.getImageId();
+			String token = place.galleryName + SEPARATOR + place.getImageId();
+			
+			if(null != place.getFilter() && ! place.getFilter().isEmpty()) {
+				token += SEPARATOR + place.getFilter();
+ 			}
+			
+			return token;
 		}
 
 		@Override
 		public ImagePlace getPlace(String token) {
-			String[] tokens = token.split("::");
+			String[] tokens = token.split(SEPARATOR);
 			ImagePlace place;
 			if (tokens.length == 2) {
 				place = new ImagePlace(tokens[0], tokens[1], "");
