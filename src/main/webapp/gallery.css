@@ -70,3 +70,9 @@
 .paddingTop {
 	padding-top: 1em;
 }
+
+.h5 {
+	border-bottom-style: solid;
+	border-bottom-with: 1px;
+	
+}

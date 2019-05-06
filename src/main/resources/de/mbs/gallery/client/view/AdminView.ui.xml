@@ -27,7 +27,7 @@
 		</g:HTMLPanel>
 		<g:HTMLPanel styleName="row">
 			<g:HTMLPanel styleName="twelve columns">
-				<h5>Benutzer l&uuml;schen</h5>
+				<h5>Benutzer l&ouml;schen</h5>
 			</g:HTMLPanel>
 		</g:HTMLPanel>
 		<g:HTMLPanel styleName="row">
