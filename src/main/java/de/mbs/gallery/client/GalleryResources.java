@@ -343,4 +343,33 @@ public class GalleryResources {
  		});
 		
 	}
+
+	public void deleteUser(String user, Callback<Void, String> callback) {
+		Settings settings = Ajax.createSettings();
+		settings.setUrl(GWT.getHostPageBaseURL()
+				+ "/api/admin/user/"
+				+ user);
+		settings.setType("delete");
+		
+		Ajax.ajax(settings)
+		.done(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				callback.onSuccess(null);
+ 				
+ 				return null;
+ 			}
+ 		})
+ 		.fail(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				callback.onFailure((String)args[0]);
+ 				
+ 				return null;
+ 			}
+ 		});
+		
+	}
 }

@@ -25,6 +25,24 @@
 				<button class="button" id="createUserButton">Benutzer anlegen</button>
 			</g:HTMLPanel>
 		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="twelve columns">
+				<h5>Benutzer l&uuml;schen</h5>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="twelve columns">
+				<label for="users">Benutzer</label>
+				<select id="users">
+					<option value="-"></option>
+				</select>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="twelve columns">
+				<button class="button" id="deleteUserButton">Benutzer löschen</button>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
 		<g:HTMLPanel styleName="row" addStyleNames="paddingTop">
 			<g:HTMLPanel styleName="twelve columns">
 				<h5>Benutzer zu Galerie hinzuf&uuml;gen</h5>

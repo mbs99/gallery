@@ -87,13 +87,13 @@ public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace, Galle
 						if(null != place.getFilter()) {
 							if(place.getFilter().equals("1Star")) {
 								
-								gallery = filterGalleryImagesByVote(result, new Integer(1));
+								gallery = filterGalleryImagesByVote(result, Integer.valueOf(1));
 							}
 							else if(place.getFilter().equals("2Stars")) {
-								gallery = filterGalleryImagesByVote(result, new Integer(2));
+								gallery = filterGalleryImagesByVote(result, Integer.valueOf(2));
 							}
 							else if(place.getFilter().equals("3Stars")) {
-								gallery = filterGalleryImagesByVote(result, new Integer(3));
+								gallery = filterGalleryImagesByVote(result, Integer.valueOf(3));
 							}
 						}
 						
@@ -113,13 +113,13 @@ public class GalleryActivity extends AbstractGalleryActivity<GalleryPlace, Galle
 				if(null != place.getFilter()) {
 					if(place.getFilter().equals("1Star")) {
 						
-						gallery = filterGalleryImagesByVote(gallery, new Integer(1));
+						gallery = filterGalleryImagesByVote(gallery, Integer.valueOf(1));
 					}
 					else if(place.getFilter().equals("2Stars")) {
-						gallery = filterGalleryImagesByVote(gallery, new Integer(2));
+						gallery = filterGalleryImagesByVote(gallery, Integer.valueOf(2));
 					}
 					else if(place.getFilter().equals("3Stars")) {
-						gallery = filterGalleryImagesByVote(gallery, new Integer(3));
+						gallery = filterGalleryImagesByVote(gallery, Integer.valueOf(3));
 					}
 				}
 				

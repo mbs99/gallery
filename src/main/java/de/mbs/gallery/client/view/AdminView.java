@@ -60,6 +60,14 @@ public class AdminView extends Composite {
 				return false;
 			}
 		});
+		
+		$("#deleteUserButton").click(new Function() {
+			@Override
+			public boolean f(Event e) {
+				presenter.deleteUser($("#users").val());
+				return false;
+			}
+		});
 
 		$("#addUserToGalleryButton").click(new Function() {
 			@Override
@@ -93,6 +101,8 @@ public class AdminView extends Composite {
 			public boolean f(Event e, Object... arg) {
 
 				String selection = $(e.getEventTarget()).val();
+				
+				logger.finest(selection);
 
 				String link = GWT.getHostPageBaseURL() + "gallery.html";
 
@@ -123,6 +133,7 @@ public class AdminView extends Composite {
 	public void onGetUsers(String[] users) {
 
 		initSelection($("#galleryUser"), users);
+		initSelection($("#users"), users);
 
 	}
 
@@ -180,5 +191,16 @@ public class AdminView extends Composite {
 		for (String option : values) {
 			$(ITEM_TEMPLATE.addOption(option)).appendTo(selector);
 		}
+	}
+
+	public void onDeleteUser(String user) {
+		
+		$("#user option[value='"+ user + "']").remove();
+		InfoMessage.showMessage($("#deleteUserButton").parent(), "Benutzer wurde gelöscht.", 1000);
+	}
+
+	public void onDeleteUserFailure(String reason) {
+		InfoMessage.showError($("#deleteUserButton").parent(), reason, 1000);
+		
 	}
 }

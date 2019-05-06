@@ -155,4 +155,26 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
 	private boolean isValidSelection(String value) {
 		return ! value.equals("-") && ! value.isEmpty();
 	}
+
+	public void deleteUser(String user) {
+		if(isValidSelection(user)) {
+			
+			galleryResources.deleteUser(user, new Callback<Void, String>() {
+	
+				@Override
+				public void onFailure(String reason) {
+					view.onDeleteUserFailure(reason);
+				}
+	
+				@Override
+				public void onSuccess(Void result) {
+					view.onDeleteUser(user);
+					
+				}
+			});
+		}
+		else {
+			view.onDeleteUserFailure("Der Benutzername ist erforderlich.");
+		}
+	}
 }
