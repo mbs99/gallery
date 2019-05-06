@@ -195,7 +195,7 @@ public class AdminView extends Composite {
 
 	public void onDeleteUser(String user) {
 		
-		$("#user option[value='"+ user + "']").remove();
+		$("#users option[value='"+ user + "']").remove();
 		InfoMessage.showMessage($("#deleteUserButton").parent(), "Benutzer wurde gelöscht.", 1000);
 	}
 
