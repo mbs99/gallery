@@ -5,6 +5,8 @@ import static com.google.gwt.query.client.GQuery.$;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.query.client.Function;
 import com.google.gwt.query.client.GQuery;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
@@ -13,13 +15,12 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.mbs.gallery.client.activity.AdminActivity;
 
-public class AdminView extends Composite {
+public class AdminView extends AbstractView {
 
 	@UiField
 	HTMLPanel adminViewPanel;
@@ -111,6 +112,40 @@ public class AdminView extends Composite {
 				return false;
 			}
 		});
+		
+		$("#logo").change(new Function() {
+			@Override
+			public boolean f(Event e) {
+				final JsArray<JavaScriptObject> files = $(e).prop("files");
+				presenter.changeLogo(files);
+				return false;
+			}
+		});
+		
+		$("#emailButton").click(new Function() {
+			@Override
+			public boolean f(Event e) {
+				presenter.createEmail($("#email").val());
+				return false;
+			}
+		});
+		
+		$("#deleteGalleryButton").click(new Function() {
+			@Override
+			public boolean f(Event e) {
+				presenter.deleteGallery($("#deleteGalleryList").val());
+				return false;
+			}
+		});
+		
+		$("#createGalleryButton").click(new Function() {
+			@Override
+			public boolean f(Event e) {
+				final JsArray<JavaScriptObject> files = $("#galleryImg").prop("files");
+				presenter.createGallery($("#galleryTitle").val(), files);
+				return false;
+			}
+		});
 	}
 
 	@Override
@@ -121,6 +156,10 @@ public class AdminView extends Composite {
 		$("#addUserToGalleryButton").off();
 		$("#changeAdminPwdButton").off();
 		$("#gallery").off();
+		$("#logo").off();
+		$("#emailButton").off();
+		$("#deleteGalleryButton").off();
+		$("#createGalleryButton").off();
 	}
 
 	public void onGetGalleries(String[] galleries) {
@@ -128,6 +167,8 @@ public class AdminView extends Composite {
 		initSelection($("#galleryName"), galleries);
 
 		initSelection($("#gallery"), galleries);
+		
+		initSelection($("#deleteGalleryList"), galleries);
 	}
 
 	public void onGetUsers(String[] users) {
@@ -201,6 +242,37 @@ public class AdminView extends Composite {
 
 	public void onDeleteUserFailure(String reason) {
 		InfoMessage.showError($("#deleteUserButton").parent(), reason, 1000);
+		
+	}
+
+	public void onChangLogoFailure(String reason) {
+		InfoMessage.showError($("#logo").parent(), reason, 1000);
+		
+	}
+
+	public void onChangeLogo() {
+		InfoMessage.showMessage($("#logo").parent(), "Logo wurde gespeichert.", 1000);
+		
+	}
+
+	public void onCreateEmailFailure(String reason) {
+		InfoMessage.showError($("#email").parent(), reason, 1000);
+		
+	}
+
+	public void onCreateEmail(String email) {
+		showMessage("#email", "E-Mail wurde gespeichert.");
+		
+	}
+
+	public void onDeleteGalleryFailure(String msg) {
+		showError("#deleteGalleryList", msg);
+		
+	}
+
+	public void onDeleteGallery(String name) {
+		$("#deleteGalleryList option[value='"+ name + "']").remove();
+		showMessage("#deleteGalleryList", "Galerie wurde gelöscht.");
 		
 	}
 }

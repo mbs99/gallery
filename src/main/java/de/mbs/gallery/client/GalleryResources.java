@@ -2,12 +2,16 @@ package de.mbs.gallery.client;
 
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.query.client.Function;
 import com.google.gwt.query.client.GQ;
+import com.google.gwt.query.client.js.JsUtils;
 import com.google.gwt.query.client.plugins.ajax.Ajax;
 import com.google.gwt.query.client.plugins.ajax.Ajax.Settings;
 
 import de.mbs.gallery.client.model.Authorization;
+import de.mbs.gallery.client.model.Email;
 import de.mbs.gallery.client.model.Gallery;
 import de.mbs.gallery.client.model.GalleryImage;
 import de.mbs.gallery.client.model.GalleryList;
@@ -350,6 +354,140 @@ public class GalleryResources {
 				+ "/api/admin/user/"
 				+ user);
 		settings.setType("delete");
+		
+		Ajax.ajax(settings)
+		.done(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				callback.onSuccess(null);
+ 				
+ 				return null;
+ 			}
+ 		})
+ 		.fail(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				callback.onFailure((String)args[0]);
+ 				
+ 				return null;
+ 			}
+ 		});
+		
+	}
+
+	public void changeLogo(JsArray<JavaScriptObject> files, Callback<Void, String> callback) {
+		Settings settings = Ajax.createSettings();
+		settings.setUrl(getNormalizedHostPageBaseURL()
+				+ "/api/logo");
+		settings.setType("post");
+		
+		JavaScriptObject formData = JsUtils.jsni("eval",
+				"new FormData()");
+		JsUtils.jsni(formData, "append", "logo", files.get(0));
+		settings.setData(formData);
+		
+		Ajax.ajax(settings)
+		.done(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				callback.onSuccess(null);
+ 				
+ 				return null;
+ 			}
+ 		})
+ 		.fail(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				callback.onFailure((String)args[0]);
+ 				
+ 				return null;
+ 			}
+ 		});
+		
+	}
+	
+	private String getNormalizedHostPageBaseURL() {
+		String baseUrl = GWT.getHostPageBaseURL();
+		if(baseUrl.endsWith("/")) {
+			baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf('/'));
+		}
+		return baseUrl;
+	}
+	
+	public void createEmail(Email email, Callback<Void, String> callback) {
+		Settings settings = Ajax.createSettings();
+		settings.setUrl(getNormalizedHostPageBaseURL() + "/api/email");
+		settings.setType("post");
+		settings.setData(email);
+		settings.setDataType("json");
+		settings.setContentType("application/json");
+		
+		Ajax.ajax(settings)
+		.done(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				callback.onSuccess(null);
+ 				
+ 				return null;
+ 			}
+ 		})
+ 		.fail(new Function() {
+ 			@Override
+ 			public void f() {
+ 				callback.onFailure("Fehler beim Speichern.");
+ 			}
+ 		});
+		
+	}
+
+	public void deleteGallery(String name, Callback<Void, String> callback) {
+		Settings settings = Ajax.createSettings();
+		settings.setUrl(getNormalizedHostPageBaseURL()
+				+ "/api/gallery/"
+				+ name);
+		settings.setType("delete");
+		
+		Ajax.ajax(settings)
+		.done(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				callback.onSuccess(null);
+ 				
+ 				return null;
+ 			}
+ 		})
+ 		.fail(new Function() {
+ 			@Override
+ 			public Object f(Object... args) {
+ 				
+ 				callback.onFailure((String)args[0]);
+ 				
+ 				return null;
+ 			}
+ 		});
+		
+	}
+
+	public void createGallery(String name, JsArray<JavaScriptObject> files, Callback<Void, String> callback) {
+		Settings settings = Ajax.createSettings();
+		settings.setUrl(getNormalizedHostPageBaseURL()
+				+ "/api/logo");
+		settings.setType("post");
+		
+		JavaScriptObject formData = JsUtils.jsni("eval",
+				"new FormData()");
+		JsUtils.jsni(formData, "append", "name", name);
+		for(int i=0; i<files.length(); i++) {
+			JsUtils.jsni(formData, "append", "img-" + String.valueOf(i), files.get(i));
+		}
+		
+		settings.setData(formData);
 		
 		Ajax.ajax(settings)
 		.done(new Function() {

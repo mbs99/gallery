@@ -5,6 +5,44 @@
 	<g:HTMLPanel ui:field="adminViewPanel">
 		<g:HTMLPanel styleName="row">
 			<g:HTMLPanel styleName="twelve columns">
+				<h5>Neue Galerie</h5>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<form class="row">
+			<div class="one-half column">
+				<label for="galleryTitle">Name</label>
+				<input id="galleryTitle" type="text"></input>
+			</div>
+			<div class="one-half column">
+				<label for="galleryImg">Bilder hinzuf&uuml;gen</label>
+				<input id="galleryImg" type="file" accept="image/*" multiple=""></input>
+			</div>
+		</form>
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="twelve columns">
+				<button class="button" id="createGalleryButton">Speichern</button>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="twelve columns">
+				<h5>Galerie l&ouml;schen</h5>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row">
+			<div class="one-half column">
+				<label for="deleteGalleryList">Galerie</label>
+				<select id="deleteGalleryList">
+					<option value="-"></option>
+				</select>
+			</div>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="twelve columns">
+				<button class="button" id="deleteGalleryButton">L&ouml;schen</button>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="twelve columns">
 				<h5>Benutzer anlegen</h5>
 			</g:HTMLPanel>
 		</g:HTMLPanel>
@@ -103,6 +141,33 @@
 		<g:HTMLPanel styleName="row">
 			<g:HTMLPanel styleName="twelve columns">
 				<button class="button" id="changeAdminPwdButton">Admin-Passwort &auml;ndern</button>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="twelve columns">
+				<h5>Personalisierung</h5>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:FormPanel styleName="row">
+			<g:HTMLPanel styleName="one-half column">
+				<label for="logo">Logo ausw&auml;hlen</label>
+				<input id="logo" type="file" accept="image/*"></input>
+			</g:HTMLPanel>
+		</g:FormPanel>
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="twelve columns">
+				<h5>E-Mail f&uuml;r Bestellungen</h5>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="one-half column">
+				<label for="email">E-Mail</label>
+				<input id="email" type="email"></input>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row">
+			<g:HTMLPanel styleName="twelve columns">
+				<button class="button" id="emailButton">E-Mail anlegen</button>
 			</g:HTMLPanel>
 		</g:HTMLPanel>
 	</g:HTMLPanel>
