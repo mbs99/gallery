@@ -1,5 +1,7 @@
 package de.mbs.gallery.client.activity;
 
+import java.util.Arrays;
+
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -24,7 +26,7 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
 	@Override
 	public void start(AcceptsOneWidget parent, EventBus eventBus) {
 
-		if (isAuthorized()) {
+		if (isAuthorized() && isAdmin()) {
 
 			clientFactory.eventBus().fireEvent(new ChangeNavbarEvent(ENavbarType.ADMIN_VIEW));
 
@@ -256,5 +258,9 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
 			}
 		});
 		
+	}
+	
+	private boolean isAdmin() {
+		return -1 != Arrays.binarySearch(clientFactory.getAuthorization().getRoles(), "admin");
 	}
 }
