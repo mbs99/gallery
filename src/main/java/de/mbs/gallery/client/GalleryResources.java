@@ -448,7 +448,7 @@ public class GalleryResources {
 	public void deleteGallery(String name, Callback<Void, String> callback) {
 		Settings settings = Ajax.createSettings();
 		settings.setUrl(getNormalizedHostPageBaseURL()
-				+ "/api/gallery/"
+				+ "/api/admin/gallery/"
 				+ name);
 		settings.setType("delete");
 		
@@ -477,14 +477,15 @@ public class GalleryResources {
 	public void createGallery(String name, JsArray<JavaScriptObject> files, Callback<Void, String> callback) {
 		Settings settings = Ajax.createSettings();
 		settings.setUrl(getNormalizedHostPageBaseURL()
-				+ "/api/logo");
+				+ "/api/admin/gallery");
 		settings.setType("post");
 		
 		JavaScriptObject formData = JsUtils.jsni("eval",
 				"new FormData()");
 		JsUtils.jsni(formData, "append", "name", name);
+		JsUtils.jsni(formData, "append", "count", files.length());
 		for(int i=0; i<files.length(); i++) {
-			JsUtils.jsni(formData, "append", "img-" + String.valueOf(i), files.get(i));
+			JsUtils.jsni(formData, "append", "images[]", files.get(i));
 		}
 		
 		settings.setData(formData);
