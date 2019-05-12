@@ -4,10 +4,8 @@
 
 	<g:HTMLPanel>
 		<div class="row">
-			<div class="twelve columns" id="logo">
-				<a href="https://www.atelier-fuer-bildkunst.de">
-					<img src="logo.png" class="logo"/>
-				</a>
+			<div class="twelve columns">
+				<img src="/api/logo" class="logo" />
 			</div>
 		</div>
 		<div class="row">
