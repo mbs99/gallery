@@ -275,4 +275,14 @@ public class AdminView extends AbstractView {
 		showMessage("#deleteGalleryList", "Galerie wurde gelöscht.");
 		
 	}
+
+	public void onCreateGallery(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void onCreateGalleryFailure(String msg) {
+		showError("#createGalleryButton", msg);
+		
+	}
 }

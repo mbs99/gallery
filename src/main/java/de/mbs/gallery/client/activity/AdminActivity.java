@@ -45,6 +45,12 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
 
 	public void getGalleriesAndUsers() {
 
+		getGalleries();
+		getUsers();
+	}
+	
+	protected void getGalleries() {
+
 		galleryResources.getGalleries(new Callback<String[], String>() {
 
 			@Override
@@ -58,6 +64,9 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
 
 			}
 		});
+	}
+	
+	protected void getUsers() {
 
 		galleryResources.getUsers(new Callback<String[], String>() {
 
@@ -248,12 +257,15 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
 
 			@Override
 			public void onFailure(String reason) {
-				view.onChangLogoFailure(reason);
+				view.onCreateGalleryFailure(reason);
 			}
 
 			@Override
 			public void onSuccess(Void result) {
-				view.onChangeLogo();
+				
+				getGalleries();
+				
+				view.onCreateGallery(name);
 
 			}
 		});
