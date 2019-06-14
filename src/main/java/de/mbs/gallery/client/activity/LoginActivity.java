@@ -1,5 +1,7 @@
 package de.mbs.gallery.client.activity;
 
+import java.util.Arrays;
+
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.event.shared.EventBus;
@@ -13,6 +15,7 @@ import de.mbs.gallery.client.event.ChangeNavbarEvent;
 import de.mbs.gallery.client.event.ENavbarType;
 import de.mbs.gallery.client.model.Authorization;
 import de.mbs.gallery.client.place.AbstractGalleryPlace;
+import de.mbs.gallery.client.place.AdminPlace;
 import de.mbs.gallery.client.place.DownloadPlace;
 import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.place.LoginPlace;
@@ -71,7 +74,11 @@ public class LoginActivity extends AbstractActivity {
 					clientFactory.placeController().goTo(place.getRedirect());
 				}
 				else {
-					view.onLoginSuccess(auth.getRoles());
+					if(Arrays.asList(auth.getRoles()).contains(AdminPlace.id)) {
+						clientFactory.placeController().goTo(new AdminPlace());
+					} else {
+						view.onLoginSuccess(auth.getRoles());
+					}
 				}
 			}
 			

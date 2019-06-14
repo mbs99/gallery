@@ -4,7 +4,7 @@ import com.google.gwt.place.shared.PlaceTokenizer;
 
 public class AdminPlace extends AbstractGalleryPlace {
 	
-	private static final String id = "admin";
+	public static final String id = "admin";
     
     public AdminPlace() {
     	super(id);
