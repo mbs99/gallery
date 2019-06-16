@@ -3,6 +3,7 @@ package de.mbs.gallery.client.presenter;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Cookies;
 
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.event.ChangeFilterEvent;
@@ -15,6 +16,7 @@ import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.place.LogoutPlace;
 import de.mbs.gallery.client.view.AppPanel;
 import de.mbs.gallery.client.view.DownloadViewNavbar;
+import de.mbs.gallery.client.Constants;
 
 public class AppPanelPresenter {
 
@@ -142,6 +144,8 @@ public class AppPanelPresenter {
 				Authorization auth = factory.getAuthorization();
 				auth.setUser(null);
 				auth.setPassword(null);
+
+				Cookies.removeCookie(Constants.SESSION_COOKIE_NAME, "/");
 				
 				factory.placeController().goTo(new LogoutPlace());
 			}
