@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.event.ChangeNavbarEvent;
 import de.mbs.gallery.client.event.ENavbarType;
+import de.mbs.gallery.client.place.LoginPlace;
 import de.mbs.gallery.client.place.LogoutPlace;
 import de.mbs.gallery.client.view.LogoutView;
 
@@ -36,5 +37,10 @@ public class LogoutActivity extends AbstractActivity {
 	
 	@Override
 	public void onStop() {
+	}
+
+	public void goToLogin() {
+		clientFactory.placeController().goTo(new LoginPlace(""));
+		
 	}
 }

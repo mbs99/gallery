@@ -1,9 +1,13 @@
 package de.mbs.gallery.client.view;
 
+import static com.google.gwt.query.client.GQuery.$;
+
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.query.client.Function;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -35,6 +39,16 @@ public class LogoutView extends Composite {
 		super.onLoad();
 		
 		logger.finest("onLoad");
+		
+		$("#loginButton").click(new Function() {
+			@Override
+			public boolean f(Event e) {
+				
+				presenter.goToLogin();
+				
+				return false;
+			}
+		});
 		
 	}
 }

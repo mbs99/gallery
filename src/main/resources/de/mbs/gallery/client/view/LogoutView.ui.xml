@@ -10,6 +10,11 @@
 					PCs noch den Browsercache.</h6>
 			</div>
 		</div>
+		<div class="row">
+				<div class="one-half column">
+					<button id="loginButton">Neu anmelden</button>
+				</div>
+			</div>
 	</g:HTMLPanel>
 
 </ui:UiBinder>

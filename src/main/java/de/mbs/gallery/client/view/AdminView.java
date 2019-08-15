@@ -277,7 +277,7 @@ public class AdminView extends AbstractView {
 	}
 
 	public void onCreateGallery(String name) {
-		// TODO Auto-generated method stub
+		showMessage("#createGalleryButton", "Galerie "+ name + " wurde erstellt.");
 		
 	}
 
