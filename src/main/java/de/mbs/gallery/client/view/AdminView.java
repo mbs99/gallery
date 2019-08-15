@@ -277,7 +277,7 @@ public class AdminView extends AbstractView {
 	}
 
 	public void onCreateGallery(String name) {
-		showMessage("#createGalleryButton", "Galerie "+ name + " wurde erstellt.");
+		showMessage("#createGalleryButton", "Galerie wurde erstellt.");
 		
 	}
 
