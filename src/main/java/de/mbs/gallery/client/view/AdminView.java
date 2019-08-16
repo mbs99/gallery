@@ -282,7 +282,7 @@ public class AdminView extends AbstractView {
 	}
 
 	public void onCreateGalleryFailure(String msg) {
-		showError("#createGalleryButton", msg);
+		showError("#createGalleryButton", "Fehler beim Erstellen der Galerie.");
 		
 	}
 }
