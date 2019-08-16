@@ -277,12 +277,12 @@ public class AdminView extends AbstractView {
 	}
 
 	public void onCreateGallery(String name) {
-		showMessage("#createGalleryButton", "Galerie wurde erstellt.");
+		InfoMessage.showMessage($("#createGalleryButton").parent(), "Galerie wurde erstellt.", 1000);
 		
 	}
 
 	public void onCreateGalleryFailure(String msg) {
-		showError("#createGalleryButton", "Fehler beim Erstellen der Galerie.");
+		InfoMessage.showMessage($("#createGalleryButton").parent(), "Fehler beim Erstellen der Galerie.", 1000);
 		
 	}
 }
