@@ -181,7 +181,7 @@ public class AdminView extends AbstractView {
 	public void onAddUserToGallery() {
 		logger.finest("onAddUserToGallery");
 
-		InfoMessage.showMessage($("#addUserToGalleryButton").parent(), "Benutzer wurde hinzugef&uuml;gt.", 1000);
+		InfoMessage.showMessage($("#addUserToGalleryButton").parent(), "Benutzer wurde hinzugefügt.", 1000);
 	}
 
 	public void onFailure(String reason) {
