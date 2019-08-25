@@ -19,6 +19,9 @@
 			</div>
 		</form>
 		<g:HTMLPanel styleName="row">
+			<div id="loader"></div>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="row">
 			<g:HTMLPanel styleName="twelve columns">
 				<button class="button" id="createGalleryButton">Speichern</button>
 			</g:HTMLPanel>
