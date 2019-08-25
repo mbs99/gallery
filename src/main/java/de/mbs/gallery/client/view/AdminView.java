@@ -144,6 +144,7 @@ public class AdminView extends AbstractView {
 				final JsArray<JavaScriptObject> files = $("#galleryImg").prop("files");
 				presenter.createGallery($("#galleryTitle").val(), files);
 				$("#loader").addClass("loader");
+				$("#createGalleryButton").prop("disabled", true);
 				return false;
 			}
 		});
@@ -280,10 +281,12 @@ public class AdminView extends AbstractView {
 	public void onCreateGallery(String name) {
 		InfoMessage.showMessage($("#createGalleryButton").parent(), "Galerie wurde erstellt.", 1000);
 		$("#loader").removeClass("loader");
+		$("#createGalleryButton").prop("disabled", false);
 	}
 
 	public void onCreateGalleryFailure(String msg) {
 		InfoMessage.showMessage($("#createGalleryButton").parent(), "Fehler beim Erstellen der Galerie.", 1000);
 		$("#loader").removeClass("loader");
+		$("#createGalleryButton").prop("disabled", false);
 	}
 }
