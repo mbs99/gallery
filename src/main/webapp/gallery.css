@@ -79,12 +79,13 @@ h5 {
 
 .loader {
   border: 0.1em solid #f3f3f3; /* Light grey */
-  border-top: 0.1em solid #3498db; /* Blue */
+  border-top: 0.1em solid #000000; /* Black */
   border-radius: 50%;
   width: 1em;
   height: 1em;
   animation: spin 2s linear infinite;
   float:left;
+  margin-left: 1em;
 }
 
 @keyframes spin {
