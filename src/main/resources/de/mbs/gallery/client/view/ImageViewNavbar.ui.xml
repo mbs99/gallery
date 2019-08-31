@@ -5,7 +5,7 @@
 	<g:HTMLPanel>
 		<div class="row">
 			<div class="twelve columns">
-				<img src="/api/logo" class="logo" />
+				<img src="api/logo" class="logo" />
 			</div>
 		</div>
 		<div class="row">
