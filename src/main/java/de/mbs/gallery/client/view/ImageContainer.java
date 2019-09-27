@@ -118,7 +118,7 @@ public class ImageContainer extends Composite {
 		logger.finest("addImage " + galleryName);
 		
 		addImage(image,
-				GWT.getHostPageBaseURL() + "api/gallery/" + galleryName + "/" + image.getId());
+				GWT.getHostPageBaseURL() + "api/gallery/" + galleryName + "/" + image.getId() + "?thumbnail=true");
 		
 	}
 }
