@@ -74,7 +74,7 @@ public class ImageActivity extends AbstractGalleryActivity<ImagePlace, ImageView
 				int pos = 0;
 				for(GalleryImage iter : gallery.getImages()) {
 					if(iter.getId().equals(place.getImageId())) {
-						String url = getImageUrl(gallery, iter);
+						String url = galleryResources.getImageUrl(gallery, iter);
 						view.setImage(iter, url, pos);
 						clientFactory.getViewModel().setSlideshowPos(pos);
 						break;
@@ -96,7 +96,7 @@ public class ImageActivity extends AbstractGalleryActivity<ImagePlace, ImageView
 						int pos =0;
 						for(GalleryImage iter : result.getImages()) {
 							if(iter.getId().equals(place.getImageId())) {
-								String url = getImageUrl(result, iter);
+								String url = galleryResources.getImageUrl(result, iter);
 								view.setImage(iter, url, pos);
 								clientFactory.getViewModel().setSlideshowPos(pos);
 							}
@@ -128,13 +128,6 @@ public class ImageActivity extends AbstractGalleryActivity<ImagePlace, ImageView
 		handler.removeHandler();
 		
 		clientFactory.eventBus().fireEvent(new EnableFilterEvent(true));
-	}
-	
-	private String getImageUrl(Gallery gallery, GalleryImage image) {
-		return GWT.getHostPageBaseURL()
-				+ "api/gallery/"
-				+ gallery.getName()
-				+ "/" + image.getId();
 	}
 	
 	public void nextImage() {

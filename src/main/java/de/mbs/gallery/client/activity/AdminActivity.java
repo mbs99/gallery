@@ -1,6 +1,6 @@
 package de.mbs.gallery.client.activity;
 
-import java.util.Arrays;
+import java.util.*;
 
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -9,15 +9,21 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.query.client.GQ;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
+import com.google.web.bindery.event.shared.HandlerRegistration;
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.event.ChangeNavbarEvent;
 import de.mbs.gallery.client.event.ENavbarType;
+import de.mbs.gallery.client.event.MenuItemEvent;
 import de.mbs.gallery.client.model.Email;
+import de.mbs.gallery.client.model.Gallery;
+import de.mbs.gallery.client.model.GalleryImage;
 import de.mbs.gallery.client.model.UserAccount;
 import de.mbs.gallery.client.place.AdminPlace;
 import de.mbs.gallery.client.view.AdminView;
 
 public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView> {
+
+	private HandlerRegistration handler;
 
 	public AdminActivity(AdminPlace place, ClientFactory clientFactory) {
 		super(place, clientFactory);
@@ -32,15 +38,33 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
 
 			this.view = clientFactory.getAdminView(this);
 
+			handler = clientFactory.eventBus().addHandler(MenuItemEvent.TYPE, new MenuItemEvent.MenuItemEventEventHandler() {
+
+				@Override
+				public void menuItem(MenuItemEvent event) {
+					switch (event.getItem()) {
+						case SHOW_GALLERY_ADMIN_PANEL:
+							showGalleryAdminPanel();
+							break;
+						case SHOW_ADMIN_PANEL:
+							showAdminPanel();
+							break;
+
+						default:
+							break;
+					}
+				}
+			});
+
 			parent.setWidget(view.asWidget());
 		} else {
 			redirectToLogin();
 		}
-
 	}
 
 	@Override
 	public void onStop() {
+		this.handler.removeHandler();
 	}
 
 	public void getGalleriesAndUsers() {
@@ -252,8 +276,8 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
 		}
 	}
 
-	public void createGallery(String name, JsArray<JavaScriptObject> files) {
-		galleryResources.createGallery(name, files, new Callback<Void, String>() {
+	public void createGallery(String name) {
+		galleryResources.createGallery(name, new Callback<Void, String>() {
 
 			@Override
 			public void onFailure(String reason) {
@@ -271,8 +295,66 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
 		});
 		
 	}
+
+	public void addImagesToGallery(String name, JsArray<JavaScriptObject> files) {
+		galleryResources.addImagesToGallery(name, files, new Callback<Void, String>() {
+
+			@Override
+			public void onFailure(String reason) {
+				view.onAddImagesToGalleryFailure(reason);
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+
+				view.onAddImagesToGallery(name);
+
+			}
+		});
+
+	}
 	
 	private boolean isAdmin() {
 		return -1 != Arrays.binarySearch(clientFactory.getAuthorization().getRoles(), "admin");
+	}
+
+	private void showAdminPanel() {
+		view.showAdminPanel();
+	}
+
+	private void showGalleryAdminPanel() {
+		view.showGalleryAdminPanel();
+	}
+
+	public void getGalleryImages(String selection) {
+		this.galleryResources.getGallery(selection, new Callback<Gallery, String>() {
+			@Override
+			public void onFailure(String reason) {
+				view.onGetGalleryImagesFailure(reason);
+			}
+
+			@Override
+			public void onSuccess(Gallery gallery) {
+				Map<String, GalleryImage> imageUrls = new HashMap<>();
+				for(GalleryImage img: gallery.getImages()) {
+					imageUrls.put(galleryResources.getImageUrlThumbail(gallery, img), img);
+				}
+				view.onGetGalleryImages(imageUrls);
+			}
+		});
+	}
+
+	public void deleteImage(String gallery, String[] imageIds) {
+		this.galleryResources.deleteImage(gallery, imageIds, new Callback<Void, String>() {
+			@Override
+			public void onFailure(String reason) {
+				view.onDeleteImagesFailure(reason);
+			}
+
+			@Override
+			public void onSuccess(Void aVoid) {
+				view.onDeleteImages(gallery);
+			}
+		});
 	}
 }

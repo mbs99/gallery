@@ -1,8 +1,6 @@
 # Compiled class file
 *.class
 
-=======
-
 # Created by https://www.gitignore.io/api/gwt,java,maven,eclipse
 
 ### Eclipse ###
@@ -96,7 +94,6 @@ www-test/
 ### Java ###
 # Compiled class file
 
->>>>>>> e5adf09 (initial)
 # Log file
 *.log
 
@@ -136,4 +133,5 @@ buildNumber.properties
 /.DS_Store
 
 .idea
-gallery.iml
+/gallery.iml
+/.idea/

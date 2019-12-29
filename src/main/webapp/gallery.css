@@ -97,3 +97,17 @@ h5 {
   float: left
 }
 
+.editImageThumbnailContainer {
+    float: left;
+}
+
+.editImageThumbnailContainer img {
+    width: 10em;
+    display: block;
+    margin: 0.5em;
+}
+
+.editImageThumbnailContainer input {
+    margin: auto;
+    display: block;
+}

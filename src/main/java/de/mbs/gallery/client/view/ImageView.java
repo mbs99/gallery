@@ -33,8 +33,6 @@ public class ImageView extends Composite {
 	
 	private GalleryImage galleryImage;
 	
-	private StarVoter voter;
-	
 	private int index = -1;
 	
 	private static ImageViewUiBinder uiBinder = GWT
@@ -80,7 +78,7 @@ public class ImageView extends Composite {
 		this.galleryImage = image;
 		this.index = index;
 		
-		voter = new StarVoter(presenter, galleryImage);
+		StarVoter voter = new StarVoter(presenter, galleryImage);
 		voter.setStyleName("starVoterFs");
 		
 		Image img = new Image();

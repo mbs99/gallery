@@ -1,7 +1,11 @@
 package de.mbs.gallery.client.view;
 
 import static com.google.gwt.query.client.GQuery.$;
+import static com.google.gwt.query.client.GQuery.window;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
@@ -16,14 +20,22 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.mbs.gallery.client.activity.AdminActivity;
+import de.mbs.gallery.client.model.GalleryImage;
 
 public class AdminView extends AbstractView {
 
 	@UiField
 	HTMLPanel adminViewPanel;
+	@UiField
+	HTMLPanel galleryAdminViewPanel;
+	@UiField
+	HTMLPanel userAdminViewPanel;
+	@UiField
+	HTMLPanel editGalleryContainer;
 
 	AdminActivity presenter;
 
@@ -38,6 +50,13 @@ public class AdminView extends AbstractView {
 	}
 
 	private static final GallerySelectOptionTemplate ITEM_TEMPLATE = GWT.create(GallerySelectOptionTemplate.class);
+
+	interface EditImageTemplate extends SafeHtmlTemplates {
+		@Template("<div class=\"editImageThumbnailContainer\"><img src=\"{0}\" class=\"editImageThumbnail\"/><input type=\"checkbox\" name=\"xxx\" value=\"{1}}\" class= \"editImageCheckBox\"></div>")
+		SafeHtml addImage(String url, String id);
+	}
+
+	private static final EditImageTemplate EDIT_IMAGE_TEMPLATE = GWT.create(EditImageTemplate.class);
 
 	private static final Logger logger = Logger.getLogger("AdminView");
 
@@ -142,12 +161,56 @@ public class AdminView extends AbstractView {
 			@Override
 			public boolean f(Event e) {
 				final JsArray<JavaScriptObject> files = $("#galleryImg").prop("files");
-				presenter.createGallery($("#galleryTitle").val(), files);
+				presenter.createGallery($("#galleryTitle").val());
+				return false;
+			}
+		});
+
+		$("#editGalleryButton").click(new Function() {
+			@Override
+			public boolean f(Event e) {
+				final JsArray<JavaScriptObject> files = $("#galleryImg").prop("files");
+				presenter.addImagesToGallery($("#galleryTitle").val(), files);
 				$("#loader").addClass("loader");
 				$("#createGalleryButton").prop("disabled", true);
 				return false;
 			}
 		});
+
+		$("#editGalleryList").on("change", new Function() {
+			public boolean f(Event e) {
+				String selection = $(e.getEventTarget()).val();
+
+				$(editGalleryContainer).children().remove();
+				$("#deleteImagesButton").prop("display", isValidSelection(selection) ? "" : "none");
+
+				if(isValidSelection(selection)) {
+					presenter.getGalleryImages(selection);
+				}
+
+				return false;
+			}
+		});
+
+		$("#deleteImagesButton").click(new Function() {
+			public boolean f(Event e) {
+				List<String> ids = new ArrayList<>();
+				GQuery query = $(".editImageCheckBox");
+				for(int i=0; i<query.size(); i++) {
+					boolean isChecked = $(query.get(i)).prop("checked");
+					if(isChecked) {
+						String id = $(query.get(i)).val();
+						ids.add(id);
+					}
+				}
+
+				presenter.deleteImage($("#editGalleryList").val(), ids.toArray(new String[] {}));
+
+				return false;
+			}
+		});
+
+		this.galleryAdminViewPanel.setVisible(false);
 	}
 
 	@Override
@@ -162,6 +225,8 @@ public class AdminView extends AbstractView {
 		$("#emailButton").off();
 		$("#deleteGalleryButton").off();
 		$("#createGalleryButton").off();
+		$("#editGalleryButton").off();
+		$("deleteImagesButton").off();
 	}
 
 	public void onGetGalleries(String[] galleries) {
@@ -171,6 +236,8 @@ public class AdminView extends AbstractView {
 		initSelection($("#gallery"), galleries);
 		
 		initSelection($("#deleteGalleryList"), galleries);
+
+		initSelection($("#editGalleryList"), galleries);
 	}
 
 	public void onGetUsers(String[] users) {
@@ -236,6 +303,10 @@ public class AdminView extends AbstractView {
 		}
 	}
 
+	private boolean isValidSelection(String value) {
+		return ! "-".equals(value);
+	}
+
 	public void onDeleteUser(String user) {
 		
 		$("#users option[value='"+ user + "']").remove();
@@ -288,5 +359,45 @@ public class AdminView extends AbstractView {
 		InfoMessage.showMessage($("#createGalleryButton").parent(), "Fehler beim Erstellen der Galerie.", 1000);
 		$("#loader").removeClass("loader");
 		$("#createGalleryButton").prop("disabled", false);
+	}
+
+	public void showAdminPanel() {
+		this.galleryAdminViewPanel.setVisible(false);
+		this.userAdminViewPanel.setVisible(true);
+	}
+
+	public void showGalleryAdminPanel() {
+		this.userAdminViewPanel.setVisible(false);
+		this.galleryAdminViewPanel.setVisible(true);
+	}
+
+	public void onAddImagesToGalleryFailure(String reason) {
+	}
+
+	public void onAddImagesToGallery(String name) {
+
+	}
+
+	public void onGetGalleryImages(Map<String, GalleryImage> images) {
+
+		for(Map.Entry<String, GalleryImage> item: images.entrySet()) {
+			$(EDIT_IMAGE_TEMPLATE.addImage(item.getKey(), item.getValue().getId())).appendTo(editGalleryContainer.getElement());
+
+		}
+	}
+
+	public void onGetGalleryImagesFailure(String reason) {
+	}
+
+	public void onDeleteImages(String gallery) {
+		$(editGalleryContainer).children().remove();
+		$("#deleteImagesButton").prop("display", isValidSelection(gallery) ? "" : "none");
+
+		if(isValidSelection(gallery)) {
+			presenter.getGalleryImages(gallery);
+		}
+	}
+
+	public void onDeleteImagesFailure(String reason) {
 	}
 }

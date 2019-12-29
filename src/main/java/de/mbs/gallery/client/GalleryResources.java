@@ -474,21 +474,11 @@ public class GalleryResources {
 		
 	}
 
-	public void createGallery(String name, JsArray<JavaScriptObject> files, Callback<Void, String> callback) {
+	public void createGallery(String name, Callback<Void, String> callback) {
 		Settings settings = Ajax.createSettings();
 		settings.setUrl(getNormalizedHostPageBaseURL()
-				+ "/api/admin/gallery");
+				+ "/api/admin/gallery?name=" + name);
 		settings.setType("post");
-		
-		JavaScriptObject formData = JsUtils.jsni("eval",
-				"new FormData()");
-		JsUtils.jsni(formData, "append", "name", name);
-		JsUtils.jsni(formData, "append", "count", files.length());
-		for(int i=0; i<files.length(); i++) {
-			JsUtils.jsni(formData, "append", "images[]", files.get(i));
-		}
-		
-		settings.setData(formData);
 		
 		Ajax.ajax(settings)
 		.done(new Function() {
@@ -510,5 +500,92 @@ public class GalleryResources {
  			}
  		});
 		
+	}
+
+	public void addImagesToGallery(String name, JsArray<JavaScriptObject> files, Callback<Void, String> callback) {
+		Settings settings = Ajax.createSettings();
+		settings.setUrl(getNormalizedHostPageBaseURL()
+				+ "/api/admin/gallery/" + name);
+		settings.setType("post");
+
+		JavaScriptObject formData = JsUtils.jsni("eval",
+				"new FormData()");
+		for(int i=0; i<files.length(); i++) {
+			JsUtils.jsni(formData, "append", "images[]", files.get(i));
+		}
+
+		settings.setData(formData);
+
+		Ajax.ajax(settings)
+				.done(new Function() {
+					@Override
+					public Object f(Object... args) {
+
+						callback.onSuccess(null);
+
+						return null;
+					}
+				})
+				.fail(new Function() {
+					@Override
+					public Object f(Object... args) {
+
+						callback.onFailure((String)args[0]);
+
+						return null;
+					}
+				});
+
+	}
+
+	public static String getImageUrl(Gallery gallery, GalleryImage image) {
+		return GWT.getHostPageBaseURL()
+				+ "api/gallery/"
+				+ gallery.getName()
+				+ "/" + image.getId();
+	}
+
+	public static String getImageUrlThumbail(Gallery gallery, GalleryImage image) {
+		return GalleryResources.getImageUrl(gallery, image)
+				+ "?thumbnail=true";
+	}
+
+	public static String getImageUrlProgressive(Gallery gallery, GalleryImage image) {
+		return GalleryResources.getImageUrl(gallery, image)
+				+ "?progrssive=true";
+	}
+
+	public void deleteImage(String gallery, String[] imageIds, Callback<Void, String> callback) {
+		Settings settings = Ajax.createSettings();
+		String url = getNormalizedHostPageBaseURL()
+				+ "/api/admin/gallery/"
+				+ gallery
+				+ "?";
+		for(String id: imageIds) {
+			url += "id="+id+"&";
+		}
+		url = url.substring(0, url.lastIndexOf('&'));
+		settings.setUrl(url);
+		settings.setType("delete");
+
+		Ajax.ajax(settings)
+				.done(new Function() {
+					@Override
+					public Object f(Object... args) {
+
+						callback.onSuccess(null);
+
+						return null;
+					}
+				})
+				.fail(new Function() {
+					@Override
+					public Object f(Object... args) {
+
+						callback.onFailure((String)args[0]);
+
+						return null;
+					}
+				});
 	}
 }

@@ -171,4 +171,12 @@ public class AppPanelPresenter {
 	public void zipDownload() {
 		factory.eventBus().fireEvent(new MenuItemEvent(EMenuItem.ZIP_DOWNLOAD));	
 	}
+
+    public void showAdminPanel() {
+		factory.eventBus().fireEvent(new MenuItemEvent(EMenuItem.SHOW_ADMIN_PANEL));
+    }
+
+	public void showGalleryAdminPanel() {
+		factory.eventBus().fireEvent(new MenuItemEvent(EMenuItem.SHOW_GALLERY_ADMIN_PANEL));
+	}
 }

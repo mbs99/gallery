@@ -43,7 +43,7 @@ public class AdminViewNavbar extends Composite {
 			public boolean f(Event e) {
 				
 				presenter.logout();
-				
+
 				return false;
 			}
 		});
