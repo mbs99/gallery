@@ -47,5 +47,25 @@ public class AdminViewNavbar extends Composite {
 				return false;
 			}
 		});
+
+		$("#galleryAdminButton").click(new Function() {
+			@Override
+			public boolean f(Event e) {
+
+				presenter.showGalleryAdminPanel();
+
+				return false;
+			}
+		});
+
+		$("#adminButton").click(new Function() {
+			@Override
+			public boolean f(Event e) {
+
+				presenter.showAdminPanel();
+
+				return false;
+			}
+		});
 	}
 }

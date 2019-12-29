@@ -561,8 +561,9 @@ public class GalleryResources {
 				+ "/api/admin/gallery/"
 				+ gallery
 				+ "?";
+		int i=0;
 		for(String id: imageIds) {
-			url += "id="+id+"&";
+			url += "id" + String.valueOf(i++) + "="+id+"&";
 		}
 		url = url.substring(0, url.lastIndexOf('&'));
 		settings.setUrl(url);

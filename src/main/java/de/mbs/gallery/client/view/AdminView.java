@@ -52,7 +52,7 @@ public class AdminView extends AbstractView {
 	private static final GallerySelectOptionTemplate ITEM_TEMPLATE = GWT.create(GallerySelectOptionTemplate.class);
 
 	interface EditImageTemplate extends SafeHtmlTemplates {
-		@Template("<div class=\"editImageThumbnailContainer\"><img src=\"{0}\" class=\"editImageThumbnail\"/><input type=\"checkbox\" name=\"xxx\" value=\"{1}}\" class= \"editImageCheckBox\"></div>")
+		@Template("<div class=\"editImageThumbnailContainer\"><img src=\"{0}\" class=\"editImageThumbnail\"/><input type=\"checkbox\" name=\"xxx\" value=\"{1}\" class= \"editImageCheckBox\"></div>")
 		SafeHtml addImage(String url, String id);
 	}
 
