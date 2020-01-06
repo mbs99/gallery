@@ -170,9 +170,9 @@ public class AdminView extends AbstractView {
 			@Override
 			public boolean f(Event e) {
 				final JsArray<JavaScriptObject> files = $("#galleryImg").prop("files");
-				presenter.addImagesToGallery($("#galleryTitle").val(), files);
+				presenter.addImagesToGallery($("#editGalleryList").val(), files);
 				$("#loader").addClass("loader");
-				$("#createGalleryButton").prop("disabled", true);
+				$("#editGalleryButton").prop("disabled", true);
 				return false;
 			}
 		});
@@ -372,17 +372,27 @@ public class AdminView extends AbstractView {
 	}
 
 	public void onAddImagesToGalleryFailure(String reason) {
+		$("#loader").removeClass("loader");
+
+		$("#editGalleryButton").prop("disabled", false);
+
+		InfoMessage.showMessage($("#editGalleryButton").parent(), "Fehler beim Upload.", 1000);
 	}
 
 	public void onAddImagesToGallery(String name) {
+		$("#loader").removeClass("loader");
 
+		$("#editGalleryButton").prop("disabled", false);
+
+		presenter.getGalleryImages(name);
 	}
 
 	public void onGetGalleryImages(Map<String, GalleryImage> images) {
 
+		$(editGalleryContainer).children().remove();
+
 		for(Map.Entry<String, GalleryImage> item: images.entrySet()) {
 			$(EDIT_IMAGE_TEMPLATE.addImage(item.getKey(), item.getValue().getId())).appendTo(editGalleryContainer.getElement());
-
 		}
 	}
 

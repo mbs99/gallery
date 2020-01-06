@@ -18,7 +18,7 @@
 			<g:HTMLPanel styleName="row">
 				<g:HTMLPanel styleName="twelve columns">
 					<button class="button floatLeft" id="createGalleryButton">Speichern</button>
-					<div id="loader"/>
+					<div id="createGalleryLoader"/>
 				</g:HTMLPanel>
 			</g:HTMLPanel>
 			<g:HTMLPanel styleName="row">
@@ -50,7 +50,6 @@
 			<g:HTMLPanel styleName="row">
 				<g:HTMLPanel styleName="twelve columns">
 					<button class="button floatLeft" id="deleteImagesButton">Bilder l&ouml;schen</button>
-					<div id="loader"/>
 				</g:HTMLPanel>
 			</g:HTMLPanel>
 			<g:HTMLPanel styleName="row">
