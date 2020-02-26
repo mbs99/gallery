@@ -384,6 +384,8 @@ public class AdminView extends AbstractView {
 
 		$("#editGalleryButton").prop("disabled", false);
 
+		$("#galleryImg").val("");
+
 		presenter.getGalleryImages(name);
 	}
 
