@@ -82,7 +82,7 @@ public class OrderView extends Composite {
 		
 		updateOrderState(orderState);
 		
-		Boolean readOnly = ! orderState.equals(EOrderState.OPEN);
+		boolean readOnly = ! orderState.equals(EOrderState.OPEN);
 		
 		for (GalleryImage img : order.getImages()) {
 			
@@ -133,7 +133,9 @@ public class OrderView extends Composite {
 
 		Order order = presenter.getOrder();
 		for (GalleryImage img : order.getImages()) {
-			img.setComments($("#" + COMMENTS_ID_PREFIX + img.getId()).val());
+			Optional.ofNullable($("#" + COMMENTS_ID_PREFIX + img.getId()).val())
+					.filter(comment -> ! comment.isEmpty())
+					.ifPresent(img::setComments);
 		}
 
 		presenter.updateOrder(order);
