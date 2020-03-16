@@ -26,7 +26,7 @@
 					<h5>Galerie bearbeiten</h5>
 				</g:HTMLPanel>
 			</g:HTMLPanel>
-			<form class="row">
+			<form id="editGalleryForm" class="row">
 				<div class="one-half column">
 					<label for="editGalleryList">Galerie</label>
 					<select id="editGalleryList">

@@ -2,6 +2,7 @@ package de.mbs.gallery.client.view;
 
 import static com.google.gwt.query.client.GQuery.$;
 
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
@@ -41,9 +42,9 @@ public class OrderView extends Composite {
 				+ "<img class=\"galleryImage\" src=\"{2}\"/>" + "<button id=\"" + DELETE_BUTTON_ID_PREFIX
 				+ "{1}\">Bild entfernen</button>" + "</div>" + "<div class=\"nine columns\">"
 				+ "<span>Bildnummer {0}</span>" + "<label for=\"textarea{1}\">Anmerkungen, W&uuml;nsche usw.</label>"
-				+ "<textarea id=\"" + COMMENTS_ID_PREFIX + "{1}\" class=\"u-full-width\"></textarea>" + "</div>"
+				+ "<textarea id=\"" + COMMENTS_ID_PREFIX + "{1}\" class=\"u-full-width\">{3}</textarea>" + "</div>"
 				+ "</div>")
-		SafeHtml image(String imgTitle, String imgId, String imgUrl);
+		SafeHtml image(String imgTitle, String imgId, String imgUrl, String comment);
 	}
 
 	OrderItemTemplate orderItemTemplate = GWT.create(OrderItemTemplate.class);
@@ -52,9 +53,9 @@ public class OrderView extends Composite {
 		@Template("<div class=\"row\" id=\"" + ORDER_ITEM_ID_PREFIX + "{1}\">" + "<div class=\"three columns\">"
 				+ "<img class=\"galleryImage\" src=\"{2}\"/>" + "</div>" + "<div class=\"nine columns\">"
 				+ "<span>Bildnummer {0}</span>" + "<label for=\"textarea{1}\">Anmerkungen, W&uuml;nsche usw.</label>"
-				+ "<textarea disabled id=\"" + COMMENTS_ID_PREFIX + "{1}\" class=\"u-full-width\"></textarea>" + "</div>"
+				+ "<textarea disabled id=\"" + COMMENTS_ID_PREFIX + "{1}\" class=\"u-full-width\">{3}</textarea>" + "</div>"
 				+ "</div>")
-		SafeHtml image(String imgTitle, String imgId, String imgUrl);
+		SafeHtml image(String imgTitle, String imgId, String imgUrl, String comment);
 	}
 
 	ReadonlyOrderItemTemplate readonlyOrderItemTemplate = GWT.create(ReadonlyOrderItemTemplate.class);
@@ -86,11 +87,16 @@ public class OrderView extends Composite {
 		for (GalleryImage img : order.getImages()) {
 			
 			if(readOnly) {
-				$(readonlyOrderItemTemplate.image(img.getFile(), img.getId(), createImgUrl(order.getGalleryName(), img.getId())))
+				$(readonlyOrderItemTemplate.image(img.getFile(),
+						img.getId(),
+						createImgUrl(order.getGalleryName(),
+								img.getId()),
+						Optional.ofNullable(img.getComments()).orElse("")))
 				.appendTo($(orderViewPanel));
 			}
 			else {
-				$(orderItemTemplate.image(img.getFile(), img.getId(), createImgUrl(order.getGalleryName(), img.getId())))
+				$(orderItemTemplate.image(img.getFile(), img.getId(), createImgUrl(order.getGalleryName(), img.getId()),
+						Optional.ofNullable(img.getComments()).orElse("")))
 						.appendTo($(orderViewPanel));
 	
 				$("#" + DELETE_BUTTON_ID_PREFIX + img.getId()).click(new Function() {
@@ -127,11 +133,7 @@ public class OrderView extends Composite {
 
 		Order order = presenter.getOrder();
 		for (GalleryImage img : order.getImages()) {
-
-			String comment = $("#" + COMMENTS_ID_PREFIX + img.getId()).val();
-			if ("" != comment) {
-				img.setComments(comment);
-			}
+			img.setComments($("#" + COMMENTS_ID_PREFIX + img.getId()).val());
 		}
 
 		presenter.updateOrder(order);
