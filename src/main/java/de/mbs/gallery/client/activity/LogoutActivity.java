@@ -3,7 +3,6 @@ package de.mbs.gallery.client.activity;
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-
 import de.mbs.gallery.client.ClientFactory;
 import de.mbs.gallery.client.event.ChangeNavbarEvent;
 import de.mbs.gallery.client.event.ENavbarType;
@@ -13,34 +12,33 @@ import de.mbs.gallery.client.view.LogoutView;
 
 public class LogoutActivity extends AbstractActivity {
 
-	LogoutPlace place;
-	ClientFactory clientFactory;
-	LogoutView view;
+  LogoutPlace place;
+  ClientFactory clientFactory;
+  LogoutView view;
 
-	public LogoutActivity(LogoutPlace place, ClientFactory clientFactory) {
-		super();
+  public LogoutActivity(LogoutPlace place, ClientFactory clientFactory) {
+    super();
 
-		this.place = place;
-		this.clientFactory = clientFactory;
-	}
+    this.place = place;
+    this.clientFactory = clientFactory;
+  }
 
-	@Override
-	public void start(AcceptsOneWidget parent, EventBus eventBus) {
-		
-		clientFactory.eventBus().fireEvent(new ChangeNavbarEvent(ENavbarType.DEFAULT));
+  @Override
+  public void start(AcceptsOneWidget parent, EventBus eventBus) {
 
-		this.view = clientFactory.getLogoutView(this);
+    clientFactory.eventBus().fireEvent(new ChangeNavbarEvent(ENavbarType.DEFAULT));
 
-		parent.setWidget(view.asWidget());
+    this.view = clientFactory.getLogoutView(this);
 
-	}
-	
-	@Override
-	public void onStop() {
-	}
+    parent.setWidget(view.asWidget());
+  }
 
-	public void goToLogin() {
-		clientFactory.placeController().goTo(new LoginPlace(""));
-		
-	}
+  @Override
+  public void onStop() {
+    clientFactory.getViewModel().setGallery(null);
+  }
+
+  public void goToLogin() {
+    clientFactory.placeController().goTo(new LoginPlace(""));
+  }
 }
