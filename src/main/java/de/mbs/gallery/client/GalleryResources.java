@@ -643,7 +643,7 @@ public class GalleryResources {
       String gallery, String[] imageIds, Callback<Void, String> callback) {
 
     this.deleteDeleteImage(
-        getNormalizedHostPageBaseURL() + "/api/admin/gallery/" + gallery + "/order",
+        getNormalizedHostPageBaseURL() + "/api/admin/gallery/" + gallery + "/order/download",
         imageIds,
         callback);
   }
@@ -651,11 +651,18 @@ public class GalleryResources {
   private void deleteDeleteImage(
       String baseUrl, String[] imageIds, Callback<Void, String> callback) {
     Settings settings = Ajax.createSettings();
-    String url = baseUrl + "?";
+    StringBuilder urlBuffer = new StringBuilder();
+    urlBuffer.append(baseUrl);
+    urlBuffer.append("?");
     int i = 0;
     for (String id : imageIds) {
-      url += "id" + i++ + "=" + id + "&";
+      urlBuffer.append("id");
+      urlBuffer.append(i++);
+      urlBuffer.append("=");
+      urlBuffer.append(id);
+      urlBuffer.append("&");
     }
+    String url = urlBuffer.toString();
     url = url.substring(0, url.lastIndexOf('&'));
     settings.setUrl(url);
     settings.setType("delete");

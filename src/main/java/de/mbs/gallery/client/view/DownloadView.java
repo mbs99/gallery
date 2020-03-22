@@ -87,8 +87,9 @@ public class DownloadView extends Composite {
         .append(
             $("<a href=\""
                     + GWT.getHostPageBaseURL()
-                    + "api/download/"
+                    + "api/gallery/"
                     + order.getGalleryName()
+                    + "/order/download/zip"
                     + "\"/>")
                 .hide()
                 .click());

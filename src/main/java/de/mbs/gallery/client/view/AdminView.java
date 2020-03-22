@@ -305,6 +305,8 @@ public class AdminView extends AbstractView {
     $("#createGalleryButton").off();
     $("#editGalleryButton").off();
     $("deleteImagesButton").off();
+    $("#deleteDownloadImagesButton").off();
+    $("#downloadGalleryList").off();
   }
 
   public void onGetGalleries(String[] galleries) {
@@ -318,6 +320,9 @@ public class AdminView extends AbstractView {
     initSelection($("#editGalleryList"), galleries);
 
     initSelection($("#downloadGalleryList"), galleries);
+
+    $("#deleteDownloadImagesButton")
+        .prop("display", showDeleteDownloadImagesButton() ? "" : "none");
   }
 
   public void onGetUsers(String[] users) {
