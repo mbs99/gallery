@@ -15,7 +15,6 @@ import de.mbs.gallery.client.model.Gallery;
 import de.mbs.gallery.client.model.GalleryImage;
 import de.mbs.gallery.client.model.Order;
 import de.mbs.gallery.client.place.CheckoutPlace;
-import de.mbs.gallery.client.place.DownloadPlace;
 import de.mbs.gallery.client.place.GalleryPlace;
 import de.mbs.gallery.client.place.OrderPlace;
 import de.mbs.gallery.client.view.OrderView;
@@ -50,8 +49,6 @@ public class OrderActivity extends AbstractGalleryActivity<OrderPlace, OrderView
                       submitOrder();
                     } else if (event.getItem() == EMenuItem.SHOW_GALLERY) {
                       showGallery();
-                    } else if (event.getItem() == EMenuItem.SHOW_DOWNLOAD_VIEW) {
-                      clientFactory.placeController().goTo(new DownloadPlace(place.getRole()));
                     } else {
                       logger.severe("unbekannter Event: " + event.toDebugString());
                     }

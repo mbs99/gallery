@@ -56,17 +56,6 @@ public class OrderViewNavbar extends Composite {
     if (readOnly) {
       $("#orderButton").hide();
 
-      $("#downloadButton")
-          .click(
-              new Function() {
-                @Override
-                public boolean f(Event e) {
-
-                  presenter.goToDownloadPlace();
-
-                  return false;
-                }
-              });
     } else {
 
       $("#checkoutButton").hide();

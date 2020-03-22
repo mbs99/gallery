@@ -1,17 +1,17 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+             xmlns:g="urn:import:com.google.gwt.user.client.ui">
 
-	<g:HTMLPanel>
-		<div class="row">
-			<div class="twelve columns">
-				<img src="api/logo" class="logo" />
-			</div>
-		</div>
-		<div class="row">
-			<button class="button u-pull-right" id="logoutButton">Abmelden</button>
-			<button class="button u-pull-right" id="zipDownloadButton">Archiv herunterladen</button>
-		</div>
-	</g:HTMLPanel>
+    <g:HTMLPanel>
+        <div class="row">
+            <div class="twelve columns">
+                <img src="api/logo" class="logo"/>
+            </div>
+        </div>
+        <div class="row">
+            <button class="button u-pull-right" id="logoutButton">Abmelden</button>
+            <button class="button u-pull-right" id="zipDownloadButton">Alle Bilder herunterladen</button>
+        </div>
+    </g:HTMLPanel>
 
 </ui:UiBinder>
