@@ -19,6 +19,7 @@ import de.mbs.gallery.client.model.GalleryImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,30 +39,6 @@ public class AdminView extends AbstractView {
   private static AdminViewUiBinder uiBinder = GWT.create(AdminViewUiBinder.class);
 
   interface AdminViewUiBinder extends UiBinder<Widget, AdminView> {}
-
-  interface GallerySelectOptionTemplate extends SafeHtmlTemplates {
-    @Template("<option value=\"{0}\">{0}</option>")
-    SafeHtml addOption(String option);
-  }
-
-  private static final GallerySelectOptionTemplate ITEM_TEMPLATE =
-      GWT.create(GallerySelectOptionTemplate.class);
-
-  interface EditImageTemplate extends SafeHtmlTemplates {
-    @Template(
-        "<div class=\"editImageThumbnailContainer\"><img src=\"{0}\" class=\"editImageThumbnail\"/><input type=\"checkbox\" name=\"xxx\" value=\"{1}\" class= \"editImageCheckBox\"></div>")
-    SafeHtml addImage(String url, String id);
-  }
-
-  private static final EditImageTemplate EDIT_IMAGE_TEMPLATE = GWT.create(EditImageTemplate.class);
-
-  private static final Logger logger = Logger.getLogger("AdminView");
-
-  public AdminView(AdminActivity activity) {
-    this.presenter = activity;
-
-    initWidget(uiBinder.createAndBindUi(this));
-  }
 
   @Override
   protected void onLoad() {
@@ -276,8 +253,6 @@ public class AdminView extends AbstractView {
                 String selection = $(e.getEventTarget()).val();
 
                 $(downloadImagesContainer).children().remove();
-                $("#deleteDownloadImagesButton")
-                    .prop("display", showDeleteDownloadImagesButton() ? "" : "none");
 
                 if (isValidSelection(selection)) {
                   presenter.getDownloadImages(selection);
@@ -287,8 +262,37 @@ public class AdminView extends AbstractView {
               }
             });
 
+    $("#deleteDownloadImagesButton").hide();
+
     this.galleryAdminViewPanel.setVisible(false);
     this.downloadAdminViewPanel.setVisible(false);
+  }
+
+  private static final GallerySelectOptionTemplate ITEM_TEMPLATE =
+      GWT.create(GallerySelectOptionTemplate.class);
+
+  interface EditImageTemplate extends SafeHtmlTemplates {
+    @Template(
+        "<div class=\"editImageThumbnailContainer\"><img src=\"{0}\" class=\"editImageThumbnail\"/><input type=\"checkbox\" name=\"xxx\" value=\"{1}\" class= \"editImageCheckBox\"></div>")
+    SafeHtml addImage(String url, String id);
+  }
+
+  private static final EditImageTemplate EDIT_IMAGE_TEMPLATE = GWT.create(EditImageTemplate.class);
+
+  private static final Logger logger = Logger.getLogger("AdminView");
+
+  public AdminView(AdminActivity activity) {
+    this.presenter = activity;
+
+    initWidget(uiBinder.createAndBindUi(this));
+  }
+
+  private void initSelection(GQuery selector, String[] values) {
+    selector.children().remove();
+    $(ITEM_TEMPLATE.addSelectedOption("-")).appendTo(selector);
+    for (String option : values) {
+      $(ITEM_TEMPLATE.addOption(option)).appendTo(selector);
+    }
   }
 
   @Override
@@ -378,16 +382,24 @@ public class AdminView extends AbstractView {
     InfoMessage.showError($("#addUserToGalleryButton").parent(), reason, 1000);
   }
 
-  private void initSelection(GQuery selector, String[] values) {
-    selector.children().remove();
-    $(ITEM_TEMPLATE.addOption("-")).appendTo(selector);
-    for (String option : values) {
-      $(ITEM_TEMPLATE.addOption(option)).appendTo(selector);
-    }
+  private boolean isValidSelection(String value) {
+    return !Objects.equals("-", value);
   }
 
-  private boolean isValidSelection(String value) {
-    return !"-".equals(value);
+  public void onGetDownloadImages(Map<String, GalleryImage> images) {
+
+    $(downloadImagesContainer).children().remove();
+
+    for (Map.Entry<String, GalleryImage> item : images.entrySet()) {
+      $(EDIT_IMAGE_TEMPLATE.addImage(item.getKey(), item.getValue().getId()))
+          .appendTo(downloadImagesContainer.getElement());
+    }
+
+    if (showDeleteDownloadImagesButton()) {
+      $("#deleteDownloadImagesButton").show();
+    } else {
+      $("#deleteDownloadImagesButton").hide();
+    }
   }
 
   public void onDeleteUser(String user) {
@@ -518,14 +530,12 @@ public class AdminView extends AbstractView {
     InfoMessage.showMessage($("#addDownloadImagesButton").parent(), "Fehler beim Upload.", 1000);
   }
 
-  public void onGetDownloadImages(Map<String, GalleryImage> images) {
+  interface GallerySelectOptionTemplate extends SafeHtmlTemplates {
+    @Template("<option value=\"{0}\">{0}</option>")
+    SafeHtml addOption(String option);
 
-    $(downloadImagesContainer).children().remove();
-
-    for (Map.Entry<String, GalleryImage> item : images.entrySet()) {
-      $(EDIT_IMAGE_TEMPLATE.addImage(item.getKey(), item.getValue().getId()))
-          .appendTo(downloadImagesContainer.getElement());
-    }
+    @Template("<option value=\"{0}\" selected>{0}</option>")
+    SafeHtml addSelectedOption(String option);
   }
 
   public void onDeleteDownloadImages(String gallery) {
