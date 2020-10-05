@@ -13,6 +13,50 @@ import de.mbs.gallery.client.model.*;
 
 public class GalleryResources {
 
+  public void addImagesToGalleryChunked(
+      String name,
+      JsArray<JavaScriptObject> files,
+      int startIndex,
+      int chunkSize,
+      Callback<Void, String> callback) {
+    Settings settings = Ajax.createSettings();
+    settings.setUrl(getNormalizedHostPageBaseURL() + "/api/admin/gallery/" + name);
+    settings.setType("post");
+
+    JavaScriptObject formData = JsUtils.jsni("eval", "new FormData()");
+    int i;
+    for (i = startIndex; i < files.length() && i < startIndex + chunkSize; i++) {
+      JsUtils.jsni(formData, "append", "images[]", files.get(i));
+    }
+
+    settings.setData(formData);
+
+    Ajax.ajax(settings)
+        .done(
+            new ChunkCallbackFunction(i) {
+              @Override
+              public Object f(Object... args) {
+                if (pos < files.length() && pos != files.length() - 1) {
+                  addImagesToGalleryChunked(name, files, pos, chunkSize, callback);
+                } else {
+                  callback.onSuccess(null);
+                }
+
+                return null;
+              }
+            })
+        .fail(
+            new Function() {
+              @Override
+              public Object f(Object... args) {
+
+                callback.onFailure((String) args[0]);
+
+                return null;
+              }
+            });
+  }
+
   public static String getImageUrl(String galleryName, GalleryImage image) {
     return GWT.getHostPageBaseURL() + "api/gallery/" + galleryName + "/images/" + image.getId();
   }
@@ -569,6 +613,14 @@ public class GalleryResources {
                 return null;
               }
             });
+  }
+
+  class ChunkCallbackFunction extends Function {
+    protected int pos;
+
+    protected ChunkCallbackFunction(int startIndex) {
+      this.pos = startIndex;
+    }
   }
 
   public void deleteImage(String gallery, String[] imageIds, Callback<Void, String> callback) {

@@ -307,9 +307,11 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
   }
 
   public void addImagesToGallery(String name, JsArray<JavaScriptObject> files) {
-    galleryResources.addImagesToGallery(
+    galleryResources.addImagesToGalleryChunked(
         name,
         files,
+        0,
+        10,
         new Callback<Void, String>() {
 
           @Override
