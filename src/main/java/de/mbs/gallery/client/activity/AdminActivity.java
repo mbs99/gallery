@@ -257,7 +257,6 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
 
   private boolean isValidEmail(String email) {
     return email != null
-        && !email.isEmpty()
         && -1 != email.indexOf('@')
         && 0 != email.indexOf('@')
         && email.length() - 1 != email.indexOf('@')
@@ -311,7 +310,6 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
         name,
         files,
         0,
-        5,
         new Callback<>() {
 
           @Override

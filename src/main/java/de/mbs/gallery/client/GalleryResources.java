@@ -11,33 +11,53 @@ import com.google.gwt.query.client.plugins.ajax.Ajax;
 import com.google.gwt.query.client.plugins.ajax.Ajax.Settings;
 import de.mbs.gallery.client.model.*;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class GalleryResources {
+
+  private static final long maxChunkSizeInBytes = 15 * 1024 * 1024;
+
+  private static final Logger logger = Logger.getLogger("GalleryResources");
 
   public void addImagesToGalleryChunked(
       String name,
       JsArray<JavaScriptObject> files,
-      int startIndex,
-      int chunkSize,
+      final int startIndex,
       Callback<Void, String> callback) {
     Settings settings = Ajax.createSettings();
     settings.setUrl(getNormalizedHostPageBaseURL() + "/api/admin/gallery/" + name);
     settings.setType("post");
 
     JavaScriptObject formData = JsUtils.jsni("eval", "new FormData()");
-    int i;
-    for (i = startIndex; i < files.length() && i < startIndex + chunkSize; i++) {
-      JsUtils.jsni(formData, "append", "images[]", files.get(i));
+    int currentIndex = startIndex;
+    long currentChunkSize = 0;
+    boolean chunkSpaceLeft = true;
+    while (currentChunkSize <= maxChunkSizeInBytes
+        && currentIndex < files.length()
+        && chunkSpaceLeft) {
+
+      long fileSize = JsUtils.prop(files.get(currentIndex), "size", Long.class);
+      if (currentChunkSize + fileSize <= maxChunkSizeInBytes) {
+        currentChunkSize += fileSize;
+
+        JsUtils.jsni(formData, "append", "images[]", files.get(currentIndex));
+        currentIndex++;
+      } else {
+        chunkSpaceLeft = false;
+        logger.log(Level.FINEST, "chunkSpaceLeft = false");
+      }
     }
 
     settings.setData(formData);
 
     Ajax.ajax(settings)
         .done(
-            new ChunkCallbackFunction(i) {
+            new ChunkCallbackFunction(currentIndex) {
               @Override
               public Object f(Object... args) {
                 if (pos < files.length() && pos != files.length() - 1) {
-                  addImagesToGalleryChunked(name, files, pos, chunkSize, callback);
+                  addImagesToGalleryChunked(name, files, pos, callback);
                 } else {
                   callback.onSuccess(null);
                 }
