@@ -36,7 +36,7 @@ public class AdminView extends AbstractView {
 
   AdminActivity presenter;
 
-  private static AdminViewUiBinder uiBinder = GWT.create(AdminViewUiBinder.class);
+  private static final AdminViewUiBinder uiBinder = GWT.create(AdminViewUiBinder.class);
 
   interface AdminViewUiBinder extends UiBinder<Widget, AdminView> {}
 
@@ -155,7 +155,6 @@ public class AdminView extends AbstractView {
             new Function() {
               @Override
               public boolean f(Event e) {
-                final JsArray<JavaScriptObject> files = $("#galleryImg").prop("files");
                 presenter.createGallery($("#galleryTitle").val());
                 return false;
               }
@@ -178,6 +177,7 @@ public class AdminView extends AbstractView {
         .on(
             "change",
             new Function() {
+              @Override
               public boolean f(Event e) {
                 String selection = $(e.getEventTarget()).val();
 
@@ -195,6 +195,7 @@ public class AdminView extends AbstractView {
     $("#deleteImagesButton")
         .click(
             new Function() {
+              @Override
               public boolean f(Event e) {
                 List<String> ids = new ArrayList<>();
                 GQuery query = $(".editImageCheckBox");
@@ -228,6 +229,7 @@ public class AdminView extends AbstractView {
     $("#deleteDownloadImagesButton")
         .click(
             new Function() {
+              @Override
               public boolean f(Event e) {
                 List<String> ids = new ArrayList<>();
                 GQuery query = $(".editImageCheckBox");
@@ -249,6 +251,7 @@ public class AdminView extends AbstractView {
         .on(
             "change",
             new Function() {
+              @Override
               public boolean f(Event e) {
                 String selection = $(e.getEventTarget()).val();
 
@@ -425,7 +428,7 @@ public class AdminView extends AbstractView {
   }
 
   public void onCreateEmail(String email) {
-    showMessage("#email", "E-Mail wurde gespeichert.");
+    showMessage("#email", "E-Mail " + email + " wurde gespeichert.");
   }
 
   public void onDeleteGalleryFailure(String msg) {
@@ -435,10 +438,18 @@ public class AdminView extends AbstractView {
   public void onDeleteGallery(String name) {
     $("#deleteGalleryList option[value='" + name + "']").remove();
     showMessage("#deleteGalleryList", "Galerie wurde gelöscht.");
+    $("#editGalleryList option[value='" + name + "']").remove();
+    resetEditGalleryListSelection();
+  }
+
+  private void resetEditGalleryListSelection() {
+    $("#editGalleryList").val("-");
+    $("#editGalleryList").trigger("change");
   }
 
   public void onCreateGallery(String name) {
-    InfoMessage.showMessage($("#createGalleryButton").parent(), "Galerie wurde erstellt.", 1000);
+    InfoMessage.showMessage(
+        $("#createGalleryButton").parent(), "Galerie " + name + " wurde erstellt.", 1000);
     $("#loader").removeClass("loader");
     $("#createGalleryButton").prop("disabled", false);
   }
@@ -475,7 +486,7 @@ public class AdminView extends AbstractView {
 
     $("#editGalleryButton").prop("disabled", false);
 
-    $("#galleryImg").prop("files", (Object) null);
+    $("#galleryImg").prop("value", (Object) null);
 
     presenter.getGalleryImages(name);
   }
@@ -555,9 +566,10 @@ public class AdminView extends AbstractView {
 
   private boolean showDeleteDownloadImagesButton() {
 
-    logger.log(Level.INFO, "isValidSelection:" + isValidSelection($("#downloadGalleryList").val()));
+    logger.log(
+        Level.INFO, () -> "isValidSelection:" + isValidSelection($("#downloadGalleryList").val()));
 
-    logger.log(Level.INFO, "children:" + $(downloadImagesContainer).children().length());
+    logger.log(Level.INFO, () -> "children:" + $(downloadImagesContainer).children().length());
 
     return isValidSelection($("#downloadGalleryList").val())
         && 0 != $(downloadImagesContainer).children().length();

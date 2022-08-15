@@ -79,7 +79,7 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
   protected void getGalleries() {
 
     galleryResources.getGalleries(
-        new Callback<String[], String>() {
+        new Callback<>() {
 
           @Override
           public void onSuccess(String[] result) {
@@ -97,7 +97,7 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
   protected void getUsers() {
 
     galleryResources.getUsers(
-        new Callback<String[], String>() {
+        new Callback<>() {
 
           @Override
           public void onSuccess(String[] users) {
@@ -117,7 +117,7 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
       galleryResources.addUserToGallery(
           user,
           gallery,
-          new Callback<Void, String>() {
+          new Callback<>() {
 
             @Override
             public void onFailure(String reason) {
@@ -146,7 +146,7 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
 
         galleryResources.createUser(
             user,
-            new Callback<Void, String>() {
+            new Callback<>() {
 
               @Override
               public void onFailure(String reason) {
@@ -173,7 +173,7 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
       galleryResources.removeUserFromGallery(
           user,
           gallery,
-          new Callback<Void, String>() {
+          new Callback<>() {
 
             @Override
             public void onFailure(String reason) {
@@ -199,7 +199,7 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
 
       galleryResources.deleteUser(
           user,
-          new Callback<Void, String>() {
+          new Callback<>() {
 
             @Override
             public void onFailure(String reason) {
@@ -219,7 +219,7 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
   public void changeLogo(JsArray<JavaScriptObject> files) {
     galleryResources.changeLogo(
         files,
-        new Callback<Void, String>() {
+        new Callback<>() {
 
           @Override
           public void onFailure(String reason) {
@@ -238,7 +238,7 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
 
       galleryResources.createEmail(
           GQ.create(Email.class).setEmail(email),
-          new Callback<Void, String>() {
+          new Callback<>() {
 
             @Override
             public void onFailure(String reason) {
@@ -269,7 +269,7 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
 
       galleryResources.deleteGallery(
           name,
-          new Callback<Void, String>() {
+          new Callback<>() {
 
             @Override
             public void onFailure(String reason) {
@@ -289,7 +289,7 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
   public void createGallery(String name) {
     galleryResources.createGallery(
         name,
-        new Callback<Void, String>() {
+        new Callback<>() {
 
           @Override
           public void onFailure(String reason) {
@@ -311,8 +311,8 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
         name,
         files,
         0,
-        10,
-        new Callback<Void, String>() {
+        5,
+        new Callback<>() {
 
           @Override
           public void onFailure(String reason) {
@@ -342,7 +342,7 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
   public void getGalleryImages(String selection) {
     this.galleryResources.getGallery(
         selection,
-        new Callback<Gallery, String>() {
+        new Callback<>() {
           @Override
           public void onFailure(String reason) {
             view.onGetDownloadImagesFailure(reason);
@@ -363,7 +363,7 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
     this.galleryResources.deleteImage(
         gallery,
         imageIds,
-        new Callback<Void, String>() {
+        new Callback<>() {
           @Override
           public void onFailure(String reason) {
             view.onDeleteImagesFailure(reason);
@@ -384,7 +384,7 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
     galleryResources.addOrderImages(
         name,
         files,
-        new Callback<Void, String>() {
+        new Callback<>() {
 
           @Override
           public void onFailure(String reason) {
@@ -402,7 +402,7 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
   public void getDownloadImages(String selection) {
     this.galleryResources.getOrder(
         selection,
-        new Callback<Order, String>() {
+        new Callback<>() {
           @Override
           public void onFailure(String reason) {
             view.onGetDownloadImagesFailure(reason);
@@ -426,7 +426,7 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
     this.galleryResources.deleteDownloadImage(
         gallery,
         imageIds,
-        new Callback<Void, String>() {
+        new Callback<>() {
           @Override
           public void onFailure(String reason) {
             view.onDeleteDownloadImagesFailure(reason);
