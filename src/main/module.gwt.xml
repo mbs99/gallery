@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='gallery'>
-	<!-- Inherit the core Web Toolkit stuff. -->
-	<inherits name='com.google.gwt.user.User' />
+    <!-- Inherit the core Web Toolkit stuff. -->
+    <inherits name='com.google.gwt.user.User'/>
 
-	<!-- Inherit the default GWT style sheet. You can change -->
-	<!-- the theme of your GWT application by uncommenting -->
-	<!-- any one of the following lines. -->
-	<!-- <inherits name='com.google.gwt.user.theme.standard.Standard' /> -->
-	<!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
-	<!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/> -->
+    <!-- Inherit the default GWT style sheet. You can change -->
+    <!-- the theme of your GWT application by uncommenting -->
+    <!-- any one of the following lines. -->
+    <!-- <inherits name='com.google.gwt.user.theme.standard.Standard' /> -->
+    <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
+    <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/> -->
 
-	<!-- Other module inherits -->
-	
-	<inherits name="com.google.gwt.logging.Logging"/>
-	
-	<!-- Places -->
-	<inherits name='com.google.web.bindery.requestfactory.RequestFactory' />
-	<inherits name="com.google.gwt.activity.Activity" />
-	<inherits name="com.google.gwt.place.Place" />
+    <!-- Other module inherits -->
 
-	<!-- gwtquery -->
-	<inherits name='com.google.gwt.query.Query' />
+    <inherits name="com.google.gwt.logging.Logging"/>
 
-	<!-- Specify the app entry point class. -->
-	<entry-point class='de.mbs.gallery.client.GalleryEntryPoint' />
+    <!-- Places -->
+    <inherits name='com.google.web.bindery.requestfactory.RequestFactory'/>
+    <inherits name="com.google.gwt.activity.Activity"/>
+    <inherits name="com.google.gwt.place.Place"/>
 
-	<!-- Specify the paths for translatable code -->
-	<source path='client' />
-	<source path='client/model' />
-	<source path='client/event' />
-	<source path='shared' />
+    <!-- gwtquery -->
+    <inherits name='com.google.gwt.query.Query'/>
+
+    <inherits name="elemental2.dom.Dom"/>
+
+    <!-- Specify the app entry point class. -->
+    <entry-point class='de.mbs.gallery.client.GalleryEntryPoint'/>
+
+    <!-- Specify the paths for translatable code -->
+    <source path='client'/>
+    <source path='client/model'/>
+    <source path='client/event'/>
+    <source path='shared'/>
 
 </module>

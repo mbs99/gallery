@@ -10,13 +10,18 @@ import com.google.gwt.query.client.js.JsUtils;
 import com.google.gwt.query.client.plugins.ajax.Ajax;
 import com.google.gwt.query.client.plugins.ajax.Ajax.Settings;
 import de.mbs.gallery.client.model.*;
+import elemental2.dom.FormData;
+import elemental2.dom.Headers;
+import elemental2.dom.RequestInit;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static elemental2.dom.DomGlobal.fetch;
+
 public class GalleryResources {
 
-  private static final long maxChunkSizeInBytes = 15 * 1024 * 1024;
+  private static final long MAX_CHUNK_SIZE_IN_BYTES = 15L * 1024L * 1024L;
 
   private static final Logger logger = Logger.getLogger("GalleryResources");
 
@@ -25,23 +30,23 @@ public class GalleryResources {
       JsArray<JavaScriptObject> files,
       final int startIndex,
       Callback<Void, String> callback) {
-    Settings settings = Ajax.createSettings();
-    settings.setUrl(getNormalizedHostPageBaseURL() + "/api/admin/gallery/" + name);
-    settings.setType("post");
 
-    JavaScriptObject formData = JsUtils.jsni("eval", "new FormData()");
+    FormData formData = new FormData();
     int currentIndex = startIndex;
     long currentChunkSize = 0;
     boolean chunkSpaceLeft = true;
-    while (currentChunkSize <= maxChunkSizeInBytes
+    while (currentChunkSize <= MAX_CHUNK_SIZE_IN_BYTES
         && currentIndex < files.length()
         && chunkSpaceLeft) {
 
       long fileSize = JsUtils.prop(files.get(currentIndex), "size", Long.class);
-      if (currentChunkSize + fileSize <= maxChunkSizeInBytes) {
+      if (currentChunkSize + fileSize <= MAX_CHUNK_SIZE_IN_BYTES) {
         currentChunkSize += fileSize;
 
-        JsUtils.jsni(formData, "append", "images[]", files.get(currentIndex));
+        formData.append(
+            "images[]",
+            files.get(currentIndex).cast(),
+            JsUtils.prop(files.get(currentIndex), "name"));
         currentIndex++;
       } else {
         chunkSpaceLeft = false;
@@ -49,31 +54,39 @@ public class GalleryResources {
       }
     }
 
-    settings.setData(formData);
+    RequestInit requestParams = RequestInit.create();
+    requestParams.setBody(formData);
+    requestParams.setMethod("POST");
+    Headers headers = new Headers();
+    headers.append("Sec-Fetch-Mode", "no-cors");
+    requestParams.setHeaders(headers);
 
-    Ajax.ajax(settings)
-        .done(
-            new ChunkCallbackFunction(currentIndex) {
-              @Override
-              public Object f(Object... args) {
-                if (pos < files.length() && pos != files.length() - 1) {
-                  addImagesToGalleryChunked(name, files, pos, callback);
-                } else {
-                  callback.onSuccess(null);
-                }
+    // effective final
+    final int pos = currentIndex;
 
-                return null;
+    fetch(getNormalizedHostPageBaseURL() + "/api/admin/gallery/" + name, requestParams)
+        .then(
+            data -> {
+              if (pos < files.length() && pos != files.length() - 1) {
+                addImagesToGalleryChunked(name, files, pos, callback);
+              } else {
+                callback.onSuccess(null);
               }
+              return null;
             })
-        .fail(
-            new Function() {
-              @Override
-              public Object f(Object... args) {
+        .catch_(
+            error -> {
+              String msg = "upload error";
 
-                callback.onFailure((String) args[0]);
-
-                return null;
+              if (null != error) {
+                msg = error.toString();
               }
+
+              logger.log(Level.SEVERE, msg);
+
+              callback.onFailure(msg);
+
+              return null;
             });
   }
 
@@ -598,51 +611,6 @@ public class GalleryResources {
               }
             });
   }
-
-  public void addImagesToGallery(
-      String name, JsArray<JavaScriptObject> files, Callback<Void, String> callback) {
-    Settings settings = Ajax.createSettings();
-    settings.setUrl(getNormalizedHostPageBaseURL() + "/api/admin/gallery/" + name);
-    settings.setType("post");
-
-    JavaScriptObject formData = JsUtils.jsni("eval", "new FormData()");
-    for (int i = 0; i < files.length(); i++) {
-      JsUtils.jsni(formData, "append", "images[]", files.get(i));
-    }
-
-    settings.setData(formData);
-
-    Ajax.ajax(settings)
-        .done(
-            new Function() {
-              @Override
-              public Object f(Object... args) {
-
-                callback.onSuccess(null);
-
-                return null;
-              }
-            })
-        .fail(
-            new Function() {
-              @Override
-              public Object f(Object... args) {
-
-                callback.onFailure((String) args[0]);
-
-                return null;
-              }
-            });
-  }
-
-  class ChunkCallbackFunction extends Function {
-    protected int pos;
-
-    protected ChunkCallbackFunction(int startIndex) {
-      this.pos = startIndex;
-    }
-  }
-
   public void deleteImage(String gallery, String[] imageIds, Callback<Void, String> callback) {
 
     this.deleteDeleteImage(
