@@ -181,10 +181,11 @@ public class OrderActivity extends AbstractGalleryActivity<OrderPlace, OrderView
 		Gallery gallery = getGallery(place.getRole());
 		for(GalleryImage iter : gallery.getImages()) {
 			if(iter.getId().equals(id)) {
-				iter.setVote(0);
+				iter.setVote(0);	
 			}
-			break;
 		}
+		
+		model.setGallery(gallery);
 		
 		view.onRemoveImage(id);
 	}
