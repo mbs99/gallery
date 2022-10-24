@@ -1,20 +1,21 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:view="urn:import:de.mbs.gallery.client.view">
+             xmlns:g="urn:import:com.google.gwt.user.client.ui">
 
-	<g:HTMLPanel>
-		<div class="row">
-			<div class="twelve columns">
-				<h5>Sie wurden abgemeldet.</h5>
-				<h6>Bitte löschen Sie auf &ouml;ffentlichen
-					PCs noch den Browsercache.</h6>
-			</div>
-		</div>
-		<div class="row">
-				<div class="one-half column">
-					<button id="loginButton">Neu anmelden</button>
-				</div>
-			</div>
-	</g:HTMLPanel>
+    <g:HTMLPanel>
+        <div class="row">
+            <div class="twelve columns">
+                <h5>Sie wurden abgemeldet.</h5>
+                <h6>Bitte l&ouml;schen Sie auf &ouml;ffentlichen
+                    PCs noch den Browsercache.
+                </h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="one-half column">
+                <button id="loginButton">Neu anmelden</button>
+            </div>
+        </div>
+    </g:HTMLPanel>
 
 </ui:UiBinder>

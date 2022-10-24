@@ -1,10 +1,5 @@
 package de.mbs.gallery.client.view;
 
-import static com.google.gwt.query.client.GQuery.$;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.query.client.Function;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
@@ -16,19 +11,25 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Widget;
-
 import de.mbs.gallery.client.Constants;
 import de.mbs.gallery.client.activity.LoginActivity;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static com.google.gwt.query.client.GQuery.$;
+
 
 public class LoginView extends Composite {
-	
+
+	public static final String ERROR_MSG_CONTAINER = "#errorMsgContainer";
+
 	@UiField
 	FormPanel loginViewPanel;
-	
+
 	LoginActivity presenter;
 	
-	private static LoginViewUiBinder uiBinder = GWT
+	private static final LoginViewUiBinder uiBinder = GWT
 			.create(LoginViewUiBinder.class);
 
 	interface LoginViewUiBinder extends UiBinder<Widget, LoginView> {
@@ -65,7 +66,7 @@ public class LoginView extends Composite {
 			@Override
 			public boolean f(Event e) {
 				
-				$("#errorMsgContainer").children().remove();
+				$(ERROR_MSG_CONTAINER).children().remove();
 				
 				String user = $("#username").val();
 				String pwd = $("#password").val();
@@ -75,32 +76,33 @@ public class LoginView extends Composite {
 				return false;
 			}
 		});
-		
-		$("#selectGalleryContainer").hide();
+
 		$("#gallery").change(new Function() {
 			@Override
 			public boolean f(Event e) {
-				
+
 				String option = $(e.getEventTarget()).val();
 				if(! option.equals("off")) {
 					presenter.showGallery(option);
 				}
-				
+
 				return false;
 			}
 		});
+		
+		$("#selectGalleryContainer").hide();
 	}
 
 	public void onLoginFailure(String reason) {
 		
-		logger.log(Level.SEVERE, "onLoginFailure: " + reason);
+		logger.log(Level.SEVERE, () -> "onLoginFailure: " + reason);
 		
-		$(errorMsgTemplate.errorMsg(reason)).appendTo($("#errorMsgContainer"));
+		$(errorMsgTemplate.errorMsg(reason)).appendTo($(ERROR_MSG_CONTAINER));
 		Timer timer = new Timer() {
 			
 			@Override
 			public void run() {
-				$("#errorMsgContainer").children().remove();
+				$(ERROR_MSG_CONTAINER).children().remove();
 				
 			}
 		};

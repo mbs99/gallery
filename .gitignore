@@ -62,13 +62,6 @@ local.properties
 # JDT-specific (Eclipse Java Development Tools)		
 .classpath
 
-### GWT ###
-*.class
-
-# Package Files #
-*.jar
-*.war
-
 # gwt caches and compiled units #
 war/gwt_bree/
 gwt-unitCache/
@@ -135,3 +128,4 @@ buildNumber.properties
 .idea
 /gallery.iml
 /.idea/
+/.java-version
