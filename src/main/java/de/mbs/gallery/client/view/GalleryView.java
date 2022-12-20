@@ -1,12 +1,6 @@
 package de.mbs.gallery.client.view;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -14,10 +8,12 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
-
 import de.mbs.gallery.client.activity.GalleryActivity;
 import de.mbs.gallery.client.model.Gallery;
 import de.mbs.gallery.client.model.GalleryImage;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class GalleryView extends Composite {
@@ -34,8 +30,6 @@ public class GalleryView extends Composite {
 	}
 	
 	private static final Logger logger = Logger.getLogger("GalleryView");
-	
-	List<ImageContainer> cols = new ArrayList<>();
 	
 	Gallery gallery;
 	
@@ -54,39 +48,31 @@ public class GalleryView extends Composite {
 		
 		super.onLoad();
 		
-		HTMLPanel row = new HTMLPanel("");
-		row.setStyleName("row");
+		HTMLPanel row = createRow();
 		galleryViewPanel.add(row);
 		
-		ClickHandler clickHandler = new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				Image targetImage = (Image)event.getSource();
-				if(null !=targetImage) {
-					presenter.clickImage(targetImage.getElement().getId());
-				}
-				
+		ClickHandler clickHandler = event -> {
+			Image targetImage = (Image)event.getSource();
+			if(null !=targetImage) {
+				presenter.clickImage(targetImage.getElement().getId());
 			}
+
 		};
-		
-		for(int i=0;i<colNum;i++) {
-			cols.add(new ImageContainer(presenter, clickHandler));
-		}
 		
 		GalleryImage[] images = gallery.getImages();
 		int col = 0;
 		for(GalleryImage image : images) {
 			
-			if(colNum == col) {
+			if(0 == col ||
+					colNum == col) {
 				col = 0;
+				row = createRow();
+				galleryViewPanel.add(row);
 			}
-			
-			cols.get(col++).addImage(gallery.getName(), image);
-		}
-		
-		for(int i=0;i<colNum;i++) {
-			row.add(cols.get(i));
+			ImageContainer imageContainer = new ImageContainer(presenter, clickHandler);
+			imageContainer.addImage(gallery.getName(), image);
+			row.add(imageContainer);
+			col++;
 		}
 		
 		logger.log(Level.FINEST, "leave onLoad");
@@ -108,5 +94,12 @@ public class GalleryView extends Composite {
 	public void onSubmitOrder() {
 		logger.log(Level.FINEST, "enter onSubmitOrder()");
 		logger.log(Level.FINEST, "leave onSubmitOrder");
+	}
+
+	private HTMLPanel createRow() {
+		HTMLPanel row = new HTMLPanel("");
+		row.setStyleName("row");
+
+		return row;
 	}
 }

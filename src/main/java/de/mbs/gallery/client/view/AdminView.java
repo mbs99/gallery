@@ -481,12 +481,14 @@ public class AdminView extends AbstractView {
     InfoMessage.showMessage($("#editGalleryButton").parent(), "Fehler beim Upload.", 1000);
   }
 
-  public void onAddImagesToGallery(String name) {
+  public void onAddImagesToGallery(String name, int length) {
     $("#loader").removeClass("loader");
 
     $("#editGalleryButton").prop("disabled", false);
 
     $("#galleryImg").prop("value", (Object) null);
+
+    InfoMessage.showMessage($("#editGalleryButton").parent(), length + " Dateien verarbeitet.", 1000);
 
     presenter.getGalleryImages(name);
   }

@@ -21,7 +21,7 @@ import static elemental2.dom.DomGlobal.fetch;
 
 public class GalleryResources {
 
-  private static final long MAX_CHUNK_SIZE_IN_BYTES = 15L * 1024L * 1024L;
+  public static final long MAX_CHUNK_SIZE_IN_BYTES = 5L * 1024L * 1024L;
 
   private static final Logger logger = Logger.getLogger("GalleryResources");
 
@@ -59,6 +59,7 @@ public class GalleryResources {
     requestParams.setMethod("POST");
     Headers headers = new Headers();
     headers.append("Sec-Fetch-Mode", "no-cors");
+    headers.append("X-Count", formData.getAll("images[]").length + "");
     requestParams.setHeaders(headers);
 
     // effective final
@@ -67,7 +68,7 @@ public class GalleryResources {
     fetch(getNormalizedHostPageBaseURL() + "/api/admin/gallery/" + name, requestParams)
         .then(
             data -> {
-              if (pos < files.length() && pos != files.length() - 1) {
+              if (pos < files.length()) {
                 addImagesToGalleryChunked(name, files, pos, callback);
               } else {
                 callback.onSuccess(null);

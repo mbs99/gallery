@@ -5,6 +5,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.query.client.GQ;
+import com.google.gwt.query.client.js.JsUtils;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 import de.mbs.gallery.client.ClientFactory;
@@ -306,6 +307,16 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
   }
 
   public void addImagesToGallery(String name, JsArray<JavaScriptObject> files) {
+
+      for(int i=0; i<files.length(); i++) {
+          long fileSize = JsUtils.prop(files.get(i), "size", Long.class);
+          if(fileSize > GalleryResources.MAX_CHUNK_SIZE_IN_BYTES) {
+              view.onAddImagesToGalleryFailure("Datei " + JsUtils.prop(files.get(i), "name")
+                      + "zu groß (max." + GalleryResources.MAX_CHUNK_SIZE_IN_BYTES / 1024 / 1024 + " MB)");
+              return;
+          }
+      }
+
     galleryResources.addImagesToGalleryChunked(
         name,
         files,
@@ -320,7 +331,7 @@ public class AdminActivity extends AbstractGalleryActivity<AdminPlace, AdminView
           @Override
           public void onSuccess(Void result) {
 
-            view.onAddImagesToGallery(name);
+            view.onAddImagesToGallery(name, files.length());
           }
         });
   }
